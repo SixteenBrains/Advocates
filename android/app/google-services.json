@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "327485999600",
+    "project_id": "advocates-66d27",
+    "storage_bucket": "advocates-66d27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:327485999600:android:4b8c01ac98436723a93535",
+        "android_client_info": {
+          "package_name": "com.sixteenbrains.advocates"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "327485999600-jcepgqlb662poro22g03mg7g1uvnqvkq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sixteenbrains.advocates",
+            "certificate_hash": "5f4a627044fd33829b0c7b57b2cbd65eced82e86"
+          }
+        },
+        {
+          "client_id": "327485999600-vqgdqnv58a8f6og1on2s08dt4okpmjc1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAb2vIM7TclwoOQG514x69tEsI_rBDL1JI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "327485999600-vqgdqnv58a8f6og1on2s08dt4okpmjc1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

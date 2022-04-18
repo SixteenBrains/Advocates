@@ -1,3 +1,7 @@
+import 'package:advocates/screens/account/update_account.dart';
+
+import '/screens/nav/nav_screen.dart';
+import '/screens/account/account_screen.dart';
 import '/screens/home/home.dart';
 import '/screens/signup/signup_screen.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +29,15 @@ class CustomRouter {
 
       case SignUpScreen.routeName:
         return SignUpScreen.route();
+
+      case AccountScreen.routeName:
+        return AccountScreen.route();
+
+      case NavScreen.routeName:
+        return NavScreen.route();
+
+      case UpdateAccount.routeName:
+        return UpdateAccount.route();
 
       default:
         return _errorRoute();

@@ -1,19 +1,21 @@
-import 'package:advocates/screens/account/cause.dart';
+import '/screens/account/invite.dart';
 import 'package:flutter/material.dart';
 
-class MediaFormate extends StatelessWidget {
-  const MediaFormate({Key? key}) : super(key: key);
+class Cause extends StatelessWidget {
+  const Cause({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => const Cause(),
-          ),
-        );
-      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => const Invite(),
+            ),
+          );
+        },
+      ),
       backgroundColor: const Color(0xffF7F7F7),
       appBar: AppBar(
         elevation: 0.0,
@@ -30,7 +32,7 @@ class MediaFormate extends StatelessWidget {
           ),
         ),
         title: const Text(
-          'UPDATE',
+          'CAUSES',
           style: TextStyle(
             color: Colors.black,
             fontSize: 16.0,
@@ -51,14 +53,14 @@ class MediaFormate extends StatelessWidget {
                 const SizedBox(height: 50.0),
                 Center(
                   child: Image.asset(
-                    'assets/images/preference_format.png',
+                    'assets/images/preference_cause.png',
                     height: 64.0,
                     width: 64.0,
                   ),
                 ),
                 const SizedBox(height: 10.0),
                 const Text(
-                  'FORMATE',
+                  '{ 0 }',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.w900,
@@ -66,7 +68,7 @@ class MediaFormate extends StatelessWidget {
                 ),
                 const SizedBox(height: 5.0),
                 const Text(
-                  'Kindly select the type of SETS that you\'d\nlike to be shown in the search results.',
+                  'Kindly select the causes that matter\nto you, you can select up to 5 causes.',
                   style: TextStyle(
                     fontSize: 15.0,
                     fontWeight: FontWeight.w600,
@@ -74,21 +76,21 @@ class MediaFormate extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 40.0),
-                ChooseMediaFormate(
-                  label: 'GIFs',
+                OptionButtons(
+                  label: 'ABUSE',
                   onTap: () {},
                 ),
                 const SizedBox(height: 10.0),
-                ChooseMediaFormate(
-                  label: 'IMAGES',
+                OptionButtons(
+                  label: 'ANIMAL',
                   onTap: () {},
                 ),
                 const SizedBox(height: 10.0),
-                ChooseMediaFormate(
-                  label: 'VIDEOS',
+                OptionButtons(
+                  label: 'CLIMATE',
                   onTap: () {},
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 15.0),
                 TextButton(
                   onPressed: () {},
                   child: Text(
@@ -98,7 +100,24 @@ class MediaFormate extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                )
+                ),
+                const SizedBox(height: 10.0),
+                SizedBox(
+                  height: 25.0,
+                  width: 75.0,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.grey.shade700,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          16.0,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: const Text('CLOSE'),
+                  ),
+                ),
               ],
             ),
           ),
@@ -108,11 +127,11 @@ class MediaFormate extends StatelessWidget {
   }
 }
 
-class ChooseMediaFormate extends StatelessWidget {
+class OptionButtons extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
-  const ChooseMediaFormate({
+  const OptionButtons({
     Key? key,
     required this.label,
     required this.onTap,

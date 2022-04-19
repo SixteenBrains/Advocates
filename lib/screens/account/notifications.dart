@@ -1,19 +1,11 @@
-import 'package:advocates/screens/account/cause.dart';
 import 'package:flutter/material.dart';
 
-class MediaFormate extends StatelessWidget {
-  const MediaFormate({Key? key}) : super(key: key);
+class Notifications extends StatelessWidget {
+  const Notifications({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => const Cause(),
-          ),
-        );
-      }),
       backgroundColor: const Color(0xffF7F7F7),
       appBar: AppBar(
         elevation: 0.0,
@@ -30,7 +22,7 @@ class MediaFormate extends StatelessWidget {
           ),
         ),
         title: const Text(
-          'UPDATE',
+          'NOTIFICATIONS',
           style: TextStyle(
             color: Colors.black,
             fontSize: 16.0,
@@ -47,18 +39,19 @@ class MediaFormate extends StatelessWidget {
           ),
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 50.0),
                 Center(
                   child: Image.asset(
-                    'assets/images/preference_format.png',
+                    'assets/images/notifications.png',
                     height: 64.0,
                     width: 64.0,
                   ),
                 ),
                 const SizedBox(height: 10.0),
                 const Text(
-                  'FORMATE',
+                  'NEW SETTERS',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.w900,
@@ -66,37 +59,43 @@ class MediaFormate extends StatelessWidget {
                 ),
                 const SizedBox(height: 5.0),
                 const Text(
-                  'Kindly select the type of SETS that you\'d\nlike to be shown in the search results.',
+                  'If you turn off the below options, you\nwill not be able to see your NEW SETTERS.',
                   style: TextStyle(
                     fontSize: 15.0,
                     fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 40.0),
-                ChooseMediaFormate(
-                  label: 'GIFs',
+                const SizedBox(height: 30.0),
+                OptionButtons(
+                  label: 'PUSH NOTIFICATIONS',
                   onTap: () {},
                 ),
                 const SizedBox(height: 10.0),
-                ChooseMediaFormate(
-                  label: 'IMAGES',
+                OptionButtons(
+                  label: 'EMAIL NOTIFICATIONS',
                   onTap: () {},
                 ),
-                const SizedBox(height: 10.0),
-                ChooseMediaFormate(
-                  label: 'VIDEOS',
-                  onTap: () {},
+                const SizedBox(height: 100.0),
+                Image.asset(
+                  'assets/images/image_smallest.png',
+                  height: 30.0,
+                  width: 30.0,
                 ),
                 const SizedBox(height: 10.0),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'SKIP',
-                    style: TextStyle(
-                      color: Colors.grey.shade500,
-                      fontWeight: FontWeight.w600,
-                    ),
+                Text(
+                  'v0.1',
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 5.0),
+                Text(
+                  'save the world',
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w600,
                   ),
                 )
               ],
@@ -108,11 +107,11 @@ class MediaFormate extends StatelessWidget {
   }
 }
 
-class ChooseMediaFormate extends StatelessWidget {
+class OptionButtons extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
-  const ChooseMediaFormate({
+  const OptionButtons({
     Key? key,
     required this.label,
     required this.onTap,
@@ -120,19 +119,16 @@ class ChooseMediaFormate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 70.0,
       width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Center(
-        child: Text(
-          label,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
+      child: Card(
+        child: Center(
+          child: Text(
+            label,
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'media_formate.dart';
+import 'widgets/custom_textfield.dart';
 
 class UpdateAccount extends StatelessWidget {
   static const String routeName = '/updateAccount';
@@ -60,7 +60,7 @@ class UpdateAccount extends StatelessWidget {
                 const SizedBox(height: 50.0),
                 Center(
                   child: Image.asset(
-                    'assets/images/menu_account.png',
+                    'assets/images/profile_personal.png',
                     height: 40.0,
                     width: 40.0,
                   ),
@@ -107,53 +107,6 @@ class UpdateAccount extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomTextField extends StatelessWidget {
-  final String labelText;
-  final String hintText;
-  final Function(String value) onChanged;
-
-  const CustomTextField({
-    Key? key,
-    required this.labelText,
-    required this.hintText,
-    required this.onChanged,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      onChanged: onChanged,
-      style: const TextStyle(fontWeight: FontWeight.w600),
-      textAlign: TextAlign.center,
-      textAlignVertical: TextAlignVertical.center,
-      decoration: InputDecoration(
-        fillColor: Colors.white,
-        filled: true,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: Colors.grey.shade400, width: 0.5),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: Colors.grey.shade400, width: 0.5),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(color: Colors.grey.shade400, width: 0.5),
-        ),
-        hintText: hintText,
-        label: Align(
-          alignment: Alignment.center,
-          child: Chip(
-            backgroundColor: Colors.white,
-            label: Text(labelText),
           ),
         ),
       ),

@@ -1,28 +1,20 @@
+import 'package:advocates/widgets/options_button.dart';
 import 'package:flutter/material.dart';
-import 'media_formate.dart';
-import 'widgets/custom_textfield.dart';
 
-class UpdateAccount extends StatelessWidget {
-  static const String routeName = '/updateAccount';
-  const UpdateAccount({Key? key}) : super(key: key);
+class NotificationsSettings extends StatelessWidget {
+  static const String routeName = '/notifications';
+  const NotificationsSettings({Key? key}) : super(key: key);
 
   static Route route() {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
-      builder: (_) => const UpdateAccount(),
+      builder: (_) => const NotificationsSettings(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => const MediaFormate(),
-          ),
-        );
-      }),
       backgroundColor: const Color(0xffF7F7F7),
       appBar: AppBar(
         elevation: 0.0,
@@ -35,11 +27,11 @@ class UpdateAccount extends StatelessWidget {
               Icons.arrow_back_ios,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pop(),
           ),
         ),
         title: const Text(
-          'UPDATE',
+          'NOTIFICATIONS',
           style: TextStyle(
             color: Colors.black,
             fontSize: 16.0,
@@ -56,18 +48,19 @@ class UpdateAccount extends StatelessWidget {
           ),
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 50.0),
                 Center(
                   child: Image.asset(
-                    'assets/images/profile_personal.png',
-                    height: 40.0,
-                    width: 40.0,
+                    'assets/images/notifications.png',
+                    height: 64.0,
+                    width: 64.0,
                   ),
                 ),
                 const SizedBox(height: 10.0),
                 const Text(
-                  'PERSONAL',
+                  'NEW SETTERS',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.w900,
@@ -75,36 +68,45 @@ class UpdateAccount extends StatelessWidget {
                 ),
                 const SizedBox(height: 5.0),
                 const Text(
-                  'Please add you bio here and personal info',
+                  'If you turn off the below options, you\nwill not be able to see your NEW SETTERS.',
                   style: TextStyle(
                     fontSize: 15.0,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 30.0),
+                OptionButtons(
+                  label: 'PUSH NOTIFICATIONS',
+                  onTap: () {},
+                ),
+                const SizedBox(height: 10.0),
+                OptionButtons(
+                  label: 'EMAIL NOTIFICATIONS',
+                  onTap: () {},
+                ),
+                const SizedBox(height: 100.0),
+                Image.asset(
+                  'assets/images/image_smallest.png',
+                  height: 30.0,
+                  width: 30.0,
+                ),
+                const SizedBox(height: 10.0),
+                Text(
+                  'v0.1',
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 40.0),
-                CustomTextField(
-                  hintText: 'NONE',
-                  labelText: 'AGE',
-                  onChanged: (value) {},
-                ),
-                const SizedBox(height: 20.0),
-                CustomTextField(
-                  hintText: 'NONE',
-                  labelText: 'GENDER',
-                  onChanged: (value) {},
-                ),
-                const SizedBox(height: 20.0),
-                CustomTextField(
-                  hintText: 'NONE',
-                  labelText: 'LANGUAGE',
-                  onChanged: (value) {},
-                ),
-                const SizedBox(height: 20.0),
-                CustomTextField(
-                  hintText: 'NONE',
-                  labelText: 'RELATIONSHIP',
-                  onChanged: (value) {},
-                ),
+                const SizedBox(height: 5.0),
+                Text(
+                  'save the world',
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w600,
+                  ),
+                )
               ],
             ),
           ),

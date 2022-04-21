@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 
-import 'notifications.dart';
+class FormateScreen extends StatelessWidget {
+  static const String routeName = '/formate';
+  const FormateScreen({Key? key}) : super(key: key);
 
-class Legal extends StatelessWidget {
-  const Legal({Key? key}) : super(key: key);
+  static Route route() {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => const FormateScreen(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => const Notifications(),
-          ),
-        );
-      }),
       backgroundColor: const Color(0xffF7F7F7),
       appBar: AppBar(
         elevation: 0.0,
@@ -27,11 +26,11 @@ class Legal extends StatelessWidget {
               Icons.arrow_back_ios,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pop(),
           ),
         ),
         title: const Text(
-          'LEGAL',
+          'FORMAT',
           style: TextStyle(
             color: Colors.black,
             fontSize: 16.0,
@@ -48,19 +47,18 @@ class Legal extends StatelessWidget {
           ),
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 50.0),
                 Center(
                   child: Image.asset(
-                    'assets/images/settings_terms.png',
+                    'assets/images/preference_format.png',
                     height: 64.0,
                     width: 64.0,
                   ),
                 ),
                 const SizedBox(height: 10.0),
                 const Text(
-                  'LEGAL',
+                  'FORMATE',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.w900,
@@ -68,53 +66,37 @@ class Legal extends StatelessWidget {
                 ),
                 const SizedBox(height: 5.0),
                 const Text(
-                  'The below service terms and privacy policies\ngovern your use of our services and products.',
+                  'Kindly select the type of SETS that you\'d\nlike to be shown in the search results.',
                   style: TextStyle(
                     fontSize: 15.0,
                     fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 30.0),
-                OptionButtons(
-                  label: 'TERMS',
+                const SizedBox(height: 40.0),
+                ChooseMediaFormate(
+                  label: 'GIFs',
                   onTap: () {},
                 ),
                 const SizedBox(height: 10.0),
-                OptionButtons(
-                  label: 'PRIVACY',
+                ChooseMediaFormate(
+                  label: 'IMAGES',
                   onTap: () {},
                 ),
-                const SizedBox(height: 15.0),
-                Text(
-                  'Kindly find our legal information such as service terms\nand privacy policies on https/setment.com/legal',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13.0,
-                  ),
-                ),
-                const SizedBox(height: 75.0),
-                Image.asset(
-                  'assets/images/image_smallest.png',
-                  height: 30.0,
-                  width: 30.0,
+                const SizedBox(height: 10.0),
+                ChooseMediaFormate(
+                  label: 'VIDEOS',
+                  onTap: () {},
                 ),
                 const SizedBox(height: 10.0),
-                Text(
-                  'v0.1',
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 5.0),
-                Text(
-                  'save the world',
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontWeight: FontWeight.w600,
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'SKIP',
+                    style: TextStyle(
+                      color: Colors.grey.shade500,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 )
               ],
@@ -126,11 +108,11 @@ class Legal extends StatelessWidget {
   }
 }
 
-class OptionButtons extends StatelessWidget {
+class ChooseMediaFormate extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
-  const OptionButtons({
+  const ChooseMediaFormate({
     Key? key,
     required this.label,
     required this.onTap,
@@ -138,16 +120,19 @@ class OptionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 70.0,
       width: double.infinity,
-      child: Card(
-        child: Center(
-          child: Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-            ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Center(
+        child: Text(
+          label,
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),

@@ -1,7 +1,16 @@
+import '/widgets/options_button.dart';
 import 'package:flutter/material.dart';
 
-class Notifications extends StatelessWidget {
-  const Notifications({Key? key}) : super(key: key);
+class LegalSettings extends StatelessWidget {
+  static const String routeName = '/legal';
+  const LegalSettings({Key? key}) : super(key: key);
+
+  static Route route() {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => const LegalSettings(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +27,11 @@ class Notifications extends StatelessWidget {
               Icons.arrow_back_ios,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pop(),
           ),
         ),
         title: const Text(
-          'NOTIFICATIONS',
+          'LEGAL',
           style: TextStyle(
             color: Colors.black,
             fontSize: 16.0,
@@ -44,14 +53,14 @@ class Notifications extends StatelessWidget {
                 const SizedBox(height: 50.0),
                 Center(
                   child: Image.asset(
-                    'assets/images/notifications.png',
+                    'assets/images/settings_terms.png',
                     height: 64.0,
                     width: 64.0,
                   ),
                 ),
                 const SizedBox(height: 10.0),
                 const Text(
-                  'NEW SETTERS',
+                  'LEGAL',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.w900,
@@ -59,7 +68,7 @@ class Notifications extends StatelessWidget {
                 ),
                 const SizedBox(height: 5.0),
                 const Text(
-                  'If you turn off the below options, you\nwill not be able to see your NEW SETTERS.',
+                  'The below service terms and privacy policies\ngovern your use of our services and products.',
                   style: TextStyle(
                     fontSize: 15.0,
                     fontWeight: FontWeight.w600,
@@ -68,15 +77,25 @@ class Notifications extends StatelessWidget {
                 ),
                 const SizedBox(height: 30.0),
                 OptionButtons(
-                  label: 'PUSH NOTIFICATIONS',
+                  label: 'TERMS',
                   onTap: () {},
                 ),
                 const SizedBox(height: 10.0),
                 OptionButtons(
-                  label: 'EMAIL NOTIFICATIONS',
+                  label: 'PRIVACY',
                   onTap: () {},
                 ),
-                const SizedBox(height: 100.0),
+                const SizedBox(height: 15.0),
+                Text(
+                  'Kindly find our legal information such as service terms\nand privacy policies on https/setment.com/legal',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13.0,
+                  ),
+                ),
+                const SizedBox(height: 75.0),
                 Image.asset(
                   'assets/images/image_smallest.png',
                   height: 30.0,
@@ -99,35 +118,6 @@ class Notifications extends StatelessWidget {
                   ),
                 )
               ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class OptionButtons extends StatelessWidget {
-  final String label;
-  final VoidCallback onTap;
-
-  const OptionButtons({
-    Key? key,
-    required this.label,
-    required this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 70.0,
-      width: double.infinity,
-      child: Card(
-        child: Center(
-          child: Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
             ),
           ),
         ),

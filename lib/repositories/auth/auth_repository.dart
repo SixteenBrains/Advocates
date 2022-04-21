@@ -21,6 +21,7 @@ class AuthRepository extends BaseAuthRepository {
     return AppUser(
       uid: user.uid,
       name: user.displayName,
+      profilePic: user.photoURL,
     );
   }
 

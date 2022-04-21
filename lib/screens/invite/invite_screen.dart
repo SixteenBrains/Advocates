@@ -1,34 +1,16 @@
-import 'package:advocates/screens/account/settings.dart';
 import 'package:flutter/material.dart';
 
-class Invite extends StatelessWidget {
-  const Invite({Key? key}) : super(key: key);
+class InviteScreen extends StatelessWidget {
+  const InviteScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => const Settings(),
-          ),
-        );
-      }),
       backgroundColor: const Color(0xffF7F7F7),
       appBar: AppBar(
         elevation: 0.0,
         centerTitle: true,
         backgroundColor: Colors.white,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 10.0),
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-            ),
-            onPressed: () {},
-          ),
-        ),
         title: const Text(
           'INVITE',
           style: TextStyle(

@@ -1,5 +1,9 @@
+import '/screens/menu-sets/menu_sets_screen.dart';
+import '/screens/wallet/wallet_screen.dart';
+import '/screens/dashboard/dashboard.dart';
+import '/screens/invite/invite_screen.dart';
 import '/enums/enums.dart';
-import '/screens/account/account_screen.dart';
+import '../../account/screens/account_screen.dart';
 import 'package:flutter/material.dart';
 
 class SwitchScreen extends StatelessWidget {
@@ -10,17 +14,20 @@ class SwitchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (navItem) {
-      case NavItem.dashboard:
+      case NavItem.account:
         return const AccountScreen();
 
       case NavItem.wallet:
-        return Container();
+        return const WalletScreen();
 
-      case NavItem.mic:
-        return Container();
+      case NavItem.dashboard:
+        return const DashBoard();
+
+      case NavItem.sets:
+        return const MenuSetsScreen();
 
       case NavItem.invite:
-        return Container();
+        return const InviteScreen();
 
       default:
         return const Center(

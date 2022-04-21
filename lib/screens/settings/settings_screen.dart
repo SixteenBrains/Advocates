@@ -1,21 +1,23 @@
-import '/screens/account/invite.dart';
+import '/widgets/options_button.dart';
+
+import '/screens/settings/screens/legal_settings.dart';
+import '/screens/settings/screens/notification_settings.dart';
 import 'package:flutter/material.dart';
 
-class Cause extends StatelessWidget {
-  const Cause({Key? key}) : super(key: key);
+class SettingsScreen extends StatelessWidget {
+  static const String routeName = '/settings';
+  const SettingsScreen({Key? key}) : super(key: key);
+
+  static Route route() {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => const SettingsScreen(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => const Invite(),
-            ),
-          );
-        },
-      ),
       backgroundColor: const Color(0xffF7F7F7),
       appBar: AppBar(
         elevation: 0.0,
@@ -28,11 +30,11 @@ class Cause extends StatelessWidget {
               Icons.arrow_back_ios,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pop(),
           ),
         ),
         title: const Text(
-          'CAUSES',
+          'SETTINGS',
           style: TextStyle(
             color: Colors.black,
             fontSize: 16.0,
@@ -49,18 +51,19 @@ class Cause extends StatelessWidget {
           ),
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 50.0),
                 Center(
                   child: Image.asset(
-                    'assets/images/preference_cause.png',
+                    'assets/images/settings.png',
                     height: 64.0,
                     width: 64.0,
                   ),
                 ),
                 const SizedBox(height: 10.0),
                 const Text(
-                  '{ 0 }',
+                  'SETTINGS',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.w900,
@@ -68,40 +71,40 @@ class Cause extends StatelessWidget {
                 ),
                 const SizedBox(height: 5.0),
                 const Text(
-                  'Kindly select the causes that matter\nto you, you can select up to 5 causes.',
+                  'Configure how you use Setment and decide\nwhat types of notifications you\'d like to receive.',
                   style: TextStyle(
                     fontSize: 15.0,
                     fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 40.0),
+                const SizedBox(height: 30.0),
                 OptionButtons(
-                  label: 'ABUSE',
-                  onTap: () {},
+                  label: 'LEGAL',
+                  onTap: () =>
+                      Navigator.of(context).pushNamed(LegalSettings.routeName),
                 ),
                 const SizedBox(height: 10.0),
                 OptionButtons(
-                  label: 'ANIMAL',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 10.0),
-                OptionButtons(
-                  label: 'CLIMATE',
-                  onTap: () {},
+                  label: 'NOTIFICATIONS',
+                  onTap: () => Navigator.of(context)
+                      .pushNamed(NotificationsSettings.routeName),
                 ),
                 const SizedBox(height: 15.0),
                 TextButton(
+                  style: TextButton.styleFrom(
+                    primary: Colors.grey.shade600,
+                  ),
                   onPressed: () {},
-                  child: Text(
-                    'SKIP',
+                  child: const Text(
+                    'LOGOUT',
                     style: TextStyle(
-                      color: Colors.grey.shade500,
                       fontWeight: FontWeight.w600,
+                      fontSize: 16.0,
                     ),
                   ),
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 15.0),
                 SizedBox(
                   height: 25.0,
                   width: 75.0,
@@ -118,40 +121,30 @@ class Cause extends StatelessWidget {
                     child: const Text('CLOSE'),
                   ),
                 ),
+                const SizedBox(height: 35.0),
+                Image.asset(
+                  'assets/images/image_smallest.png',
+                  height: 30.0,
+                  width: 30.0,
+                ),
+                const SizedBox(height: 10.0),
+                Text(
+                  'v0.1',
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 5.0),
+                Text(
+                  'save the world',
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w600,
+                  ),
+                )
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class OptionButtons extends StatelessWidget {
-  final String label;
-  final VoidCallback onTap;
-
-  const OptionButtons({
-    Key? key,
-    required this.label,
-    required this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 70.0,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Center(
-        child: Text(
-          label,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
           ),
         ),
       ),

@@ -1,4 +1,11 @@
-import '/screens/account/update_account.dart';
+import 'package:advocates/screens/settings/settings_screen.dart';
+
+import '/screens/account/screens/cause_screen.dart';
+import '/screens/account/screens/formate_screen.dart';
+import '/blocs/auth/auth_bloc.dart';
+import '/widgets/display_image.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'update_account.dart';
 import 'package:flutter/material.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -14,63 +21,84 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _authBloc = context.read<AuthBloc>();
     return Scaffold(
       backgroundColor: const Color(0xffF7F7F7),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 180.0,
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: 60.0,
-                        color: Colors.white,
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Image.asset(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 180.0,
+                child: Stack(
+                  children: [
+                    Container(
+                      height: 60.0,
+                      color: Colors.white,
+                      width: double.infinity,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () => Navigator.of(context)
+                                  .pushNamed(FormateScreen.routeName),
+                              child: Image.asset(
                                 'assets/images/menu_format.png',
                                 height: 40.0,
                                 width: 40.0,
                               ),
-                              Image.asset(
+                            ),
+                            GestureDetector(
+                              onTap: () => Navigator.of(context)
+                                  .pushNamed(CauseScreen.routeName),
+                              child: Image.asset(
                                 'assets/images/menu_cause.png',
                                 height: 40.0,
                                 width: 40.0,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                      Align(
-                        //  top: 10.0,
-                        alignment: Alignment.topCenter,
+                    ),
+                    Align(
+                      //  top: 10.0,
+                      alignment: Alignment.topCenter,
 
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 25.0),
-                          child: CircleAvatar(
-                            radius: 70.0,
-                            backgroundColor: Colors.grey.shade300,
-                            // child: Image.asset('assets/images/image_bigger.png'),
-                            child: Icon(
-                              Icons.person,
-                              size: 140.0,
-                              color: Colors.grey.shade500,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 25.0),
+                        child: CircleAvatar(
+                          radius: 70.0,
+                          backgroundColor: Colors.grey.shade300,
+                          // child: Image.asset('assets/images/image_bigger.png'),
+                          child: GestureDetector(
+                            onTap: () => Navigator.of(context)
+                                .pushNamed(UpdateAccount.routeName),
+                            child: ClipOval(
+                              child: DisplayImage(
+                                imageUrl: _authBloc.state.user?.profilePic,
+                              ),
                             ),
                           ),
+
+                          //     Icon(
+                          //   Icons.person,
+                          //   size: 140.0,
+                          //   color: Colors.grey.shade500,
+                          // ),
                         ),
                       ),
-                      Positioned(
-                        right: 105.0,
-                        bottom: 0.0,
-                        top: 20.0,
+                    ),
+                    Positioned(
+                      right: 105.0,
+                      bottom: 0.0,
+                      top: 20.0,
+                      child: GestureDetector(
+                        onTap: () => Navigator.of(context)
+                            .pushNamed(SettingsScreen.routeName),
                         child: CircleAvatar(
                           radius: 18.0,
                           backgroundColor: Colors.white,
@@ -81,36 +109,41 @@ class AccountScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Positioned(
-                        bottom: -10.0,
-                        right: 0.0,
-                        left: 70.0,
-                        child: Transform(
-                          transform: Matrix4.identity()..scale(0.8),
-                          child: const Chip(
-                            backgroundColor: Color(0xff2ED573),
-                            label: Text(
-                              '20%',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
+                    ),
+                    Positioned(
+                      bottom: -10.0,
+                      right: 0.0,
+                      left: 70.0,
+                      child: Transform(
+                        transform: Matrix4.identity()..scale(0.8),
+                        child: const Chip(
+                          backgroundColor: Color(0xff2ED573),
+                          label: Text(
+                            '20%',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
-                const SizedBox(height: 10.0),
-                const Text(
-                  'Rishu Kumar',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                  ),
+              ),
+              const SizedBox(height: 10.0),
+              Text(
+                _authBloc.state.user?.name ?? 'N/A',
+                //'Rishu Kumar',
+                style: const TextStyle(
+                  fontSize: 24.0,
                 ),
-                const SizedBox(height: 30.0),
-                Row(
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 30.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
                     CoinStats(
@@ -129,8 +162,11 @@ class AccountScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20.0),
-                Container(
+              ),
+              const SizedBox(height: 20.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -170,8 +206,8 @@ class AccountScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 
-import 'legal.dart';
+class CauseScreen extends StatelessWidget {
+  static const String routeName = '/cause';
+  const CauseScreen({Key? key}) : super(key: key);
 
-class Settings extends StatelessWidget {
-  const Settings({Key? key}) : super(key: key);
+  static Route route() {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => const CauseScreen(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => const Legal(),
-          ),
-        );
-      }),
       backgroundColor: const Color(0xffF7F7F7),
       appBar: AppBar(
         elevation: 0.0,
@@ -27,11 +26,11 @@ class Settings extends StatelessWidget {
               Icons.arrow_back_ios,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pop(),
           ),
         ),
         title: const Text(
-          'SETTINGS',
+          'CAUSES',
           style: TextStyle(
             color: Colors.black,
             fontSize: 16.0,
@@ -48,19 +47,18 @@ class Settings extends StatelessWidget {
           ),
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 50.0),
                 Center(
                   child: Image.asset(
-                    'assets/images/settings.png',
+                    'assets/images/preference_cause.png',
                     height: 64.0,
                     width: 64.0,
                   ),
                 ),
                 const SizedBox(height: 10.0),
                 const Text(
-                  'SETTINGS',
+                  '{ 0 }',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.w900,
@@ -68,38 +66,40 @@ class Settings extends StatelessWidget {
                 ),
                 const SizedBox(height: 5.0),
                 const Text(
-                  'Configure how you use Setment and decide\nwhat types of notifications you\'d like to receive.',
+                  'Kindly select the causes that matter\nto you, you can select up to 5 causes.',
                   style: TextStyle(
                     fontSize: 15.0,
                     fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 30.0),
+                const SizedBox(height: 40.0),
                 OptionButtons(
-                  label: 'LEGAL',
+                  label: 'ABUSE',
                   onTap: () {},
                 ),
                 const SizedBox(height: 10.0),
                 OptionButtons(
-                  label: 'NOTIFICATIONS',
+                  label: 'ANIMAL',
+                  onTap: () {},
+                ),
+                const SizedBox(height: 10.0),
+                OptionButtons(
+                  label: 'CLIMATE',
                   onTap: () {},
                 ),
                 const SizedBox(height: 15.0),
                 TextButton(
-                  style: TextButton.styleFrom(
-                    primary: Colors.grey.shade600,
-                  ),
                   onPressed: () {},
-                  child: const Text(
-                    'LOGOUT',
+                  child: Text(
+                    'SKIP',
                     style: TextStyle(
+                      color: Colors.grey.shade500,
                       fontWeight: FontWeight.w600,
-                      fontSize: 16.0,
                     ),
                   ),
                 ),
-                const SizedBox(height: 15.0),
+                const SizedBox(height: 10.0),
                 SizedBox(
                   height: 25.0,
                   width: 75.0,
@@ -116,28 +116,6 @@ class Settings extends StatelessWidget {
                     child: const Text('CLOSE'),
                   ),
                 ),
-                const SizedBox(height: 35.0),
-                Image.asset(
-                  'assets/images/image_smallest.png',
-                  height: 30.0,
-                  width: 30.0,
-                ),
-                const SizedBox(height: 10.0),
-                Text(
-                  'v0.1',
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 5.0),
-                Text(
-                  'save the world',
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontWeight: FontWeight.w600,
-                  ),
-                )
               ],
             ),
           ),
@@ -159,16 +137,19 @@ class OptionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 70.0,
       width: double.infinity,
-      child: Card(
-        child: Center(
-          child: Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-            ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Center(
+        child: Text(
+          label,
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),

@@ -48,7 +48,7 @@ class BottomNavBar extends StatelessWidget {
 
 Widget _itemIcon(NavItem item) {
   switch (item) {
-    case NavItem.dashboard:
+    case NavItem.account:
       return Image.asset('assets/images/menu_account.png',
           height: 35.0, width: 35.0);
 
@@ -56,11 +56,11 @@ Widget _itemIcon(NavItem item) {
       return Image.asset('assets/images/menu_wallet.png',
           height: 35.0, width: 35.0);
 
-    case NavItem.mic:
+    case NavItem.dashboard:
       return Image.asset('assets/images/bar_speaker.png',
           height: 35.0, width: 35.0);
 
-    case NavItem.toggle:
+    case NavItem.sets:
       return Image.asset('assets/images/menu_sets.png',
           height: 35.0, width: 35.0);
 

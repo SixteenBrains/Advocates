@@ -1,1 +1,1 @@
-enum NavItem { dashboard, wallet, mic, toggle, invite }
+enum NavItem { account, wallet, dashboard, sets, invite }

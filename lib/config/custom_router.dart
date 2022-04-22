@@ -1,11 +1,12 @@
+import '/screens/set/add_subset.dart';
+import '/screens/account/screens/update_account.dart';
+import '/screens/account/screens/account_screen.dart';
 import '/screens/settings/screens/legal_settings.dart';
 import '/screens/settings/screens/notification_settings.dart';
 import '/screens/account/screens/formate_screen.dart';
 import '/screens/settings/settings_screen.dart';
 import '/screens/account/screens/cause_screen.dart';
-import '../screens/account/screens/update_account.dart';
 import '/screens/nav/nav_screen.dart';
-import '../screens/account/screens/account_screen.dart';
 import '/screens/signup/signup_screen.dart';
 import 'package:flutter/material.dart';
 import '/screens/splash/splash_screen.dart';
@@ -52,6 +53,9 @@ class CustomRouter {
 
       case NotificationsSettings.routeName:
         return NotificationsSettings.route();
+
+      case AddSubset.routeName:
+        return AddSubset.route();
 
       default:
         return _errorRoute();

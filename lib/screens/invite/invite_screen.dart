@@ -1,7 +1,14 @@
+import 'package:advocates/widgets/show_snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
 
 class InviteScreen extends StatelessWidget {
   const InviteScreen({Key? key}) : super(key: key);
+
+  void invite() {
+    Share.share('check out this awesome app https://example.com', subject: '');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,12 +79,12 @@ class InviteScreen extends StatelessWidget {
                 const SizedBox(height: 30.0),
                 OptionButtons(
                   label: 'MESSENGER',
-                  onTap: () {},
+                  onTap: invite,
                 ),
                 const SizedBox(height: 10.0),
                 OptionButtons(
                   label: 'WHATSAPP',
-                  onTap: () {},
+                  onTap: invite,
                 ),
                 const SizedBox(height: 20.0),
                 SizedBox(
@@ -92,7 +99,13 @@ class InviteScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Clipboard.setData(const ClipboardData(
+                          text:
+                              'check out this awesome app https://example.com'));
+                      ShowSnackBar.showSnackBar(context,
+                          title: 'Copied to clipboard');
+                    },
                     child: const Text(
                       'COPY',
                       style: TextStyle(
@@ -145,19 +158,22 @@ class OptionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 70.0,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Center(
-        child: Text(
-          label,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 70.0,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),

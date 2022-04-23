@@ -40,9 +40,9 @@ class AccountState extends Equatable {
   factory AccountState.initial() => const AccountState(
         failure: Failure(),
         status: AccountStatus.initial,
-        selectedGender: 'NONE',
-        selectedLanguage: 'NONE',
-        relationShipStatus: 'NONE',
+        selectedGender: 'MALE',
+        selectedLanguage: 'ENGLISH',
+        relationShipStatus: 'SINGLE',
         age: null,
       );
 

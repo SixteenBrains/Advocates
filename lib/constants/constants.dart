@@ -1,6 +1,6 @@
 const List<String> gender = ['MALE', 'FEMALE', 'OTHER'];
 
-const List<String> languages = ['ENGLIST', 'HINDI', 'TAMIL', 'TELGU'];
+const List<String> languages = ['ENGLISH', 'HINDI', 'TAMIL', 'TELGU'];
 
 const List<String> relationShipStatus = ['SINGLE', 'MARRIED'];
 

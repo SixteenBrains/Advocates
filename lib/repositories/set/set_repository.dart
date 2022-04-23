@@ -23,4 +23,16 @@ class SetRepository extends BaseSetRepo {
       throw const Failure(message: 'Error uploading set');
     }
   }
+
+  Future<List<SetModel?>> getSets() async {
+    try {
+      final setsSnaps = await _firestore.collection(Paths.sets).get();
+      return setsSnaps.docs
+          .map((setSnap) => SetModel.fromMap(setSnap.data()))
+          .toList();
+    } catch (error) {
+      print('Error getting sets ${error.toString()}');
+      throw const Failure(message: 'Error getting sets');
+    }
+  }
 }

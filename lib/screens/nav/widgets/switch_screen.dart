@@ -1,9 +1,10 @@
+import '/blocs/auth/auth_bloc.dart';
+import '/screens/dashboard/bloc/dashboard_bloc.dart';
 import '/repositories/set/set_repository.dart';
 import '/screens/set/cubit/set_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '/screens/account/screens/account_screen.dart';
 import '/screens/set/set_manager.dart';
-import '/screens/wallet/wallet_screen.dart';
 import '/screens/dashboard/dashboard.dart';
 import '/screens/invite/invite_screen.dart';
 import '/enums/enums.dart';
@@ -21,10 +22,16 @@ class SwitchScreen extends StatelessWidget {
         return const AccountScreen();
 
       case NavItem.wallet:
-        return const WalletScreen();
+        return const InviteScreen();
 
       case NavItem.dashboard:
-        return const DashBoard();
+        return BlocProvider(
+          create: (context) => DashboardBloc(
+            authBloc: context.read<AuthBloc>(),
+            setRepository: context.read<SetRepository>(),
+          )..add(LoadSets()),
+          child: const DashBoard(),
+        );
 
       case NavItem.sets:
         return BlocProvider<SetCubit>(

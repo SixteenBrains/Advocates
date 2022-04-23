@@ -1,9 +1,22 @@
-import '/constants/constants.dart';
+import 'package:advocates/screens/account/widgets/education_info.dart';
+import 'package:advocates/screens/account/widgets/location_info.dart';
+import 'package:advocates/screens/account/widgets/professional_info.dart';
+
+import '/screens/account/widgets/personal_info.dart';
+import 'package:flutter/foundation.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 import '/screens/account/cubit/account_cubit.dart';
-import '/widgets/custom_dropdown.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '/screens/account/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
+
+const pageDecoration = PageDecoration(
+  titleTextStyle: TextStyle(
+    color: Color(0xff4A4980),
+    fontSize: 25.0,
+    fontWeight: FontWeight.w600,
+  ),
+  imageAlignment: Alignment.center,
+);
 
 class UpdateAccount extends StatefulWidget {
   static const String routeName = '/updateAccount';
@@ -21,10 +34,12 @@ class UpdateAccount extends StatefulWidget {
 }
 
 class _UpdateAccountState extends State<UpdateAccount> {
+  final introKey = GlobalKey<IntroductionScreenState>();
+  void _onIntroEnd(context) {}
   @override
   Widget build(BuildContext context) {
-    // final isPortrait =
-    //     MediaQuery.of(context).orientation == Orientation.portrait;
+    final _canvas = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: const Color(0xffF7F7F7),
       appBar: AppBar(
@@ -53,81 +68,54 @@ class _UpdateAccountState extends State<UpdateAccount> {
       body: BlocConsumer<AccountCubit, AccountState>(
         listener: (context, state) {},
         builder: (context, state) {
-          return GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 10.0,
+          return IntroductionScreen(
+            key: introKey,
+            globalBackgroundColor: Colors.white,
+            pages: [
+              PageViewModel(
+                // title: '',
+                titleWidget: const PersonalInfo(),
+                body: '',
+                decoration: pageDecoration,
               ),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 50.0),
-                    Center(
-                      child: Image.asset(
-                        'assets/images/profile_personal.png',
-                        height: 40.0,
-                        width: 40.0,
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    const Text(
-                      'PERSONAL',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    const SizedBox(height: 5.0),
-                    const Text(
-                      'Please add you bio here and personal info',
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 40.0),
-                    CustomTextField(
-                      // isFocused: true,
-                      hintText: 'NONE',
-                      labelText: 'AGE',
-                      onChanged: (value) {},
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Age cant\'t be empty';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 25.0),
-                    CustomDropDown(
-                      labelText: 'GENDER',
-                      dropDownOptions: gender,
-                      onChanged: (value) =>
-                          context.read<AccountCubit>().genderChanged(value),
-                      selectedValue: state.selectedGender,
-                    ),
-                    const SizedBox(height: 25.0),
-                    CustomDropDown(
-                      labelText: 'LANGUAGE',
-                      dropDownOptions: languages,
-                      onChanged: (value) =>
-                          context.read<AccountCubit>().languageChanged(value),
-                      selectedValue: state.selectedLanguage,
-                    ),
-                    const SizedBox(height: 25.0),
-                    CustomDropDown(
-                      labelText: 'RELATIONSHIP',
-                      dropDownOptions: relationShipStatus,
-                      onChanged: (value) => context
-                          .read<AccountCubit>()
-                          .relationShipStatusChanged(value),
-                      selectedValue: state.relationShipStatus,
-                    ),
-                  ],
-                ),
+              PageViewModel(
+                titleWidget: const ProfessionalInfo(),
+                body: '',
+                decoration: pageDecoration,
               ),
+              PageViewModel(
+                titleWidget: const LocationInfo(),
+                body: '',
+                decoration: pageDecoration,
+              ),
+              PageViewModel(
+                titleWidget: const EducationInfo(),
+                body: '',
+                decoration: pageDecoration,
+              ),
+            ],
+            controlsPosition: const Position(left: 0, right: 0, top: 0),
+            onDone: () => _onIntroEnd(context),
+            showSkipButton: false,
+            skipOrBackFlex: 0,
+            nextFlex: 0,
+            showDoneButton: false,
+            showNextButton: false,
+            showBackButton: false,
+            curve: Curves.fastLinearToSlowEaseIn,
+            controlsMargin: const EdgeInsets.all(16),
+            controlsPadding: kIsWeb
+                ? const EdgeInsets.all(12.0)
+                : EdgeInsets.fromLTRB(8.0, 4.0, 8.0, _canvas.height * 0.1),
+            dotsDecorator: DotsDecorator(
+              color: Colors.grey.shade300,
+              size: const Size(10, 5),
+              activeSize: const Size(20, 5),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0)),
+              activeShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0)),
+              activeColor: Colors.black,
             ),
           );
         },

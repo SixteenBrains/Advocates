@@ -1,6 +1,6 @@
-import 'package:advocates/enums/nav_item.dart';
-import 'package:advocates/models/sub_set.dart';
-import 'package:advocates/screens/nav/bloc/nav_bloc.dart';
+import '/enums/nav_item.dart';
+import '/models/sub_set.dart';
+import '/screens/nav/bloc/nav_bloc.dart';
 
 import '/constants/constants.dart';
 import '/screens/set/add_subset.dart';

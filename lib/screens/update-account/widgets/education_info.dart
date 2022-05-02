@@ -1,26 +1,44 @@
+import '/widgets/loading_indicator.dart';
+import '/screens/update-account/cubit/update_account_cubit.dart';
+import '/widgets/custom_textfield.dart';
 import '/blocs/auth/auth_bloc.dart';
-import '/screens/account/cubit/account_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'custom_textfield.dart';
-
-class EducationInfo extends StatelessWidget {
+class EducationInfo extends StatefulWidget {
   const EducationInfo({Key? key}) : super(key: key);
+
+  @override
+  State<EducationInfo> createState() => _EducationInfoState();
+}
+
+class _EducationInfoState extends State<EducationInfo> {
+  void _submit(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      // TODO add validation to all the pages
+      context.read<UpdateAccountCubit>().submitDetails();
+    }
+  }
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     final _authBloc = context.read<AuthBloc>();
-    return BlocConsumer<AccountCubit, AccountState>(
+    return BlocConsumer<UpdateAccountCubit, UpdateAccountState>(
       listener: (context, state) {},
       builder: (context, state) {
+        if (state.status == UpdateAccountStatus.loading) {
+          return const LoadingIndicator();
+        }
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 2.0,
             ),
-            child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
               child: Column(
                 children: [
                   const SizedBox(height: 50.0),
@@ -49,9 +67,11 @@ class EducationInfo extends StatelessWidget {
                   ),
                   const SizedBox(height: 20.0),
                   CustomTextField(
+                    initialValue: state.lavel,
                     hintText: 'NONE',
                     labelText: 'LEVEL',
-                    onChanged: (value) {},
+                    onChanged: (value) =>
+                        context.read<UpdateAccountCubit>().levelChanged(value),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Level cant\'t be empty';
@@ -61,9 +81,11 @@ class EducationInfo extends StatelessWidget {
                   ),
                   // const SizedBox(height: 25.0),
                   CustomTextField(
+                    initialValue: state.award,
                     hintText: 'NONE',
                     labelText: 'AWARD',
-                    onChanged: (value) {},
+                    onChanged: (value) =>
+                        context.read<UpdateAccountCubit>().awardChanged(value),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Award cant\'t be empty';
@@ -73,9 +95,12 @@ class EducationInfo extends StatelessWidget {
                   ),
                   //  const SizedBox(height: 25.0),
                   CustomTextField(
+                    initialValue: state.graduation,
                     hintText: 'NONE',
                     labelText: 'GRADUATION',
-                    onChanged: (value) {},
+                    onChanged: (value) => context
+                        .read<UpdateAccountCubit>()
+                        .graduationChanged(value),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Graduation cant\'t be empty';
@@ -84,9 +109,12 @@ class EducationInfo extends StatelessWidget {
                     },
                   ),
                   CustomTextField(
+                    initialValue: state.graduation,
                     hintText: 'NONE',
                     labelText: 'DURATION',
-                    onChanged: (value) {},
+                    onChanged: (value) => context
+                        .read<UpdateAccountCubit>()
+                        .durationChanged(value),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Duration cant\'t be empty';
@@ -94,6 +122,22 @@ class EducationInfo extends StatelessWidget {
                       return null;
                     },
                   ),
+
+                  const SizedBox(height: 20.0),
+                  SizedBox(
+                    height: 42.0,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () => _submit(context),
+                      child: const Text(
+                        'SUBMIT',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

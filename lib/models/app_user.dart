@@ -1,14 +1,21 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+
+import '/models/education.dart';
+import '/models/location.dart';
+import '/models/personal.dart';
+import '/models/professsion.dart';
 
 class AppUser extends Equatable {
   final String? email;
   final String? name;
   final String? uid;
   final String? profilePic;
-  final String? bio;
+
+  final Personal? personal;
+  final Profession? profession;
+  final Location? location;
+  final Education? education;
 
   final DateTime? createdAt;
 
@@ -17,7 +24,10 @@ class AppUser extends Equatable {
     this.name,
     this.uid,
     this.profilePic,
-    this.bio,
+    this.personal,
+    this.profession,
+    this.location,
+    this.education,
     this.createdAt,
   });
 
@@ -26,7 +36,10 @@ class AppUser extends Equatable {
     String? name,
     String? uid,
     String? profilePic,
-    String? bio,
+    Personal? personal,
+    Profession? profession,
+    Location? location,
+    Education? education,
     DateTime? createdAt,
   }) {
     return AppUser(
@@ -34,7 +47,10 @@ class AppUser extends Equatable {
       name: name ?? this.name,
       uid: uid ?? this.uid,
       profilePic: profilePic ?? this.profilePic,
-      bio: bio ?? this.bio,
+      personal: personal ?? this.personal,
+      profession: profession ?? this.profession,
+      location: location ?? this.location,
+      education: education ?? this.education,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -45,74 +61,80 @@ class AppUser extends Equatable {
       'name': name,
       'uid': uid,
       'profilePic': profilePic,
-      'bio': bio,
-      'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
+      'personal': personal?.toMap(),
+      'profession': profession?.toMap(),
+      'location': location?.toMap(),
+      'education': education?.toMap(),
+      'createdAt': createdAt?.millisecondsSinceEpoch,
     };
   }
 
-  factory AppUser.fromMap(Map<String, dynamic> map) {
+  // factory AppUser.fromMap(Map<String, dynamic> map) {
+  //   return AppUser(
+  //     email: map['email'],
+  //     name: map['name'],
+  //     uid: map['uid'],
+  //     profilePic: map['profilePic'],
+  //     personal:
+  //         map['personal'] != null ? Personal.fromMap(map['personal']) : null,
+  //     profession: map['profession'] != null
+  //         ? Profession.fromMap(map['profession'])
+  //         : null,
+  //     location:
+  //         map['location'] != null ? Location.fromMap(map['location']) : null,
+  //     education:
+  //         map['education'] != null ? Education.fromMap(map['education']) : null,
+  //     createdAt: map['createdAt'] != null
+  //         ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'])
+  //         : null,
+  //   );
+  // }
+
+  static AppUser? fromDocument(DocumentSnapshot? snap) {
+    final data = snap?.data() as Map?;
+
+    if (data == null) {
+      return null;
+    }
+
     return AppUser(
-      email: map['email'],
-      name: map['name'],
-      uid: map['uid'],
-      profilePic: map['profilePic'],
-      bio: map['bio'],
-      createdAt: map['createdAt'] != null
-          ? (map['createdAt'] as Timestamp).toDate()
+      email: data['email'],
+      name: data['name'],
+      uid: data['uid'],
+      profilePic: data['profilePic'],
+      personal:
+          data['personal'] != null ? Personal.fromMap(data['personal']) : null,
+      profession: data['profession'] != null
+          ? Profession.fromMap(data['profession'])
+          : null,
+      location:
+          data['location'] != null ? Location.fromMap(data['location']) : null,
+      education: data['education'] != null
+          ? Education.fromMap(data['education'])
+          : null,
+      createdAt: data['createdAt'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(data['createdAt'])
           : null,
     );
   }
-
-  static const empty = AppUser(
-    email: '',
-    name: '',
-    uid: '',
-    profilePic: '',
-    bio: '',
-    createdAt: null,
-  );
-
-  factory AppUser.fromDocument(DocumentSnapshot? doc) {
-    // if (doc == null) return null;
-    final data = doc?.data() as Map?;
-    print('App users ---- $data');
-    return AppUser(
-      email: data?['email'],
-      name: data?['name'],
-      uid: data?['uid'],
-      profilePic: data?['profilePic'],
-      bio: data?['bio'],
-      createdAt: data?['createdAt'] != null
-          ? (data?['createdAt'] as Timestamp).toDate()
-          : null,
-    );
-  }
-
-  static const emptyUser = AppUser(
-    uid: '',
-    name: '',
-    profilePic: '',
-    email: '',
-    bio: '',
-    createdAt: null,
-  );
-
-  String toJson() => json.encode(toMap());
-
-  factory AppUser.fromJson(String source) =>
-      AppUser.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'AppUser(email: $email, name: $name, uid: $uid, profilePic: $profilePic, createdAt: $createdAt)';
+    return 'AppUser(email: $email, name: $name, uid: $uid, profilePic: $profilePic, personal: $personal, profession: $profession, location: $location, education: $education, createdAt: $createdAt)';
   }
 
   @override
-  List<Object?> get props => [
-        email,
-        name,
-        uid,
-        profilePic,
-        createdAt,
-      ];
+  List<Object?> get props {
+    return [
+      email,
+      name,
+      uid,
+      profilePic,
+      personal,
+      profession,
+      location,
+      education,
+      createdAt,
+    ];
+  }
 }

@@ -1,12 +1,12 @@
-import 'package:advocates/screens/account/widgets/invite_advocates.dart';
-import 'package:advocates/screens/settings/settings_screen.dart';
-
+import '/screens/account/widgets/invite_advocates.dart';
+import '/screens/settings/settings_screen.dart';
+import '/screens/update-account/update_account_screen.dart';
 import '/screens/account/screens/cause_screen.dart';
 import '/screens/account/screens/formate_screen.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/widgets/display_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'update_account.dart';
+
 import 'package:flutter/material.dart';
 
 class AccountScreen extends StatelessWidget {

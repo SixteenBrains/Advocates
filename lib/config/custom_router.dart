@@ -1,5 +1,5 @@
+import '/screens/update-account/update_account_screen.dart';
 import '/screens/set/add_subset.dart';
-import '/screens/account/screens/update_account.dart';
 import '/screens/account/screens/account_screen.dart';
 import '/screens/settings/screens/legal_settings.dart';
 import '/screens/settings/screens/notification_settings.dart';

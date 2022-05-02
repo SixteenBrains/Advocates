@@ -22,6 +22,7 @@ class AuthRepository extends BaseAuthRepository {
       uid: user.uid,
       name: user.displayName,
       profilePic: user.photoURL,
+      email: user.email,
     );
   }
 

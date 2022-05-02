@@ -90,7 +90,6 @@ class SignUpCubit extends Cubit<SignUpState> {
             uid: user.uid,
             name: state.name ?? '',
             //username: state.username?.toLowerCase(),
-            bio: state.bio ?? '',
             createdAt: DateTime.now(),
           );
 

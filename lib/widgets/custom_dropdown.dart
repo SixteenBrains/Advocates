@@ -36,8 +36,12 @@ class CustomDropDown extends StatelessWidget {
                 child: FormField<String>(
                   builder: (FormFieldState<String> state) {
                     return InputDecorator(
-                      decoration: const InputDecoration.collapsed(
+                      decoration: InputDecoration.collapsed(
                         hintText: 'NONE',
+                        hintStyle: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey.shade600,
+                        ),
                       ),
                       textAlign: TextAlign.center,
                       textAlignVertical: TextAlignVertical.center,
@@ -45,9 +49,9 @@ class CustomDropDown extends StatelessWidget {
                       child: Center(
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<String>(
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w600,
-                              color: Colors.grey.shade600,
+                              color: Colors.black,
                             ),
                             alignment: Alignment.center,
                             // value: _currentSelectedValue,

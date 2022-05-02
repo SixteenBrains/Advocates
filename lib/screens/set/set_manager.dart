@@ -1,3 +1,4 @@
+import '/widgets/custom_textfield.dart';
 import '/enums/nav_item.dart';
 import '/models/sub_set.dart';
 import '/screens/nav/bloc/nav_bloc.dart';
@@ -5,7 +6,7 @@ import '/screens/nav/bloc/nav_bloc.dart';
 import '/constants/constants.dart';
 import '/screens/set/add_subset.dart';
 import '/widgets/custom_dropdown.dart';
-import '/screens/account/widgets/custom_textfield.dart';
+
 import '/screens/set/cubit/set_cubit.dart';
 import '/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
@@ -95,6 +96,7 @@ class _SetManagerState extends State<SetManager> {
                     // const SizedBox(height: 25.0),
                     const SizedBox(height: 25.0),
                     CustomTextField(
+                      initialValue: '',
                       hintText: 'NONE',
                       labelText: 'NAME',
                       onChanged: (value) =>

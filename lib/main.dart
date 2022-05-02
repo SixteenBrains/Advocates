@@ -1,6 +1,5 @@
 import '/config/config.dart';
 import '/repositories/set/set_repository.dart';
-import '/screens/account/cubit/account_cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -75,13 +74,16 @@ class MyApp extends StatelessWidget {
               authRepository: context.read<AuthRepository>(),
             ),
           ),
-          BlocProvider(
-            create: (context) => AccountCubit(),
-          )
         ],
         child: MaterialApp(
           //showPerformanceOverlay: true,
           theme: ThemeData(
+            primaryColor: Colors.green,
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.green,
+              ),
+            ),
             fontFamily: 'TitilliumWeb',
             scaffoldBackgroundColor: Colors.white,
           ),

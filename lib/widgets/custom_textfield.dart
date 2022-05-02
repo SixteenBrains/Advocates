@@ -6,6 +6,7 @@ class CustomTextField extends StatelessWidget {
   final Function(String value) onChanged;
   final String? Function(String?)? validator;
   final int? minLines;
+  final String? initialValue;
 
   const CustomTextField({
     Key? key,
@@ -14,6 +15,7 @@ class CustomTextField extends StatelessWidget {
     required this.onChanged,
     this.minLines,
     required this.validator,
+    required this.initialValue,
   }) : super(key: key);
 
   @override
@@ -34,6 +36,7 @@ class CustomTextField extends StatelessWidget {
               ),
               child: Center(
                 child: TextFormField(
+                  initialValue: initialValue,
                   // minLines: minLines ?? 1,
                   // maxLines: 4,
                   //   minLines != null ? 4 : null,

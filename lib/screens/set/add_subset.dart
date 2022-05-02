@@ -1,6 +1,6 @@
+import '/widgets/custom_textfield.dart';
 import '/models/sub_set.dart';
 import '/repositories/set/set_repository.dart';
-import '/screens/account/widgets/custom_textfield.dart';
 import '/screens/set/cubit/set_cubit.dart';
 import '/widgets/show_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -136,6 +136,7 @@ class _AddSubsetState extends State<AddSubset> {
                     ),
                     const SizedBox(height: 10.0),
                     CustomTextField(
+                      initialValue: '',
                       labelText: 'Title',
                       hintText: 'NONE',
                       onChanged: (value) =>
@@ -149,6 +150,7 @@ class _AddSubsetState extends State<AddSubset> {
                     ),
                     const SizedBox(height: 10.0),
                     CustomTextField(
+                      initialValue: '',
                       labelText: 'DESTINATION',
                       hintText: 'NONE',
                       onChanged: (value) => context
@@ -163,6 +165,7 @@ class _AddSubsetState extends State<AddSubset> {
                     ),
                     const SizedBox(height: 10.0),
                     CustomTextField(
+                      initialValue: '',
                       minLines: 3,
                       labelText: 'DESCRIPTION',
                       hintText: 'NONE',

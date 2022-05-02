@@ -9,7 +9,7 @@ class LoadingIndicator extends StatelessWidget {
     return const Center(
       child: SpinKitFadingCircle(
         // lineWidth: 1.0,
-        color: Colors.blue,
+        color: Colors.green,
       ),
       // SizedBox(
       //   height: 50.0,

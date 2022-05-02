@@ -1,3 +1,4 @@
+import 'package:advocates/screens/account/widgets/invite_advocates.dart';
 import 'package:advocates/screens/settings/settings_screen.dart';
 
 import '/screens/account/screens/cause_screen.dart';
@@ -164,49 +165,51 @@ class AccountScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 25.0),
-                      const Text(
-                        '000',
-                        style: TextStyle(
-                          fontSize: 32.0,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const Text('improve your credit score'),
-                      // We can user dots_indicator package here
-                      const SizedBox(height: 30.0),
-                      SizedBox(
-                        height: 25.0,
-                        width: 75.0,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color(0xff2ED573),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                16.0,
-                              ),
-                            ),
-                          ),
-                          onPressed: () => Navigator.of(context)
-                              .pushNamed(UpdateAccount.routeName),
-                          child: const Text('BOOST'),
-                        ),
-                      ),
-                      const SizedBox(height: 45.0),
-                    ],
-                  ),
-                ),
-              ),
+              const InviteAdvocates(),
+              const SizedBox(height: 20.0),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              //   child: Container(
+              //     width: double.infinity,
+              //     decoration: BoxDecoration(
+              //       color: Colors.white,
+              //       borderRadius: BorderRadius.circular(8.0),
+              //     ),
+              //     child: Column(
+              //       children: [
+              //         const SizedBox(height: 25.0),
+              //         const Text(
+              //           '000',
+              //           style: TextStyle(
+              //             fontSize: 32.0,
+              //             fontWeight: FontWeight.w700,
+              //           ),
+              //         ),
+              //         const Text('improve your credit score'),
+              //         // We can user dots_indicator package here
+              //         const SizedBox(height: 30.0),
+              //         SizedBox(
+              //           height: 25.0,
+              //           width: 75.0,
+              //           child: ElevatedButton(
+              //             style: ElevatedButton.styleFrom(
+              //               primary: const Color(0xff2ED573),
+              //               shape: RoundedRectangleBorder(
+              //                 borderRadius: BorderRadius.circular(
+              //                   16.0,
+              //                 ),
+              //               ),
+              //             ),
+              //             onPressed: () => Navigator.of(context)
+              //                 .pushNamed(UpdateAccount.routeName),
+              //             child: const Text('BOOST'),
+              //           ),
+              //         ),
+              //         const SizedBox(height: 45.0),
+              //       ],
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

@@ -4,4 +4,12 @@ https://docs.google.com/document/d/14WVLNIW_GyEOUSltH5Ey3yce1yh-9PzporE0u1fdPk0/
 UI Designs
 https://xd.adobe.com/view/2a2d6437-1cf0-4d9b-94e5-582982704e96-7f7e/screen/b4b49d58-d34f-4c0f-a921-4bc123fc10ec/specs/
 
+Todo 
+Cause will come from database 
+Autcomplet from database
+B
 
+000 in boost stands for no of users this user has invited
+
+One user will their unique id to the other user and if the other user install the app
+they will get 1 advocates

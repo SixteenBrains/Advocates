@@ -4,7 +4,6 @@ import '/screens/dashboard/bloc/dashboard_bloc.dart';
 import '/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'widgets/subset_card.dart';
 
 class DashBoard extends StatelessWidget {
@@ -70,7 +69,10 @@ class DashBoard extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: state.subSets.length,
                       itemBuilder: (context, index) {
-                        return SubSetCard(subSet: state.subSets[index]);
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: SubSetCard(subSet: state.subSets[index]),
+                        );
                         //final set = state.sets[index];
                         // return Container(
                         //   height: 470.0,

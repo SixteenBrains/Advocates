@@ -1,14 +1,18 @@
 import 'dart:io';
 
+import 'package:advocates/widgets/video_thumbnail.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class AddMedia extends StatelessWidget {
   final VoidCallback onTap;
   final File? imageFile;
+  final FileType fileType;
 
   const AddMedia({
     Key? key,
     required this.onTap,
+    required this.fileType,
     this.imageFile,
   }) : super(key: key);
 
@@ -25,13 +29,15 @@ class AddMedia extends StatelessWidget {
         height: 70.0,
         width: 50.0,
         child: imageFile != null
-            ? ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.file(
-                  imageFile!,
-                  fit: BoxFit.cover,
-                ),
-              )
+            ? fileType == FileType.image
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.file(
+                      imageFile!,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : MediaVideoThumbnail(videoFile: imageFile!)
             : const Icon(
                 Icons.add,
                 size: 25.0,

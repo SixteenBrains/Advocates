@@ -1,4 +1,5 @@
 import 'package:advocates/blocs/auth/auth_bloc.dart';
+import 'package:advocates/widgets/show_snackbar.dart';
 
 import '/models/set_model.dart';
 import '/widgets/custom_textfield.dart';
@@ -139,25 +140,36 @@ class _SetManagerState extends State<SetManager> {
                               imageFile: state.subSets.length > i
                                   ? state.subSets[i]?.imageFile
                                   : null,
+                              fileType: state.fileType,
                               //  imageFile: null,
                               onTap: () async {
-                                final subSet =
-                                    await Navigator.of(context).pushNamed(
-                                  AddSubset.routeName,
-                                  arguments: AddSubSetArgs(
-                                    setModel: SetModel(
-                                      cause: state.cause,
-                                      format: state.fileType,
-                                      name: state.name,
-                                      author:
-                                          context.read<AuthBloc>().state.user,
-                                    ),
-                                  ),
-                                ) as SubSet?;
-                                print('Subset - $subSet');
+                                print('Cause ${state.cause}');
+                                print('Title ${state.name}');
+                                print('Format ${state.format}');
 
-                                if (subSet != null) {
-                                  context.read<SetCubit>().addSubSet(subSet);
+                                if (state.name != null) {
+                                  final subSet =
+                                      await Navigator.of(context).pushNamed(
+                                    AddSubset.routeName,
+                                    arguments: AddSubSetArgs(
+                                      setModel: SetModel(
+                                        cause: state.cause,
+                                        format: state.fileType,
+                                        name: state.name,
+                                        author:
+                                            context.read<AuthBloc>().state.user,
+                                      ),
+                                    ),
+                                  ) as SubSet?;
+                                  print('Subset - $subSet');
+
+                                  if (subSet != null) {
+                                    context.read<SetCubit>().addSubSet(subSet);
+                                  }
+                                } else {
+                                  ShowSnackBar.showSnackBar(context,
+                                      title:
+                                          'Complete the set fields to continue');
                                 }
                               },
                             )

@@ -30,20 +30,32 @@ class SetCubit extends Cubit<SetState> {
     emit(state.copyWith(cause: value, status: SetStatus.initial));
   }
 
+  // void changeFormat(String? format) {
+  //   FileType? type;
+  //   //'GIFs', 'IMAGES', 'VIDEOS
+  //   if (format == 'IMAGES') {
+  //     type = FileType.image;
+  //   } else if (format == 'IMAGES') {
+  //     type = FileType.video;
+  //   }
+  //   emit(state.copyWith(
+  //       format: format, fileType: type, status: SetStatus.initial));
+  // }
+
   void changeFormat(String? format) {
     FileType? type;
     //'GIFs', 'IMAGES', 'VIDEOS
     if (format == 'IMAGES') {
       type = FileType.image;
-    } else if (format == 'IMAGES') {
+    } else if (format == 'VIDEOS') {
       type = FileType.video;
     }
     emit(state.copyWith(
         format: format, fileType: type, status: SetStatus.initial));
   }
 
-  void pickedFileChanged() async {
-    final pickedFile = await FileUtil.pickedFile(state.fileType);
+  void pickedFileChanged({required FileType fileType}) async {
+    final pickedFile = await FileUtil.pickedFile(fileType);
     emit(state.copyWith(pickedFile: pickedFile, status: SetStatus.initial));
   }
 
@@ -81,8 +93,8 @@ class SetCubit extends Cubit<SetState> {
           : null;
 
       final subSet = SubSet(
-        cause: state.cause,
-        format: state.fileType,
+        cause: setModel?.cause,
+        format: setModel?.format,
         title: state.subSetTitle,
         imageUrl: imageUrl,
         description: state.subSetdescription,

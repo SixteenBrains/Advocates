@@ -1,4 +1,6 @@
 import 'package:advocates/blocs/auth/auth_bloc.dart';
+import 'package:advocates/screens/set/widgets/preview_media.dart';
+import 'package:file_picker/file_picker.dart';
 
 import '/widgets/loading_indicator.dart';
 import '/models/set_model.dart';
@@ -109,6 +111,7 @@ class _AddSubsetState extends State<AddSubset> {
           if (state.status == SetStatus.loading) {
             return const LoadingIndicator();
           }
+          print('File formate ${widget.setModel?.format}');
           return Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 20.0,
@@ -130,14 +133,14 @@ class _AddSubsetState extends State<AddSubset> {
                         ),
                         child: GestureDetector(
                           onTap: () =>
-                              context.read<SetCubit>().pickedFileChanged(),
-                          child: state.pickedFile != null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: Image.file(
-                                    state.pickedFile!,
-                                    fit: BoxFit.cover,
+                              context.read<SetCubit>().pickedFileChanged(
+                                    fileType: widget.setModel?.format ??
+                                        FileType.image,
                                   ),
+                          child: state.pickedFile != null
+                              ? PreviewMedia(
+                                  pickedFile: state.pickedFile,
+                                  fileType: widget.setModel?.format,
                                 )
                               : Image.asset(
                                   'assets/images/menu_upload.png',

@@ -78,6 +78,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           //showPerformanceOverlay: true,
           theme: ThemeData(
+            primarySwatch: Colors.green,
             primaryColor: Colors.green,
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(

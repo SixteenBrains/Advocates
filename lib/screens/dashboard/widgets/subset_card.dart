@@ -5,6 +5,8 @@ import '/models/sub_set.dart';
 import '/widgets/display_image.dart';
 import 'package:flutter/material.dart';
 
+import 'discription_text.dart';
+
 class SubSetCard extends StatelessWidget {
   final SubSet? subSet;
   const SubSetCard({Key? key, required this.subSet}) : super(key: key);
@@ -65,15 +67,16 @@ class SubSetCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10.0),
-                    Text(
-                      subSet?.description ?? 'N/A',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
+                    DescriptionTextWidget(text: subSet?.description ?? 'N/A'),
+                    // Text(
+                    //   subSet?.description ?? 'N/A',
+                    //   style: const TextStyle(
+                    //     color: Colors.white,
+                    //     fontWeight: FontWeight.w600,
+                    //     fontSize: 16.0,
+                    //   ),
+                    // ),
+                    //   const SizedBox(height: 10.0),
                     Chip(
                       backgroundColor: Colors.green,
                       label: Text(

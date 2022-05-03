@@ -15,6 +15,7 @@ class SetState extends Equatable {
   final String? subSetTitle;
   final String? subSetDestination;
   final String? subSetdescription;
+  final List<SetModel?> sets;
 
   const SetState({
     this.subSets = const [],
@@ -28,6 +29,7 @@ class SetState extends Equatable {
     this.subSetdescription,
     this.subSetDestination,
     this.subSetTitle,
+    this.sets = const [],
   });
 
   factory SetState.initial() => const SetState(
@@ -42,6 +44,7 @@ class SetState extends Equatable {
         subSetdescription: null,
         subSetDestination: null,
         subSetTitle: null,
+        sets: [],
       );
 
   @override
@@ -57,6 +60,7 @@ class SetState extends Equatable {
         subSetDestination,
         subSetTitle,
         fileType,
+        sets,
       ];
 
   SetState copyWith({
@@ -71,6 +75,7 @@ class SetState extends Equatable {
     String? subSetDestination,
     String? subSetdescription,
     FileType? fileType,
+    List<SetModel?>? sets,
   }) {
     return SetState(
       subSets: subSets ?? this.subSets,
@@ -84,11 +89,12 @@ class SetState extends Equatable {
       subSetTitle: subSetTitle ?? this.subSetTitle,
       subSetDestination: subSetDestination ?? this.subSetDestination,
       subSetdescription: subSetdescription ?? this.subSetdescription,
+      sets: sets ?? this.sets,
     );
   }
 
   @override
   String toString() {
-    return 'SetState(subSets: $subSets, failure: $failure, status: $status, name: $name, causes: $cause, format: $format, pickedFile: $pickedFile, subSetName: $subSetTitle, subSetDestination: $subSetDestination, subSetdescription: $subSetdescription, fileType: $fileType)';
+    return 'SetState(subSets: $subSets, failure: $failure, status: $status, name: $name, causes: $cause, format: $format, pickedFile: $pickedFile, subSetName: $subSetTitle, subSetDestination: $subSetDestination, subSetdescription: $subSetdescription, fileType: $fileType, sets: $sets)';
   }
 }

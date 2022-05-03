@@ -80,6 +80,9 @@ class SetModel extends Equatable {
       return null;
     }
 
+    final authorRef = data['author'] as DocumentReference?;
+    final authorSnap = await authorRef?.get();
+
     List<SubSet?> subSets = [];
 
     final subSetsList =
@@ -94,6 +97,7 @@ class SetModel extends Equatable {
     }
 
     return SetModel(
+      author: AppUser.fromDocument(authorSnap),
       name: data['name'],
       cause: data['cause'],
       format: EnumToString.fromString(FileType.values, data['format']),

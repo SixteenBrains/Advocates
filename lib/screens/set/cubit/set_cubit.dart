@@ -109,6 +109,19 @@ class SetCubit extends Cubit<SetState> {
       emit(state.copyWith(failure: failure, status: SetStatus.error));
     }
   }
+
+  void loadUserSets() async {
+    try {
+      emit(state.copyWith(status: SetStatus.loading));
+
+      final sets =
+          await _setRepository.getUserSets(userId: _authBloc.state.user?.uid);
+
+      emit(state.copyWith(sets: sets, status: SetStatus.succuss));
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: SetStatus.error));
+    }
+  }
 }
 
 // void uploadSet() async {

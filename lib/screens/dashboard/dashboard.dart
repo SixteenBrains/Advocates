@@ -237,8 +237,8 @@ class StatsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150.0,
-      width: 108.0,
+      height: 140.0,
+      width: 100.0,
       decoration: BoxDecoration(
         color: Colors.grey.shade500,
         borderRadius: BorderRadius.circular(8.0),

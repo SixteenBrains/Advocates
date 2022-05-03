@@ -71,6 +71,30 @@ class SetRepository extends BaseSetRepo {
       throw const Failure(message: 'Error getting sets');
     }
   }
+
+  Future<List<SetModel?>> getUserSets({required String? userId}) async {
+    try {
+      if (userId == null) {
+        return [];
+      }
+
+      List<SetModel?> sets = [];
+      final authorRef = _firestore.collection(Paths.users).doc(userId);
+      final setsSnaps = await _firestore
+          .collection(Paths.sets)
+          .where('author', isEqualTo: authorRef)
+          .get();
+
+      for (var item in setsSnaps.docs) {
+        sets.add(await SetModel.fromDocument(item));
+      }
+
+      return sets;
+    } catch (error) {
+      print('Error in getting user stats ${error.toString()}');
+      throw const Failure(message: 'Error getting sets');
+    }
+  }
 }
 
 // Future<String?> uploadSet(SetModel? set) async {

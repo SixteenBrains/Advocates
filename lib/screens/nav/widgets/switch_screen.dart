@@ -1,10 +1,11 @@
+import '/screens/set/user_sets_screen.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/screens/dashboard/bloc/dashboard_bloc.dart';
 import '/repositories/set/set_repository.dart';
 import '/screens/set/cubit/set_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '/screens/account/screens/account_screen.dart';
-import '/screens/set/set_manager.dart';
+
 import '/screens/dashboard/dashboard.dart';
 import '/screens/invite/invite_screen.dart';
 import '/enums/enums.dart';
@@ -37,8 +38,10 @@ class SwitchScreen extends StatelessWidget {
         return BlocProvider<SetCubit>(
           create: (context) => SetCubit(
               setRepository: context.read<SetRepository>(),
-              authBloc: context.read<AuthBloc>()),
-          child: const SetManager(),
+              authBloc: context.read<AuthBloc>())
+            ..loadUserSets(),
+          // child: const SetManager(),
+          child: const UserSetsScreen(),
         );
 
       case NavItem.invite:

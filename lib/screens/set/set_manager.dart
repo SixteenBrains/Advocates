@@ -1,25 +1,36 @@
-import 'package:advocates/blocs/auth/auth_bloc.dart';
-import 'package:advocates/widgets/show_snackbar.dart';
-
+import '/blocs/auth/auth_bloc.dart';
+import '/repositories/set/set_repository.dart';
+import '/widgets/show_snackbar.dart';
 import '/models/set_model.dart';
 import '/widgets/custom_textfield.dart';
 import '/enums/nav_item.dart';
 import '/models/sub_set.dart';
 import '/screens/nav/bloc/nav_bloc.dart';
-
 import '/constants/constants.dart';
 import '/screens/set/add_subset.dart';
 import '/widgets/custom_dropdown.dart';
-
 import '/screens/set/cubit/set_cubit.dart';
 import '/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'widgets/add_media.dart';
 
 class SetManager extends StatefulWidget {
+  static const String routeName = '/setManager';
   const SetManager({Key? key}) : super(key: key);
+
+  static Route route() {
+    return MaterialPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (_) => BlocProvider<SetCubit>(
+        create: (context) => SetCubit(
+          setRepository: context.read<SetRepository>(),
+          authBloc: context.read<AuthBloc>(),
+        ),
+        child: const SetManager(),
+      ),
+    );
+  }
 
   @override
   State<SetManager> createState() => _SetManagerState();

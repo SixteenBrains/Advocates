@@ -1,3 +1,4 @@
+import '/screens/set/set_manager.dart';
 import '/models/set_model.dart';
 import '/screens/dashboard/dashboard.dart';
 import '/screens/set/widgets/show_set_media.dart';
@@ -106,7 +107,8 @@ class SetCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () => Navigator.of(context)
+                              .pushNamed(SetManager.routeName),
                           child: const Text(
                             'CREATE',
                             style: TextStyle(

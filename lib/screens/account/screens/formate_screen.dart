@@ -1,4 +1,10 @@
+import 'package:file_picker/file_picker.dart';
+
+import '/blocs/auth/auth_bloc.dart';
+import '/repositories/profile/profile_repository.dart';
+import '/screens/account/cubit/account_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FormateScreen extends StatelessWidget {
   static const String routeName = '/formate';
@@ -7,7 +13,13 @@ class FormateScreen extends StatelessWidget {
   static Route route() {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
-      builder: (_) => const FormateScreen(),
+      builder: (_) => BlocProvider(
+        create: (context) => AccountCubit(
+          profileRepository: context.read<ProfileRepository>(),
+          authBloc: context.read<AuthBloc>(),
+        ),
+        child: const FormateScreen(),
+      ),
     );
   }
 
@@ -76,17 +88,23 @@ class FormateScreen extends StatelessWidget {
                 const SizedBox(height: 40.0),
                 ChooseMediaFormate(
                   label: 'GIFs',
-                  onTap: () {},
+                  onTap: () => context
+                      .read<AccountCubit>()
+                      .addMediaFormat(FileType.image),
                 ),
                 const SizedBox(height: 10.0),
                 ChooseMediaFormate(
                   label: 'IMAGES',
-                  onTap: () {},
+                  onTap: () => context
+                      .read<AccountCubit>()
+                      .addMediaFormat(FileType.image),
                 ),
                 const SizedBox(height: 10.0),
                 ChooseMediaFormate(
                   label: 'VIDEOS',
-                  onTap: () {},
+                  onTap: () => context
+                      .read<AccountCubit>()
+                      .addMediaFormat(FileType.video),
                 ),
                 const SizedBox(height: 10.0),
                 TextButton(
@@ -120,19 +138,22 @@ class ChooseMediaFormate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 70.0,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Center(
-        child: Text(
-          label,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 70.0,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),

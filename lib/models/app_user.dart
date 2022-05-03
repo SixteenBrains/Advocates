@@ -1,3 +1,4 @@
+import 'package:advocates/models/preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
@@ -11,12 +12,11 @@ class AppUser extends Equatable {
   final String? name;
   final String? uid;
   final String? profilePic;
-
   final Personal? personal;
   final Profession? profession;
   final Location? location;
   final Education? education;
-
+  final Preferences? preferences;
   final DateTime? createdAt;
 
   const AppUser({
@@ -29,6 +29,7 @@ class AppUser extends Equatable {
     this.location,
     this.education,
     this.createdAt,
+    this.preferences,
   });
 
   AppUser copyWith({
@@ -41,6 +42,7 @@ class AppUser extends Equatable {
     Location? location,
     Education? education,
     DateTime? createdAt,
+    Preferences? preferences,
   }) {
     return AppUser(
       email: email ?? this.email,
@@ -52,6 +54,7 @@ class AppUser extends Equatable {
       location: location ?? this.location,
       education: education ?? this.education,
       createdAt: createdAt ?? this.createdAt,
+      preferences: preferences ?? this.preferences,
     );
   }
 
@@ -66,6 +69,7 @@ class AppUser extends Equatable {
       'location': location?.toMap(),
       'education': education?.toMap(),
       'createdAt': createdAt?.millisecondsSinceEpoch,
+      'preferences': preferences?.toMap(),
     };
   }
 

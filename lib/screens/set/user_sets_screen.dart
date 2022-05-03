@@ -1,3 +1,5 @@
+import 'package:advocates/screens/set/set_manager.dart';
+
 import '/screens/set/cubit/set_cubit.dart';
 import '/widgets/loading_indicator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,6 +64,11 @@ class UserSetsScreen extends StatelessWidget {
                 builder: (context, state) {
                   if (state.status == SetStatus.loading) {
                     return const LoadingIndicator();
+                  }
+                  if (state.status == SetStatus.succuss) {
+                    if (state.sets.isEmpty) {
+                      Navigator.of(context).pushNamed(SetManager.routeName);
+                    }
                   }
                   return Padding(
                     padding: const EdgeInsets.symmetric(

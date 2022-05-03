@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '/models/app_user.dart';
 import '/models/failure.dart';
-import '/config/paths.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:crypto/crypto.dart';
@@ -13,8 +12,8 @@ import 'base_auth_repo.dart';
 
 class AuthRepository extends BaseAuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final CollectionReference usersRef =
-      FirebaseFirestore.instance.collection(Paths.users);
+  // final CollectionReference usersRef =
+  //     FirebaseFirestore.instance.collection(Paths.users);
 
   AppUser? _appUser(User? user) {
     if (user == null) return null;
@@ -33,9 +32,9 @@ class AuthRepository extends BaseAuthRepository {
   @override
   Future<AppUser?> get currentUser async => _appUser(_firebaseAuth.currentUser);
 
-  String? get userImage => _firebaseAuth.currentUser?.photoURL;
+  // String? get userImage => _firebaseAuth.currentUser?.photoURL;
 
-  String? get userId => _firebaseAuth.currentUser?.uid;
+  // String? get userId => _firebaseAuth.currentUser?.uid;
 
   @override
   Future<AppUser?> signInWithGoogle() async {

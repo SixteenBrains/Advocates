@@ -1,3 +1,5 @@
+import 'package:advocates/screens/set/set_manager.dart';
+
 import '/screens/update-account/update_account_screen.dart';
 import '/screens/set/add_subset.dart';
 import '/screens/account/screens/account_screen.dart';
@@ -53,6 +55,9 @@ class CustomRouter {
 
       case NotificationsSettings.routeName:
         return NotificationsSettings.route();
+
+      case SetManager.routeName:
+        return SetManager.route();
 
       case AddSubset.routeName:
         return AddSubset.route(args: settings.arguments as AddSubSetArgs);

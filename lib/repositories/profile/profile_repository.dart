@@ -1,3 +1,6 @@
+import 'package:enum_to_string/enum_to_string.dart';
+import 'package:file_picker/file_picker.dart';
+
 import '/models/app_user.dart';
 
 import '/config/paths.dart';
@@ -39,6 +42,23 @@ class ProfileRepository extends BaseProfileRepository {
     } catch (error) {
       print('Error in getting user data ${error.toString()}');
       throw const Failure(message: 'Error in getting user data');
+    }
+  }
+
+  Future<void> addMediaFormat({
+    required String? userId,
+    required FileType format,
+  }) async {
+    try {
+      if (userId == null) {
+        return;
+      }
+      await _firestore
+          .collection(Paths.users)
+          .doc(userId)
+          .update({'format': EnumToString.convertToString(format)});
+    } catch (error) {
+      print('Error in updating format ${error.toString()}');
     }
   }
 }

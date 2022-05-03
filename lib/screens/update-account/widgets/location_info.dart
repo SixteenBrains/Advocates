@@ -1,4 +1,4 @@
-import 'package:advocates/widgets/loading_indicator.dart';
+import '/widgets/loading_indicator.dart';
 
 import '/screens/update-account/cubit/update_account_cubit.dart';
 import '/widgets/custom_textfield.dart';
@@ -12,6 +12,7 @@ class LocationInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _authBloc = context.read<AuthBloc>();
+    final _accountCubit = context.read<UpdateAccountCubit>();
     return BlocConsumer<UpdateAccountCubit, UpdateAccountState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -55,10 +56,10 @@ class LocationInfo extends StatelessWidget {
                   initialValue: state.region,
                   hintText: 'NONE',
                   labelText: 'REGION',
-                  onChanged: (value) =>
-                      context.read<UpdateAccountCubit>().regionChanged(value),
+                  onChanged: (value) => _accountCubit.regionChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
+                      _accountCubit.addErrorMessage('Region cant\'t be empty');
                       return 'Region cant\'t be empty';
                     }
                     return null;
@@ -69,10 +70,10 @@ class LocationInfo extends StatelessWidget {
                   initialValue: state.country,
                   hintText: 'NONE',
                   labelText: 'COUNTRY',
-                  onChanged: (value) =>
-                      context.read<UpdateAccountCubit>().countryChanged(value),
+                  onChanged: (value) => _accountCubit.countryChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
+                      _accountCubit.addErrorMessage('Country cant\'t be empty');
                       return 'Country cant\'t be empty';
                     }
                     return null;
@@ -84,10 +85,10 @@ class LocationInfo extends StatelessWidget {
                   initialValue: state.state,
                   hintText: 'NONE',
                   labelText: 'STATE',
-                  onChanged: (value) =>
-                      context.read<UpdateAccountCubit>().stateChanged(value),
+                  onChanged: (value) => _accountCubit.stateChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
+                      _accountCubit.addErrorMessage('State cant\'t be empty');
                       return 'State cant\'t be empty';
                     }
                     return null;
@@ -97,10 +98,10 @@ class LocationInfo extends StatelessWidget {
                   initialValue: state.city,
                   hintText: 'NONE',
                   labelText: 'CITY',
-                  onChanged: (value) =>
-                      context.read<UpdateAccountCubit>().cityChanged(value),
+                  onChanged: (value) => _accountCubit.cityChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
+                      _accountCubit.addErrorMessage('City cant\'t be empty');
                       return 'City cant\'t be empty';
                     }
                     return null;

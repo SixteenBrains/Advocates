@@ -92,6 +92,10 @@ class UpdateAccountCubit extends Cubit<UpdateAccountState> {
     emit(state.copyWith(duration: value, status: UpdateAccountStatus.initial));
   }
 
+  void addErrorMessage(String error) async {
+    emit(state.copyWith(errorMsg: error, status: UpdateAccountStatus.error));
+  }
+
   void loadAccountDetails() async {
     try {
       emit(state.copyWith(status: UpdateAccountStatus.loading));

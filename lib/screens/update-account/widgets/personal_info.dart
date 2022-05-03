@@ -14,6 +14,7 @@ class PersonalInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _authBloc = context.read<AuthBloc>();
+    final _accountCubit = context.read<UpdateAccountCubit>();
     return BlocConsumer<UpdateAccountCubit, UpdateAccountState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -57,10 +58,10 @@ class PersonalInfo extends StatelessWidget {
                   initialValue: state.age,
                   hintText: 'NONE',
                   labelText: 'AGE',
-                  onChanged: (value) =>
-                      context.read<UpdateAccountCubit>().ageChanged(value),
+                  onChanged: (value) => _accountCubit.ageChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
+                      _accountCubit.addErrorMessage('Age cant\'t be empty');
                       return 'Age cant\'t be empty';
                     }
                     return null;

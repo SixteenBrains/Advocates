@@ -12,6 +12,7 @@ class ProfessionalInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _authBloc = context.read<AuthBloc>();
+    final _accountCubit = context.read<UpdateAccountCubit>();
     return BlocConsumer<UpdateAccountCubit, UpdateAccountState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -55,10 +56,10 @@ class ProfessionalInfo extends StatelessWidget {
                   initialValue: state.role,
                   hintText: 'NONE',
                   labelText: 'ROLE',
-                  onChanged: (value) =>
-                      context.read<UpdateAccountCubit>().roleChanged(value),
+                  onChanged: (value) => _accountCubit.roleChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
+                      _accountCubit.addErrorMessage('Age cant\'t be empty');
                       return 'Role cant\'t be empty';
                     }
                     return null;
@@ -69,10 +70,10 @@ class ProfessionalInfo extends StatelessWidget {
                   initialValue: state.title,
                   hintText: 'NONE',
                   labelText: 'TITLE',
-                  onChanged: (value) =>
-                      context.read<UpdateAccountCubit>().titleChanged(value),
+                  onChanged: (value) => _accountCubit.titleChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
+                      _accountCubit.addErrorMessage('Title cant\'t be empty');
                       return 'Title cant\'t be empty';
                     }
                     return null;
@@ -83,10 +84,11 @@ class ProfessionalInfo extends StatelessWidget {
                   initialValue: state.industry,
                   hintText: 'NONE',
                   labelText: 'INDUSTRY',
-                  onChanged: (value) =>
-                      context.read<UpdateAccountCubit>().industryChanged(value),
+                  onChanged: (value) => _accountCubit.industryChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
+                      _accountCubit
+                          .addErrorMessage('Industry cant\'t be empty');
                       return 'Industry cant\'t be empty';
                     }
                     return null;
@@ -96,10 +98,10 @@ class ProfessionalInfo extends StatelessWidget {
                   initialValue: state.skill,
                   hintText: 'NONE',
                   labelText: 'SKILL',
-                  onChanged: (value) =>
-                      context.read<UpdateAccountCubit>().skillChanged(value),
+                  onChanged: (value) => _accountCubit.skillChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
+                      _accountCubit.addErrorMessage('Skill cant\'t be empty');
                       return 'Skill cant\'t be empty';
                     }
                     return null;

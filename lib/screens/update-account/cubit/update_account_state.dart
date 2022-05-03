@@ -22,26 +22,27 @@ class UpdateAccountState extends Equatable {
   final UpdateAccountStatus status;
   final Failure failure;
 
-  const UpdateAccountState({
-    this.age,
-    this.gender,
-    this.language,
-    this.relationship,
-    this.role,
-    this.title,
-    this.industry,
-    this.skill,
-    this.region,
-    this.country,
-    this.state,
-    this.city,
-    this.lavel,
-    this.award,
-    this.graduation,
-    this.duration,
-    required this.status,
-    required this.failure,
-  });
+  final String? errorMsg;
+  const UpdateAccountState(
+      {this.age,
+      this.gender,
+      this.language,
+      this.relationship,
+      this.role,
+      this.title,
+      this.industry,
+      this.skill,
+      this.region,
+      this.country,
+      this.state,
+      this.city,
+      this.lavel,
+      this.award,
+      this.graduation,
+      this.duration,
+      required this.status,
+      required this.failure,
+      this.errorMsg = 'Something went wrong'});
 
   factory UpdateAccountState.initial() => const UpdateAccountState(
       status: UpdateAccountStatus.initial, failure: Failure());
@@ -65,6 +66,7 @@ class UpdateAccountState extends Equatable {
     String? duration,
     UpdateAccountStatus? status,
     Failure? failure,
+    String? errorMsg,
   }) {
     return UpdateAccountState(
       age: age ?? this.age,
@@ -85,12 +87,13 @@ class UpdateAccountState extends Equatable {
       duration: duration ?? this.duration,
       status: status ?? this.status,
       failure: failure ?? this.failure,
+      errorMsg: errorMsg ?? this.errorMsg,
     );
   }
 
   @override
   String toString() {
-    return 'UpdateAccountState(age: $age, gender: $gender, language: $language, relationship: $relationship, role: $role, title: $title, industry: $industry, skill: $skill, region: $region, country: $country, state: $state, city: $city, lavel: $lavel, award: $award, graduation: $graduation, duration: $duration, status: $status, failure: $failure)';
+    return 'UpdateAccountState(age: $age, gender: $gender, language: $language, relationship: $relationship, role: $role, title: $title, industry: $industry, skill: $skill, region: $region, country: $country, state: $state, city: $city, lavel: $lavel, award: $award, graduation: $graduation, duration: $duration, status: $status, failure: $failure, errorMsg $errorMsg)';
   }
 
   @override
@@ -114,6 +117,7 @@ class UpdateAccountState extends Equatable {
       duration,
       status,
       failure,
+      errorMsg,
     ];
   }
 }

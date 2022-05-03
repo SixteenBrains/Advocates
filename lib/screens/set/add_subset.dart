@@ -1,3 +1,5 @@
+import '/widgets/loading_indicator.dart';
+import '/models/set_model.dart';
 import '/widgets/custom_textfield.dart';
 import '/models/sub_set.dart';
 import '/repositories/set/set_repository.dart';
@@ -6,18 +8,25 @@ import '/widgets/show_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+class AddSubSetArgs {
+  final SetModel? setModel;
+
+  const AddSubSetArgs({required this.setModel});
+}
+
 class AddSubset extends StatefulWidget {
   static const String routeName = '/add';
-  const AddSubset({Key? key}) : super(key: key);
+  final SetModel? setModel;
+  const AddSubset({Key? key, required this.setModel}) : super(key: key);
 
-  static Route route() {
+  static Route route({required AddSubSetArgs args}) {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
       builder: (_) => BlocProvider(
         create: (context) => SetCubit(
           setRepository: context.read<SetRepository>(),
         ),
-        child: const AddSubset(),
+        child: AddSubset(setModel: args.setModel),
       ),
     );
   }
@@ -33,13 +42,18 @@ class _AddSubsetState extends State<AddSubset> {
     if (_formKey.currentState!.validate()) {
       final _setCubit = context.read<SetCubit>();
       if (_setCubit.state.pickedFile != null) {
-        final subSet = SubSet(
-          title: _setCubit.state.subSetTitle,
-          destination: _setCubit.state.subSetDestination,
-          description: _setCubit.state.subSetdescription,
-          imageFile: _setCubit.state.pickedFile,
-        );
-        Navigator.of(context).pop(subSet);
+        // final subSet = SubSet(
+        //   title: _setCubit.state.subSetTitle,
+        //   destination: _setCubit.state.subSetDestination,
+        //   description: _setCubit.state.subSetdescription,
+        //   imageFile: _setCubit.state.pickedFile,
+        //   cause: widget.setModel?.cause,
+        //   format: widget.setModel?.format,
+        // );
+
+        context.read<SetCubit>().uploadSubSet(setModel: widget.setModel);
+
+        // Navigator.of(context).pop(subSet);
       } else {
         ShowSnackBar.showSnackBar(context,
             title: 'Please select image to continue');
@@ -75,8 +89,24 @@ class _AddSubsetState extends State<AddSubset> {
         ),
       ),
       body: BlocConsumer<SetCubit, SetState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state.status == SetStatus.succuss) {
+            final subSet = SubSet(
+              title: state.subSetTitle,
+              destination: state.subSetDestination,
+              description: state.subSetdescription,
+              imageFile: state.pickedFile,
+              cause: widget.setModel?.cause,
+              format: widget.setModel?.format,
+            );
+
+            Navigator.of(context).pop(subSet);
+          }
+        },
         builder: (context, state) {
+          if (state.status == SetStatus.loading) {
+            return const LoadingIndicator();
+          }
           return Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 20.0,

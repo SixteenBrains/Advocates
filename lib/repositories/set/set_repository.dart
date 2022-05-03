@@ -1,3 +1,5 @@
+import 'package:advocates/models/sub_set.dart';
+
 import '/config/paths.dart';
 import '/models/failure.dart';
 import '/models/set_model.dart';
@@ -11,18 +13,44 @@ class SetRepository extends BaseSetRepo {
   SetRepository({FirebaseFirestore? firestore})
       : _firestore = firestore ?? FirebaseFirestore.instance;
 
-  Future<String?> uploadSet(SetModel? set) async {
+  Future uploadSubSet(
+      {required SubSet? subSet, required SetModel? setModel}) async {
     try {
-      if (set == null) {
-        return null;
+      if (subSet == null || setModel == null) {
+        return;
       }
-      final docRef = await _firestore.collection(Paths.sets).add(set.toMap());
-      return docRef.id;
+      final subSetRef =
+          await _firestore.collection(Paths.subsets).add(subSet.toMap());
+
+      final setRef = _firestore.collection(Paths.sets).doc(setModel.name);
+      final setSnap = await setRef.get();
+      if (setSnap.exists) {
+        // update the set
+        setRef.update({
+          'subsets': FieldValue.arrayUnion([subSetRef.id])
+        });
+      } else {
+        // create new set
+        setRef.set(setModel.toMap(subSetId: subSetRef.id));
+      }
     } catch (error) {
-      print('Error in uploading set ${error.toString()}');
-      throw const Failure(message: 'Error uploading set');
+      print('Error uploading subset ${error.toString()}');
+      throw const Failure(message: 'Error uploading subset');
     }
   }
+
+  // Future<String?> uploadSet(SetModel? set) async {
+  //   try {
+  //     if (set == null) {
+  //       return null;
+  //     }
+  //     final docRef = await _firestore.collection(Paths.sets).add(set.toMap());
+  //     return docRef.id;
+  //   } catch (error) {
+  //     print('Error in uploading set ${error.toString()}');
+  //     throw const Failure(message: 'Error uploading set');
+  //   }
+  // }
 
   Future<List<SetModel?>> getSets() async {
     try {

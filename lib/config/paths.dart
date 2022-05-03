@@ -4,6 +4,8 @@ class Paths {
 
   static const String sets = 'sets';
 
+  static const String subsets = 'subsets';
+
   // sub collection
 
 }

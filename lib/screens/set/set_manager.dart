@@ -1,3 +1,4 @@
+import '/models/set_model.dart';
 import '/widgets/custom_textfield.dart';
 import '/enums/nav_item.dart';
 import '/models/sub_set.dart';
@@ -26,7 +27,7 @@ class _SetManagerState extends State<SetManager> {
 
   void submit() {
     if (_formKey.currentState!.validate()) {
-      context.read<SetCubit>().uploadSet();
+      //context.read<SetCubit>().uploadSet();
     }
   }
 
@@ -138,8 +139,17 @@ class _SetManagerState extends State<SetManager> {
                                   : null,
                               //  imageFile: null,
                               onTap: () async {
-                                final subSet = await Navigator.of(context)
-                                    .pushNamed(AddSubset.routeName) as SubSet?;
+                                final subSet =
+                                    await Navigator.of(context).pushNamed(
+                                  AddSubset.routeName,
+                                  arguments: AddSubSetArgs(
+                                    setModel: SetModel(
+                                      cause: state.cause,
+                                      format: state.fileType,
+                                      name: state.name,
+                                    ),
+                                  ),
+                                ) as SubSet?;
                                 print('Subset - $subSet');
 
                                 if (subSet != null) {
@@ -157,28 +167,6 @@ class _SetManagerState extends State<SetManager> {
                           color: Colors.grey.shade500),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 20.0),
-                    SizedBox(
-                      height: 52.0,
-                      width: 200.0,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color(0xff2ED573),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(28.0),
-                          ),
-                        ),
-                        onPressed: submit,
-                        child: const Text(
-                          'SUBMIT',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 17.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20.0),
                   ],
                 ),
               ),

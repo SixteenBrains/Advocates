@@ -1,5 +1,10 @@
+1. add subset data on subset page along with set
+
+
 Features left
 
 1. Notifcation
 2. Cloud Messaging
-3. 
+3. press+hold the microphone icon to input her voice, on home screen
+https://pub.dev/packages/speech_to_text ( package )
+4. Add formate of media on the formate screen

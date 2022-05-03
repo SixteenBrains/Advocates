@@ -65,29 +65,25 @@ class SetCubit extends Cubit<SetState> {
     emit(state.copyWith(subSetdescription: value, status: SetStatus.initial));
   }
 
-  void uploadSet() async {
+  //
+  void uploadSubSet({required SetModel? setModel}) async {
     try {
       emit(state.copyWith(status: SetStatus.loading));
 
-      List<SubSet?> subSets = [];
+      final imageUrl = state.pickedFile != null
+          ? await FileUtil.uploadImageToStorage('subsets', state.pickedFile!)
+          : null;
 
-      for (var subSet in state.subSets) {
-        if (subSet?.imageFile != null) {
-          final imageUrl =
-              await FileUtil.uploadImageToStorage('sets', subSet!.imageFile!);
-          final updatedSubSet = subSet.copyWith(imageUrl: imageUrl);
-          subSets.add(updatedSubSet);
-        }
-      }
-
-      final set = SetModel(
-        subsets: subSets,
-        name: state.name,
+      final subSet = SubSet(
         cause: state.cause,
         format: state.fileType,
+        title: state.subSetTitle,
+        imageUrl: imageUrl,
+        description: state.subSetdescription,
+        destination: state.subSetDestination,
       );
-      // final id =
-      await _setRepository.uploadSet(set);
+
+      await _setRepository.uploadSubSet(setModel: setModel, subSet: subSet);
 
       emit(state.copyWith(status: SetStatus.succuss));
     } on Failure catch (failure) {
@@ -95,3 +91,33 @@ class SetCubit extends Cubit<SetState> {
     }
   }
 }
+
+// void uploadSet() async {
+//   try {
+//     emit(state.copyWith(status: SetStatus.loading));
+
+//     List<SubSet?> subSets = [];
+
+//     for (var subSet in state.subSets) {
+//       if (subSet?.imageFile != null) {
+//         final imageUrl =
+//             await FileUtil.uploadImageToStorage('sets', subSet!.imageFile!);
+//         final updatedSubSet = subSet.copyWith(imageUrl: imageUrl);
+//         subSets.add(updatedSubSet);
+//       }
+//     }
+
+//     final set = SetModel(
+//       subsets: subSets,
+//       name: state.name,
+//       cause: state.cause,
+//       format: state.fileType,
+//     );
+//     // final id =
+//     // await _setRepository.uploadSet(set);
+
+//     emit(state.copyWith(status: SetStatus.succuss));
+//   } on Failure catch (failure) {
+//     emit(state.copyWith(failure: failure, status: SetStatus.error));
+//   }
+// }

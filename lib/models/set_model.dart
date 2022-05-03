@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:equatable/equatable.dart';
 
-import 'package:advocates/models/sub_set.dart';
+import '/models/sub_set.dart';
 import 'package:file_picker/file_picker.dart';
 
 class SetModel extends Equatable {
@@ -16,7 +14,7 @@ class SetModel extends Equatable {
     this.name,
     this.cause,
     this.format,
-    required this.subsets,
+    this.subsets = const [],
   });
 
   SetModel copyWith({
@@ -33,12 +31,33 @@ class SetModel extends Equatable {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  // Map<String, dynamic> toMap() {
+  //   return {
+  //     'name': name,
+  //     'cause': cause,
+  //     'format': EnumToString.convertToString(format),
+  //     'subsets': subsets.map((x) => x?.toMap()).toList(),
+  //   };
+  // }
+
+  // Map<String, dynamic> toMap() {
+  //   return {
+  //     'name': name,
+  //     'cause': cause,
+  //     'format': EnumToString.convertToString(format),
+  //     // 'subsets': subsets.map((x) => x?.toMap()).toList(),
+  //     'subsets': subsets.map((subset) => subset?.subSetId).toList(),
+  //   };
+  // }
+
+  Map<String, dynamic> toMap({required String subSetId}) {
     return {
       'name': name,
       'cause': cause,
       'format': EnumToString.convertToString(format),
-      'subsets': subsets.map((x) => x?.toMap()).toList(),
+      // 'subsets': subsets.map((x) => x?.toMap()).toList(),
+      // 'subsets': subsets.map((subset) => subset?.subSetId).toList(),
+      'subsets': [subSetId]
     };
   }
 
@@ -53,10 +72,10 @@ class SetModel extends Equatable {
     );
   }
 
-  String toJson() => json.encode(toMap());
+  // String toJson() => json.encode(toMap());
 
-  factory SetModel.fromJson(String source) =>
-      SetModel.fromMap(json.decode(source));
+  // factory SetModel.fromJson(String source) =>
+  //     SetModel.fromMap(json.decode(source));
 
   @override
   String toString() {

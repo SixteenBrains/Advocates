@@ -55,7 +55,7 @@ class CustomRouter {
         return NotificationsSettings.route();
 
       case AddSubset.routeName:
-        return AddSubset.route();
+        return AddSubset.route(args: settings.arguments as AddSubSetArgs);
 
       default:
         return _errorRoute();

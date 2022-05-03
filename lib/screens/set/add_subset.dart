@@ -1,3 +1,5 @@
+import 'package:advocates/blocs/auth/auth_bloc.dart';
+
 import '/widgets/loading_indicator.dart';
 import '/models/set_model.dart';
 import '/widgets/custom_textfield.dart';
@@ -24,8 +26,8 @@ class AddSubset extends StatefulWidget {
       settings: const RouteSettings(name: routeName),
       builder: (_) => BlocProvider(
         create: (context) => SetCubit(
-          setRepository: context.read<SetRepository>(),
-        ),
+            setRepository: context.read<SetRepository>(),
+            authBloc: context.read<AuthBloc>()),
         child: AddSubset(setModel: args.setModel),
       ),
     );

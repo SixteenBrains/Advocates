@@ -3,29 +3,29 @@ part of 'dashboard_bloc.dart';
 enum DashBoardStatus { initial, loading, succuss, error }
 
 class DashBoardState extends Equatable {
-  final List<SetModel?> sets;
+  final List<SubSet?> subSets;
   final Failure failure;
   final DashBoardStatus status;
 
   const DashBoardState({
-    required this.sets,
+    required this.subSets,
     required this.failure,
     required this.status,
   });
 
   factory DashBoardState.initial() => const DashBoardState(
-      sets: [], failure: Failure(), status: DashBoardStatus.initial);
+      subSets: [], failure: Failure(), status: DashBoardStatus.initial);
 
   @override
-  List<Object> get props => [sets, failure, status];
+  List<Object> get props => [subSets, failure, status];
 
   DashBoardState copyWith({
-    List<SetModel?>? sets,
+    List<SubSet?>? subSets,
     Failure? failure,
     DashBoardStatus? status,
   }) {
     return DashBoardState(
-      sets: sets ?? this.sets,
+      subSets: subSets ?? this.subSets,
       failure: failure ?? this.failure,
       status: status ?? this.status,
     );
@@ -33,5 +33,5 @@ class DashBoardState extends Equatable {
 
   @override
   String toString() =>
-      'DashboardState(sets: $sets, failure: $failure, status: $status)';
+      'DashboardState(subSets: $subSets, failure: $failure, status: $status)';
 }

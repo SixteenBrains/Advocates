@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:advocates/blocs/auth/auth_bloc.dart';
+
 import '/models/set_model.dart';
 import '/models/sub_set.dart';
 import '/repositories/set/set_repository.dart';
@@ -12,8 +14,12 @@ part 'set_state.dart';
 
 class SetCubit extends Cubit<SetState> {
   final SetRepository _setRepository;
-  SetCubit({required SetRepository setRepository})
-      : _setRepository = setRepository,
+  final AuthBloc _authBloc;
+  SetCubit({
+    required SetRepository setRepository,
+    required AuthBloc authBloc,
+  })  : _setRepository = setRepository,
+        _authBloc = authBloc,
         super(SetState.initial());
 
   void nameChanged(String value) {
@@ -81,6 +87,7 @@ class SetCubit extends Cubit<SetState> {
         imageUrl: imageUrl,
         description: state.subSetdescription,
         destination: state.subSetDestination,
+        author: _authBloc.state.user,
       );
 
       await _setRepository.uploadSubSet(setModel: setModel, subSet: subSet);

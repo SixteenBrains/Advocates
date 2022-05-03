@@ -1,5 +1,4 @@
-import 'package:advocates/models/sub_set.dart';
-
+import '/models/sub_set.dart';
 import '/config/paths.dart';
 import '/models/failure.dart';
 import '/models/set_model.dart';
@@ -39,7 +38,42 @@ class SetRepository extends BaseSetRepo {
     }
   }
 
-  // Future<String?> uploadSet(SetModel? set) async {
+  Future<List<SetModel?>> getSets() async {
+    try {
+      final setsSnaps = await _firestore.collection(Paths.sets).get();
+
+      List<SetModel?> sets = [];
+
+      for (var item in setsSnaps.docs) {
+        sets.add(await SetModel.fromDocument(item));
+      }
+
+      return sets;
+    } catch (error) {
+      print('Error getting sets ${error.toString()}');
+      throw const Failure(message: 'Error getting sets');
+    }
+  }
+
+  Future<List<SubSet?>> getSubSets() async {
+    try {
+      final subSetsSnaps = await _firestore.collection(Paths.subsets).get();
+
+      List<SubSet?> subSets = [];
+
+      for (var item in subSetsSnaps.docs) {
+        subSets.add(await SubSet.fromDocument(item));
+      }
+
+      return subSets;
+    } catch (error) {
+      print('Error getting sets ${error.toString()}');
+      throw const Failure(message: 'Error getting sets');
+    }
+  }
+}
+
+// Future<String?> uploadSet(SetModel? set) async {
   //   try {
   //     if (set == null) {
   //       return null;
@@ -51,16 +85,3 @@ class SetRepository extends BaseSetRepo {
   //     throw const Failure(message: 'Error uploading set');
   //   }
   // }
-
-  Future<List<SetModel?>> getSets() async {
-    try {
-      final setsSnaps = await _firestore.collection(Paths.sets).get();
-      return setsSnaps.docs
-          .map((setSnap) => SetModel.fromMap(setSnap.data()))
-          .toList();
-    } catch (error) {
-      print('Error getting sets ${error.toString()}');
-      throw const Failure(message: 'Error getting sets');
-    }
-  }
-}

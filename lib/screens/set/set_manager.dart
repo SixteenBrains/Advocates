@@ -1,3 +1,5 @@
+import 'package:advocates/blocs/auth/auth_bloc.dart';
+
 import '/models/set_model.dart';
 import '/widgets/custom_textfield.dart';
 import '/enums/nav_item.dart';
@@ -147,6 +149,8 @@ class _SetManagerState extends State<SetManager> {
                                       cause: state.cause,
                                       format: state.fileType,
                                       name: state.name,
+                                      author:
+                                          context.read<AuthBloc>().state.user,
                                     ),
                                   ),
                                 ) as SubSet?;

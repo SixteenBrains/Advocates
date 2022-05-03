@@ -29,15 +29,15 @@ class SwitchScreen extends StatelessWidget {
           create: (context) => DashboardBloc(
             authBloc: context.read<AuthBloc>(),
             setRepository: context.read<SetRepository>(),
-          )..add(LoadSets()),
+          )..add(LoadSubSets()),
           child: const DashBoard(),
         );
 
       case NavItem.sets:
         return BlocProvider<SetCubit>(
           create: (context) => SetCubit(
-            setRepository: context.read<SetRepository>(),
-          ),
+              setRepository: context.read<SetRepository>(),
+              authBloc: context.read<AuthBloc>()),
           child: const SetManager(),
         );
 

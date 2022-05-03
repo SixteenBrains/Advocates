@@ -1,6 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
 
+import '/config/paths.dart';
+import '/models/app_user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
@@ -14,6 +16,7 @@ class SubSet extends Equatable {
   final File? imageFile;
   final String? cause;
   final FileType? format;
+  final AppUser? author;
 
   const SubSet({
     this.subSetId,
@@ -24,6 +27,7 @@ class SubSet extends Equatable {
     this.imageFile,
     required this.cause,
     required this.format,
+    this.author,
   });
 
   SubSet copyWith({
@@ -35,6 +39,7 @@ class SubSet extends Equatable {
     File? imageFile,
     String? cause,
     FileType? format,
+    AppUser? author,
   }) {
     return SubSet(
       subSetId: subSetId ?? this.subSetId,
@@ -45,6 +50,7 @@ class SubSet extends Equatable {
       imageFile: imageFile ?? this.imageFile,
       cause: cause ?? this.cause,
       format: format ?? this.format,
+      author: author ?? this.author,
     );
   }
 
@@ -57,24 +63,37 @@ class SubSet extends Equatable {
       'imageUrl': imageUrl,
       'cause': cause,
       'format': EnumToString.convertToString(format),
+      'author':
+          FirebaseFirestore.instance.collection(Paths.users).doc(author?.uid)
     };
   }
 
-  factory SubSet.fromMap(Map<String, dynamic> map) {
+  static Future<SubSet?> fromDocument(DocumentSnapshot? snap) async {
+    if (snap == null) {
+      return null;
+    }
+
+    final data = snap.data() as Map?;
+    if (data == null) {
+      return null;
+    }
+
+    final authorRef = data['author'] as DocumentReference?;
+    final authorSnap = await authorRef?.get();
+
     return SubSet(
-      subSetId: map['subSetId'],
-      title: map['title'],
-      destination: map['destination'],
-      description: map['description'],
-      imageUrl: map['imageUrl'],
-      cause: map['cause'],
-      format: map['format'],
+      author: AppUser.fromDocument(authorSnap),
+      cause: data['cause'],
+      subSetId: snap.id,
+      title: data['title'],
+      destination: data['destination'],
+      description: data['description'],
+      imageUrl: data['imageUrl'],
+      format: data['format'] != null
+          ? EnumToString.fromString(FileType.values, data['format'])
+          : null,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory SubSet.fromJson(String source) => SubSet.fromMap(json.decode(source));
 
   @override
   String toString() {

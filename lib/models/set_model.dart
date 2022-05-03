@@ -1,3 +1,6 @@
+import 'package:advocates/config/paths.dart';
+import 'package:advocates/models/app_user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:equatable/equatable.dart';
 
@@ -9,12 +12,14 @@ class SetModel extends Equatable {
   final String? cause;
   final FileType? format;
   final List<SubSet?> subsets;
+  final AppUser? author;
 
   const SetModel({
     this.name,
     this.cause,
     this.format,
     this.subsets = const [],
+    this.author,
   });
 
   SetModel copyWith({
@@ -22,12 +27,14 @@ class SetModel extends Equatable {
     String? cause,
     FileType? format,
     List<SubSet?>? subsets,
+    AppUser? author,
   }) {
     return SetModel(
       name: name ?? this.name,
       cause: cause ?? this.cause,
       format: format ?? this.format,
       subsets: subsets ?? this.subsets,
+      author: author ?? this.author,
     );
   }
 
@@ -57,20 +64,53 @@ class SetModel extends Equatable {
       'format': EnumToString.convertToString(format),
       // 'subsets': subsets.map((x) => x?.toMap()).toList(),
       // 'subsets': subsets.map((subset) => subset?.subSetId).toList(),
-      'subsets': [subSetId]
+      'subsets': [subSetId],
+      'author':
+          FirebaseFirestore.instance.collection(Paths.users).doc(author?.uid)
     };
   }
 
-  factory SetModel.fromMap(Map<String, dynamic> map) {
+  static Future<SetModel?> fromDocument(DocumentSnapshot? snap) async {
+    if (snap == null) {
+      return null;
+    }
+
+    final data = snap.data() as Map?;
+    if (data == null) {
+      return null;
+    }
+
+    List<SubSet?> subSets = [];
+
+    final subSetsList =
+        data['subsets'] != null ? List.from(data['subsets']) : [];
+
+    for (var item in subSetsList) {
+      final subSetSnap = await FirebaseFirestore.instance
+          .collection(Paths.subsets)
+          .doc(item)
+          .get();
+      subSets.add(await SubSet.fromDocument(subSetSnap));
+    }
+
     return SetModel(
-      name: map['name'],
-      cause: map['cause'],
-      format: EnumToString.fromString(FileType.values, map['format']),
-      subsets: map['subsets'] != null
-          ? List<SubSet?>.from(map['subsets']?.map((x) => SubSet.fromMap(x)))
-          : [],
+      name: data['name'],
+      cause: data['cause'],
+      format: EnumToString.fromString(FileType.values, data['format']),
+      subsets: subSets,
     );
   }
+
+  // factory SetModel.fromMap(Map<String, dynamic> map) {
+  //   return SetModel(
+  //     name: map['name'],
+  //     cause: map['cause'],
+  //     format: EnumToString.fromString(FileType.values, map['format']),
+  //     subsets: map['subsets'] != null
+  //         ? List<SubSet?>.from(map['subsets']?.map((x) => SubSet.fromMap(x)))
+  //         : [],
+  //   );
+  // }
 
   // String toJson() => json.encode(toMap());
 

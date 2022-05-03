@@ -1,6 +1,6 @@
+import '/models/sub_set.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/models/failure.dart';
-import '/models/set_model.dart';
 import '/repositories/set/set_repository.dart';
 
 import 'package:bloc/bloc.dart';
@@ -20,13 +20,13 @@ class DashboardBloc extends Bloc<DashboardEvent, DashBoardState> {
         _setRepository = setRepository,
         super(DashBoardState.initial()) {
     print(_authBloc.state.user);
-    on<LoadSets>((event, emit) async {
+    on<LoadSubSets>((event, emit) async {
       try {
         emit(state.copyWith(status: DashBoardStatus.loading));
 
-        final sets = await _setRepository.getSets();
+        final subSets = await _setRepository.getSubSets();
 
-        emit(state.copyWith(status: DashBoardStatus.succuss, sets: sets));
+        emit(state.copyWith(status: DashBoardStatus.succuss, subSets: subSets));
       } on Failure catch (failure) {
         emit(state.copyWith(status: DashBoardStatus.error, failure: failure));
       }

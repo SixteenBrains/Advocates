@@ -1,4 +1,7 @@
+Add user own set screen with 1 subset image as image of set
+Add subset on dashboard for other users
 1. add subset data on subset page along with set
+
 
 
 Features left

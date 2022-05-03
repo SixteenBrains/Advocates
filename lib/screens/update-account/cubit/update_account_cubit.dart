@@ -1,5 +1,4 @@
 import '/blocs/auth/auth_bloc.dart';
-
 import '/models/education.dart';
 import '/models/location.dart';
 import '/models/personal.dart';

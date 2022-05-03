@@ -1,5 +1,4 @@
-import 'package:advocates/widgets/show_snackbar.dart';
-
+import '/widgets/show_snackbar.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/widgets/loading_indicator.dart';
 import '/repositories/profile/profile_repository.dart';

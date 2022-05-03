@@ -1,13 +1,30 @@
-import 'package:advocates/widgets/show_snackbar.dart';
+import '/enums/enums.dart';
+import '/enums/share_platform.dart';
+import '/services/social_share_service.dart';
+import '/widgets/show_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:flutter_share_me/flutter_share_me.dart' as share;
 
 class InviteScreen extends StatelessWidget {
   const InviteScreen({Key? key}) : super(key: key);
 
-  void invite() {
-    Share.share('check out this awesome app https://example.com', subject: '');
+  void invite({
+    required SharePlatform platform,
+    required String? inviteUrl,
+    required String txt,
+    required share.FileType mediaType,
+  }) {
+    SocialShareService.socialShare(
+      platform,
+      inviteUrl: inviteUrl,
+      text: txt,
+      mediaType: mediaType,
+    );
+    // SocialShareService.socialShare(platform,
+    //     storyUrl: inviteUrl, text: txt, mediaType: mediaType);
+
+    // Share.share('check out this awesome app https://example.com', subject: '');
   }
 
   @override
@@ -79,12 +96,22 @@ class InviteScreen extends StatelessWidget {
                 const SizedBox(height: 30.0),
                 OptionButtons(
                   label: 'MESSENGER',
-                  onTap: invite,
+                  onTap: () => invite(
+                    platform: SharePlatform.messenger,
+                    inviteUrl: 'https://example.com',
+                    txt: 'Install the app from my code https://example.com',
+                    mediaType: share.FileType.image,
+                  ),
                 ),
                 const SizedBox(height: 10.0),
                 OptionButtons(
                   label: 'WHATSAPP',
-                  onTap: invite,
+                  onTap: () => invite(
+                    platform: SharePlatform.whatsapp,
+                    inviteUrl: 'https://example.com',
+                    txt: 'Install the app from my code https://example.com',
+                    mediaType: share.FileType.image,
+                  ),
                 ),
                 const SizedBox(height: 20.0),
                 SizedBox(

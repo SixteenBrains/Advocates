@@ -43,7 +43,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     ]);
     _createChewieController();
     setState(() {});
-    _videoPlayerController.play();
+    // _videoPlayerController.play();
   }
 
   void _createChewieController() {

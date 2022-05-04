@@ -1,1 +1,5 @@
-enum MediaType { image, video, none }
+enum MediaType {
+  gifs,
+  images,
+  videos,
+}

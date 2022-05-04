@@ -1,10 +1,14 @@
-import 'package:file_picker/file_picker.dart';
+import 'package:advocates/enums/enums.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 
+import '/widgets/loading_indicator.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/repositories/profile/profile_repository.dart';
 import '/screens/account/cubit/account_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+const List<String> formateAvailable = ['GIFs', 'IMAGES', 'VIDEOS'];
 
 class FormateScreen extends StatelessWidget {
   static const String routeName = '/formate';
@@ -17,7 +21,7 @@ class FormateScreen extends StatelessWidget {
         create: (context) => AccountCubit(
           profileRepository: context.read<ProfileRepository>(),
           authBloc: context.read<AuthBloc>(),
-        ),
+        )..getSelectedMedia(),
         child: const FormateScreen(),
       ),
     );
@@ -50,14 +54,18 @@ class FormateScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 10.0,
-          ),
-          child: SingleChildScrollView(
+      body: BlocConsumer<AccountCubit, AccountState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state.status == AccountStatus.loading) {
+            return const LoadingIndicator();
+          }
+          print('Format ${state.format}');
+          return Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 10.0,
+            ),
             child: Column(
               children: [
                 const SizedBox(height: 50.0),
@@ -85,27 +93,60 @@ class FormateScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 40.0),
-                ChooseMediaFormate(
-                  label: 'GIFs',
-                  onTap: () => context
-                      .read<AccountCubit>()
-                      .addMediaFormat(FileType.image),
+                const SizedBox(height: 30.0),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: MediaType.values.length,
+                    //   formateAvailable.length,
+                    itemBuilder: (context, index) {
+                      final format =
+                          EnumToString.convertToString(MediaType.values[index])
+                              .toUpperCase();
+                      // formateAvailable[index];
+
+                      final isSelected =
+                          state.format == MediaType.values[index];
+
+                      print('Is selected $isSelected');
+                      final enumValue =
+                          EnumToString.fromString(MediaType.values, format) ??
+                              MediaType.images;
+                      return ChooseMediaFormate(
+                        isSelected: isSelected,
+                        label: format.toString(),
+                        onTap: () => context
+                            .read<AccountCubit>()
+                            .addMediaFormat(enumValue),
+                      );
+                    },
+                  ),
                 ),
-                const SizedBox(height: 10.0),
-                ChooseMediaFormate(
-                  label: 'IMAGES',
-                  onTap: () => context
-                      .read<AccountCubit>()
-                      .addMediaFormat(FileType.image),
-                ),
-                const SizedBox(height: 10.0),
-                ChooseMediaFormate(
-                  label: 'VIDEOS',
-                  onTap: () => context
-                      .read<AccountCubit>()
-                      .addMediaFormat(FileType.video),
-                ),
+                // ChooseMediaFormate(
+                //   bgColor: Colors.white,
+                //   textColor: Colors.black,
+                //   label: 'GIFs',
+                //   onTap: () => context
+                //       .read<AccountCubit>()
+                //       .addMediaFormat(FileType.image),
+                // ),
+                // const SizedBox(height: 10.0),
+                // ChooseMediaFormate(
+                //   bgColor: Colors.white,
+                //   textColor: Colors.black,
+                //   label: 'IMAGES',
+                //   onTap: () => context
+                //       .read<AccountCubit>()
+                //       .addMediaFormat(FileType.image),
+                // ),
+                // const SizedBox(height: 10.0),
+                // ChooseMediaFormate(
+                //   bgColor: Colors.white,
+                //   textColor: Colors.black,
+                //   label: 'VIDEOS',
+                //   onTap: () => context
+                //       .read<AccountCubit>()
+                //       .addMediaFormat(FileType.video),
+                // ),
                 const SizedBox(height: 10.0),
                 TextButton(
                   onPressed: () {},
@@ -119,8 +160,8 @@ class FormateScreen extends StatelessWidget {
                 )
               ],
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -129,30 +170,36 @@ class FormateScreen extends StatelessWidget {
 class ChooseMediaFormate extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
+  final bool isSelected;
 
   const ChooseMediaFormate({
     Key? key,
     required this.label,
     required this.onTap,
+    this.isSelected = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 70.0,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.grey.shade300),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 7.0),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          height: 70.0,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.green : Colors.white,
+            border: Border.all(color: Colors.grey.shade300),
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Center(
+            child: Text(
+              label,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: isSelected ? Colors.white : Colors.black,
+              ),
             ),
           ),
         ),

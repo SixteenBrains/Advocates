@@ -1,12 +1,9 @@
+import 'package:advocates/enums/enums.dart';
 import 'package:enum_to_string/enum_to_string.dart';
-import 'package:file_picker/file_picker.dart';
-
 import '/models/app_user.dart';
-
 import '/config/paths.dart';
 import '/models/failure.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'base_profile.repo.dart';
 
 class ProfileRepository extends BaseProfileRepository {
@@ -45,20 +42,36 @@ class ProfileRepository extends BaseProfileRepository {
     }
   }
 
+  // Formare section
+
   Future<void> addMediaFormat({
     required String? userId,
-    required FileType format,
+    required MediaType mediaType,
   }) async {
     try {
       if (userId == null) {
         return;
       }
-      await _firestore
-          .collection(Paths.users)
-          .doc(userId)
-          .update({'format': EnumToString.convertToString(format)});
+      await _firestore.collection(Paths.users).doc(userId).update(
+          {'format': EnumToString.convertToString(mediaType).toUpperCase()});
     } catch (error) {
       print('Error in updating format ${error.toString()}');
+    }
+  }
+
+  Future<String?> getSelectedMediaFormat({required String? userId}) async {
+    try {
+      if (userId == null) {
+        return null;
+      }
+      final userSnap =
+          await _firestore.collection(Paths.users).doc(userId).get();
+      final user = AppUser.fromDocument(userSnap);
+
+      return user?.format;
+    } catch (error) {
+      print('Error getting selected media format ${error.toString()}');
+      throw (const Failure(message: 'Error in getting format'));
     }
   }
 }

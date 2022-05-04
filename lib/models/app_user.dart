@@ -16,7 +16,8 @@ class AppUser extends Equatable {
   final Profession? profession;
   final Location? location;
   final Education? education;
-  final Preferences? preferences;
+  final String? format;
+  // final Preferences? preferences;
   final DateTime? createdAt;
 
   const AppUser({
@@ -29,7 +30,8 @@ class AppUser extends Equatable {
     this.location,
     this.education,
     this.createdAt,
-    this.preferences,
+    this.format,
+    // this.preferences,
   });
 
   AppUser copyWith({
@@ -43,6 +45,7 @@ class AppUser extends Equatable {
     Education? education,
     DateTime? createdAt,
     Preferences? preferences,
+    String? format,
   }) {
     return AppUser(
       email: email ?? this.email,
@@ -54,7 +57,8 @@ class AppUser extends Equatable {
       location: location ?? this.location,
       education: education ?? this.education,
       createdAt: createdAt ?? this.createdAt,
-      preferences: preferences ?? this.preferences,
+      format: format ?? this.format,
+      // preferences: preferences ?? this.preferences,
     );
   }
 
@@ -69,7 +73,8 @@ class AppUser extends Equatable {
       'location': location?.toMap(),
       'education': education?.toMap(),
       'createdAt': createdAt?.millisecondsSinceEpoch,
-      'preferences': preferences?.toMap(),
+      //'preferences': preferences?.toMap(),
+      'format': format ?? 'IMAGES',
     };
   }
 
@@ -119,6 +124,7 @@ class AppUser extends Equatable {
       createdAt: data['createdAt'] != null
           ? DateTime.fromMillisecondsSinceEpoch(data['createdAt'])
           : null,
+      format: data['format'],
     );
   }
 
@@ -139,6 +145,7 @@ class AppUser extends Equatable {
       location,
       education,
       createdAt,
+      format,
     ];
   }
 }

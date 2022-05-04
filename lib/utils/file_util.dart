@@ -8,6 +8,13 @@ import 'package:uuid/uuid.dart';
 class FileUtil {
   static Future<File?> pickedFile(FileType fileType) async {
     try {
+      //  add custom file picker ofot gfg
+
+//       FilePickerResult? result = await FilePicker.platform.pickFiles(
+//   type: FileType.custom,
+//   allowedExtensions: ['jpg', 'pdf', 'doc'],
+// );
+
       File? pickedFile;
       FilePickerResult? result = await FilePicker.platform.pickFiles(
           // allowedExtensions: [

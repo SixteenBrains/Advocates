@@ -1,6 +1,5 @@
 import 'dart:io';
-import 'package:advocates/blocs/auth/auth_bloc.dart';
-
+import '/blocs/auth/auth_bloc.dart';
 import '/models/set_model.dart';
 import '/models/sub_set.dart';
 import '/repositories/set/set_repository.dart';

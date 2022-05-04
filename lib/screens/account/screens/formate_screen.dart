@@ -1,14 +1,11 @@
-import 'package:advocates/enums/enums.dart';
+import '/enums/enums.dart';
 import 'package:enum_to_string/enum_to_string.dart';
-
 import '/widgets/loading_indicator.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/repositories/profile/profile_repository.dart';
 import '/screens/account/cubit/account_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-const List<String> formateAvailable = ['GIFs', 'IMAGES', 'VIDEOS'];
 
 class FormateScreen extends StatelessWidget {
   static const String routeName = '/formate';

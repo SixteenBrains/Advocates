@@ -1,7 +1,6 @@
-import 'package:advocates/models/preferences.dart';
+import '/models/preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-
 import '/models/education.dart';
 import '/models/location.dart';
 import '/models/personal.dart';
@@ -17,6 +16,7 @@ class AppUser extends Equatable {
   final Location? location;
   final Education? education;
   final String? format;
+  final List<String?> causes;
   // final Preferences? preferences;
   final DateTime? createdAt;
 
@@ -31,6 +31,7 @@ class AppUser extends Equatable {
     this.education,
     this.createdAt,
     this.format,
+    this.causes = const [],
     // this.preferences,
   });
 
@@ -46,6 +47,7 @@ class AppUser extends Equatable {
     DateTime? createdAt,
     Preferences? preferences,
     String? format,
+    List<String?>? causes,
   }) {
     return AppUser(
       email: email ?? this.email,
@@ -58,6 +60,7 @@ class AppUser extends Equatable {
       education: education ?? this.education,
       createdAt: createdAt ?? this.createdAt,
       format: format ?? this.format,
+      causes: causes ?? this.causes,
       // preferences: preferences ?? this.preferences,
     );
   }
@@ -72,9 +75,12 @@ class AppUser extends Equatable {
       'profession': profession?.toMap(),
       'location': location?.toMap(),
       'education': education?.toMap(),
-      'createdAt': createdAt?.millisecondsSinceEpoch,
+      'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
+
+      /// createdAt?.millisecondsSinceEpoch,
       //'preferences': preferences?.toMap(),
       'format': format ?? 'IMAGES',
+      'causes': causes,
     };
   }
 
@@ -121,16 +127,15 @@ class AppUser extends Equatable {
       education: data['education'] != null
           ? Education.fromMap(data['education'])
           : null,
-      createdAt: data['createdAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(data['createdAt'])
-          : null,
+      createdAt: (data['createdAt'] as Timestamp?)?.toDate(),
       format: data['format'],
+      causes: data['causes'] != null ? List.from(data['causes']) : [],
     );
   }
 
   @override
   String toString() {
-    return 'AppUser(email: $email, name: $name, uid: $uid, profilePic: $profilePic, personal: $personal, profession: $profession, location: $location, education: $education, createdAt: $createdAt)';
+    return 'AppUser(email: $email, name: $name, uid: $uid, profilePic: $profilePic, personal: $personal, profession: $profession, location: $location, education: $education, createdAt: $createdAt, causes: $causes)';
   }
 
   @override
@@ -146,6 +151,7 @@ class AppUser extends Equatable {
       education,
       createdAt,
       format,
+      causes,
     ];
   }
 }

@@ -1,6 +1,5 @@
-import 'package:advocates/enums/enums.dart';
+import '/enums/enums.dart';
 import 'package:enum_to_string/enum_to_string.dart';
-
 import '/blocs/auth/auth_bloc.dart';
 import '/models/failure.dart';
 import '/repositories/profile/profile_repository.dart';
@@ -20,6 +19,52 @@ class AccountCubit extends Cubit<AccountState> {
   })  : _profileRepository = profileRepository,
         _authBloc = authBloc,
         super(AccountState.initial());
+
+  // cause
+
+  void addCause(String cause) {
+    try {
+      //emit(state.copyWith(status: AccountStatus.loading));
+      final List<String> causes = List.from(state.causes)..add(cause);
+      emit(state.copyWith(causes: causes));
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: AccountStatus.error));
+    }
+  }
+
+  void submitCause() async {
+    try {
+      emit(state.copyWith(status: AccountStatus.loading));
+      await _profileRepository.uploadCauses(
+          userId: _authBloc.state.user?.uid, causes: state.causes);
+      emit(state.copyWith(status: AccountStatus.submitted));
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: AccountStatus.error));
+    }
+  }
+
+  void removeCause(String cause) async {
+    try {
+      emit(state.copyWith(status: AccountStatus.loading));
+      final List<String> causes = List.from(state.causes)..remove(cause);
+      emit(state.copyWith(causes: causes, status: AccountStatus.succuss));
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: AccountStatus.error));
+    }
+  }
+
+  void loadSelectedCauses() async {
+    try {
+      emit(state.copyWith(status: AccountStatus.loading));
+      final causes = await _profileRepository.getSelectedCauses(
+          userId: _authBloc.state.user?.uid);
+      emit(state.copyWith(causes: causes, status: AccountStatus.succuss));
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: AccountStatus.error));
+    }
+  }
+
+  // format
 
   void addMediaFormat(MediaType format) async {
     try {

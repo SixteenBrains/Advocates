@@ -1,6 +1,6 @@
 part of 'account_cubit.dart';
 
-enum AccountStatus { initial, loading, succuss, error }
+enum AccountStatus { initial, loading, succuss, submitted, error }
 
 class AccountState extends Equatable {
   final FileType? fileType;

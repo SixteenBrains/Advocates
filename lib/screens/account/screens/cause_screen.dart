@@ -1,18 +1,36 @@
+import '/widgets/options_button.dart';
+import '/blocs/auth/auth_bloc.dart';
+import '/repositories/profile/profile_repository.dart';
+import '/constants/constants.dart';
+import '/screens/account/cubit/account_cubit.dart';
+import '/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CauseScreen extends StatelessWidget {
   static const String routeName = '/cause';
   const CauseScreen({Key? key}) : super(key: key);
 
+  void _submitCauses(BuildContext context) {
+    context.read<AccountCubit>().submitCause();
+  }
+
   static Route route() {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
-      builder: (_) => const CauseScreen(),
+      builder: (_) => BlocProvider(
+        create: (context) => AccountCubit(
+          authBloc: context.read<AuthBloc>(),
+          profileRepository: context.read<ProfileRepository>(),
+        )..loadSelectedCauses(),
+        child: const CauseScreen(),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final _canvas = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: const Color(0xffF7F7F7),
       appBar: AppBar(
@@ -38,14 +56,21 @@ class CauseScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 10.0,
-          ),
-          child: SingleChildScrollView(
+      body: BlocConsumer<AccountCubit, AccountState>(
+        listener: (context, state) {
+          if (state.status == AccountStatus.submitted) {
+            Navigator.of(context).pop();
+          }
+        },
+        builder: (context, state) {
+          if (state.status == AccountStatus.loading) {
+            return const LoadingIndicator();
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 10.0,
+            ),
             child: Column(
               children: [
                 const SizedBox(height: 50.0),
@@ -57,9 +82,9 @@ class CauseScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10.0),
-                const Text(
-                  '{ 0 }',
-                  style: TextStyle(
+                Text(
+                  '{ ${state.causes.length} }',
+                  style: const TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.w900,
                   ),
@@ -74,23 +99,31 @@ class CauseScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 40.0),
-                OptionButtons(
-                  label: 'ABUSE',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 10.0),
-                OptionButtons(
-                  label: 'ANIMAL',
-                  onTap: () {},
-                ),
-                const SizedBox(height: 10.0),
-                OptionButtons(
-                  label: 'CLIMATE',
-                  onTap: () {},
+                SizedBox(
+                  height: _canvas.height * 0.35,
+                  child: ListView.builder(
+                    itemCount: causes.length,
+                    itemBuilder: (context, index) {
+                      final cause = causes[index];
+                      final isSelected = state.causes.contains(cause);
+
+                      return OptionButtons(
+                        label: cause,
+                        isSelected: isSelected,
+                        onTap: () {
+                          if (isSelected) {
+                            context.read<AccountCubit>().removeCause(cause);
+                          } else {
+                            context.read<AccountCubit>().addCause(cause);
+                          }
+                        },
+                      );
+                    },
+                  ),
                 ),
                 const SizedBox(height: 15.0),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).pop(),
                   child: Text(
                     'SKIP',
                     style: TextStyle(
@@ -112,46 +145,14 @@ class CauseScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () => _submitCauses(context),
                     child: const Text('CLOSE'),
                   ),
                 ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class OptionButtons extends StatelessWidget {
-  final String label;
-  final VoidCallback onTap;
-
-  const OptionButtons({
-    Key? key,
-    required this.label,
-    required this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 70.0,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Center(
-        child: Text(
-          label,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+          );
+        },
       ),
     );
   }

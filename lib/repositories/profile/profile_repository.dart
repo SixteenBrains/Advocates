@@ -1,4 +1,4 @@
-import 'package:advocates/enums/enums.dart';
+import '/enums/enums.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import '/models/app_user.dart';
 import '/config/paths.dart';
@@ -72,6 +72,35 @@ class ProfileRepository extends BaseProfileRepository {
     } catch (error) {
       print('Error getting selected media format ${error.toString()}');
       throw (const Failure(message: 'Error in getting format'));
+    }
+  }
+
+  Future<void> uploadCauses(
+      {required String? userId, required List<String?> causes}) async {
+    try {
+      if (userId == null) {
+        return;
+      }
+      await _firestore
+          .collection(Paths.users)
+          .doc(userId)
+          .update({'causes': causes});
+    } catch (error) {
+      print('Error uploading causes ${error.toString()}');
+      throw const Failure(message: 'Error in uploading causes');
+    }
+  }
+
+  Future<List<String?>> getSelectedCauses({required String? userId}) async {
+    try {
+      final userSnap =
+          await _firestore.collection(Paths.users).doc(userId).get();
+      final user = AppUser.fromDocument(userSnap);
+
+      return user?.causes ?? [];
+    } catch (error) {
+      print('Error in getting causes ${error.toString()}');
+      throw const Failure(message: 'Error in getting causes');
     }
   }
 }

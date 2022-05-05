@@ -31,7 +31,14 @@ class _DescriptionTextWidgetState extends State<DescriptionTextWidget> {
   @override
   Widget build(BuildContext context) {
     return secondHalf.isEmpty
-        ? Text(firstHalf)
+        ? Text(
+            firstHalf,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+              fontSize: 16.0,
+            ),
+          )
         : Column(
             children: <Widget>[
               Text(

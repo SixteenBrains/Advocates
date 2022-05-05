@@ -139,6 +139,18 @@ class SetCubit extends Cubit<SetState> {
       ),
     );
   }
+
+  void deleteSet({required String? setId}) async {
+    try {
+      if (setId == null) {
+        return;
+      }
+      await _setRepository.deleteSet(setId: setId);
+      loadUserSets();
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: SetStatus.error));
+    }
+  }
 }
 
 // void uploadSet() async {

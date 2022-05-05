@@ -81,9 +81,15 @@ class UserSetsScreen extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: state.sets.length,
                         itemBuilder: (context, index) {
+                          final setModel = state.sets[index];
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 16.0),
-                            child: SetCard(setModel: state.sets[index]),
+                            child: SetCard(
+                              setModel: setModel,
+                              onDelete: () => context
+                                  .read<SetCubit>()
+                                  .deleteSet(setId: setModel?.setId),
+                            ),
                           );
                         },
                       ),

@@ -3,7 +3,6 @@ import '/config/paths.dart';
 import '/models/failure.dart';
 import '/models/set_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '/repositories/set/base_set_repo.dart';
 
 class SetRepository extends BaseSetRepo {
@@ -55,20 +54,32 @@ class SetRepository extends BaseSetRepo {
     }
   }
 
-  Future<List<SubSet?>> getSubSets() async {
+  Future<List<Future<SubSet?>>> getSubSets() async {
     try {
+      // List<SubSet?> subSets = [];
       final subSetsSnaps = await _firestore.collection(Paths.subsets).get();
 
-      List<SubSet?> subSets = [];
+      print('sub serts -- $subSetsSnaps');
 
-      for (var item in subSetsSnaps.docs) {
-        subSets.add(await SubSet.fromDocument(item));
-      }
+      return subSetsSnaps.docs.map((doc) => SubSet.fromDocument(doc)).toList();
 
-      return subSets;
+      // for (var item in subSetsSnaps.docs) {
+      //   subSets.add(await SubSet.fromDocument(item));
+      // }
+
+      //return subSets;
     } catch (error) {
       print('Error getting sets ${error.toString()}');
       throw const Failure(message: 'Error getting sets');
+    }
+  }
+
+  Future<void> deleteSet({required String? setId}) async {
+    try {
+      await _firestore.collection(Paths.sets).doc(setId).delete();
+    } catch (error) {
+      print('Error in deleting ${error.toString()}');
+      throw const Failure(message: 'Error in deleting set');
     }
   }
 

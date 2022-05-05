@@ -13,6 +13,7 @@ class SubSetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('cause -- ${subSet?.setModel?.cause}');
     final List<double> stops =
         subSet?.mediaFormat == MediaFormat.images ? [0.2, 0.7] : [0.2, 0.5];
     return Container(

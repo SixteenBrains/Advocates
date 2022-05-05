@@ -16,7 +16,7 @@ class SetModel extends Equatable {
   final AppUser? author;
 
   const SetModel({
-    required this.setId,
+    this.setId,
     this.name,
     this.cause,
     this.mediaFormat,
@@ -74,44 +74,109 @@ class SetModel extends Equatable {
     };
   }
 
-  static Future<SetModel?> fromDocument(DocumentSnapshot? snap) async {
-    if (snap == null) {
-      return null;
-    }
+  // static Future<SetModel?> fromMap(Map<String, dynamic> map)async{
 
-    final data = snap.data() as Map?;
-    if (data == null) {
-      return null;
-    }
+  //     final authorRef = map['author'] as DocumentReference?;
+  //     final authorSnap = await authorRef?.get();
 
-    print('Set model data $data');
+  //     List<SubSet?> subSets = [];
 
-    final authorRef = data['author'] as DocumentReference?;
-    final authorSnap = await authorRef?.get();
+  //     final subSetsList =
+  //         map['subsets'] != null ? List.from(data['subsets']) : [];
 
-    List<SubSet?> subSets = [];
+  //     print('Subsets list $subSetsList');
 
-    final subSetsList =
-        data['subsets'] != null ? List.from(data['subsets']) : [];
+  //     for (var item in subSetsList) {
+  //       final subSetSnap = await FirebaseFirestore.instance
+  //           .collection(Paths.subsets)
+  //           .doc(item)
+  //           .get();
 
-    for (var item in subSetsList) {
-      final subSetSnap = await FirebaseFirestore.instance
-          .collection(Paths.subsets)
-          .doc(item)
-          .get();
-      subSets.add(await SubSet.fromDocument(subSetSnap));
-    }
+  //       print('item sin -- ${subSetSnap.data()}');
 
+  //       print('aaaa ak $subSetSnap');
+
+  //       // final subSet = await SubSet.fromDocument(subSetSnap);
+  //       // print('alkalala $subSet');
+  //       //subSets.add(await SubSet.fromDocument(subSetSnap));
+  //     }
+
+  //     return SetModel(
+  //       //setId: ,
+  //       setId: snap.id,
+  //       author: AppUser.fromDocument(authorSnap),
+  //       name: data['name'],
+  //       cause: data['cause'],
+  //       mediaFormat:
+  //           EnumToString.fromString(MediaFormat.values, data['mediaFormat']),
+  //       subsets: subSets,
+  //     );
+
+  //   }
+
+  // }
+
+  factory SetModel.fromMap(Map<String, dynamic> map) {
     return SetModel(
-      //setId: ,
-      setId: snap.id,
-      author: AppUser.fromDocument(authorSnap),
-      name: data['name'],
-      cause: data['cause'],
+      cause: map['cause'],
       mediaFormat:
-          EnumToString.fromString(MediaFormat.values, data['mediaFormat']),
-      subsets: subSets,
+          EnumToString.fromString(MediaFormat.values, map['mediaFormat']),
+      subsets: const [],
     );
+  }
+
+  static Future<SetModel?> fromDocument(DocumentSnapshot? snap) async {
+    try {
+      if (snap == null) {
+        return null;
+      }
+
+      final data = snap.data() as Map?;
+      if (data == null) {
+        return null;
+      }
+
+      print('Set model data $data');
+
+      final authorRef = data['author'] as DocumentReference?;
+      final authorSnap = await authorRef?.get();
+
+      List<SubSet?> subSets = [];
+
+      final subSetsList =
+          data['subsets'] != null ? List.from(data['subsets']) : [];
+
+      print('Subsets list $subSetsList');
+
+      for (var item in subSetsList) {
+        final subSetSnap = await FirebaseFirestore.instance
+            .collection(Paths.subsets)
+            .doc(item)
+            .get();
+
+        print('item sin -- ${subSetSnap.data()}');
+
+        print('aaaa ak $subSetSnap');
+
+        // final subSet = await SubSet.fromDocument(subSetSnap);
+        // print('alkalala $subSet');
+        subSets.add(await SubSet.fromDocument(subSetSnap));
+      }
+
+      return SetModel(
+        //setId: ,
+        setId: snap.id,
+        author: AppUser.fromDocument(authorSnap),
+        name: data['name'],
+        cause: data['cause'],
+        mediaFormat:
+            EnumToString.fromString(MediaFormat.values, data['mediaFormat']),
+        subsets: subSets,
+      );
+    } catch (error) {
+      print('Error in getting set model ${error.toString()}');
+      return null;
+    }
   }
 
   // factory SetModel.fromMap(Map<String, dynamic> map) {

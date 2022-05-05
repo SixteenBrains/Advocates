@@ -1,5 +1,5 @@
-import 'package:advocates/screens/set/update_set_screen.dart';
-
+import '/constants/constants.dart';
+import '/screens/set/update_set_screen.dart';
 import '/screens/set/set_manager.dart';
 import '/models/set_model.dart';
 import '/screens/dashboard/dashboard.dart';
@@ -9,7 +9,92 @@ import 'package:flutter/material.dart';
 
 class SetCard extends StatelessWidget {
   final SetModel? setModel;
-  const SetCard({Key? key, required this.setModel}) : super(key: key);
+  final VoidCallback onDelete;
+  const SetCard({Key? key, required this.setModel, required this.onDelete})
+      : super(key: key);
+
+  Future<void> _showMyDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/images/modal_warning.png',
+                height: 64.0,
+                width: 64.0,
+              ),
+              const SizedBox(height: 10.0),
+              const Text(
+                'This action cannot be reversed, are you sure you want to do this?',
+                style: TextStyle(fontWeight: FontWeight.w600),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20.0),
+              SizedBox(
+                height: 45.0,
+                width: 200.0,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: colorBrighest,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32.0),
+                    ),
+                  ),
+                  onPressed: () {
+                    onDelete();
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    'CONFIRM',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  'CANCEL',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          //  SingleChildScrollView(
+          //   child: ListBody(
+          //     children: const <Widget>[
+          //       Text('This is a demo alert dialog.'),
+          //       Text('Would you like to approve of this message?'),
+          //     ],
+          //   ),
+          // ),
+          // actions: <Widget>[
+          //   TextButton(
+          //     child: const Text('Approve'),
+          //     onPressed: () {
+          //       Navigator.of(context).pop();
+          //     },
+          //   ),
+          // ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +102,72 @@ class SetCard extends StatelessWidget {
     final List<double> stops =
         setModel?.mediaFormat == FileType.image ? [0.2, 0.7] : [0.2, 0.5];
     return GestureDetector(
+      onLongPressEnd: (data) {},
+      onHorizontalDragUpdate: (data) {
+        print('drag ${data.primaryDelta?.ceil()}');
+        final offSet = data.primaryDelta?.ceil() ?? 0;
+        if (offSet > 0) {
+          // right swipe
+          print('Right swipe');
+          Navigator.of(context).pushNamed(
+            UpdateSetScreen.routeName,
+            arguments: UpDateSetArgs(setModel: setModel),
+          );
+        } else {
+          // left swipe
+          print('left swipe');
+          _showMyDialog(context);
+          // showDialog(
+          //   context: context,
+          //   builder: (context) {
+          //     return Container(
+          //       height: 500.0,
+          //       width: 400.0,
+          //       color: Colors.white,
+          //       child: Column(
+          //         mainAxisSize: MainAxisSize.min,
+          //         children: [
+          //           Image.asset('assets/images/modal_warning.png'),
+          //           const SizedBox(height: 10.0),
+          //           const Text(
+          //               'This action cannot be reversed, are you sure you want to do this?'),
+          //           const SizedBox(height: 10.0),
+          //           SizedBox(
+          //             height: 40.0,
+          //             width: 200.0,
+          //             child: ElevatedButton(
+          //               style: ElevatedButton.styleFrom(
+          //                 primary: colorBrighest,
+          //               ),
+          //               onPressed: () {},
+          //               child: const Text(
+          //                 'CONFIRM',
+          //                 style: TextStyle(
+          //                   color: Colors.white,
+          //                   fontSize: 18.0,
+          //                   fontWeight: FontWeight.w600,
+          //                 ),
+          //               ),
+          //             ),
+          //           ),
+          //           TextButton(
+          //             onPressed: () {},
+          //             child: const Text(
+          //               'CANCEL',
+          //               style: TextStyle(
+          //                 color: Colors.grey,
+          //                 fontSize: 18.0,
+          //                 fontWeight: FontWeight.w600,
+          //               ),
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     );
+          //   },
+          // );
+        }
+      },
       onTap: () => Navigator.of(context).pushNamed(
         UpdateSetScreen.routeName,
         arguments: UpDateSetArgs(setModel: setModel),

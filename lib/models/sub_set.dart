@@ -84,6 +84,12 @@ class SubSet extends Equatable {
     print('Set snap $setSnap');
     print('Sub set data ${setSnap?.data()}');
 
+    final setData = setSnap?.data() as Map<String, dynamic>?;
+    final setModel = setData != null ? SetModel.fromMap(setData) : null;
+    //await SetModel.fromDocument(setSnap);
+
+    //print('Set model 33 $setModel');
+
     print('sub set data 2 $data');
     return SubSet(
       author: AppUser.fromDocument(authorSnap),
@@ -94,7 +100,9 @@ class SubSet extends Equatable {
       mediaFormat: data['mediaFormat'] != null
           ? EnumToString.fromString(MediaFormat.values, data['mediaFormat'])
           : null,
-      //setModel: await SetModel.fromDocument(setSnap),
+      setModel: setModel,
+
+      ///await SetModel.fromDocument(setSnap),
     );
   }
 

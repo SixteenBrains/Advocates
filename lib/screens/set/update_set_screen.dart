@@ -1,6 +1,5 @@
-import 'package:advocates/models/sub_set.dart';
-import 'package:advocates/widgets/show_snackbar.dart';
-
+import '/models/sub_set.dart';
+import '/widgets/show_snackbar.dart';
 import '/enums/enums.dart';
 import '/screens/set/widgets/update_ad_media.dart';
 import 'package:enum_to_string/enum_to_string.dart';

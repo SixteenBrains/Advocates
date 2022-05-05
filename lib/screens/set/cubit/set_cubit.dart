@@ -129,6 +129,16 @@ class SetCubit extends Cubit<SetState> {
       emit(state.copyWith(failure: failure, status: SetStatus.error));
     }
   }
+
+  void loadSetValues({required SetModel? setModel}) {
+    emit(
+      state.copyWith(
+        name: setModel?.name,
+        cause: setModel?.cause,
+        mediaFormat: setModel?.mediaFormat,
+      ),
+    );
+  }
 }
 
 // void uploadSet() async {

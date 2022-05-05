@@ -1,3 +1,6 @@
+import 'package:advocates/models/sub_set.dart';
+import 'package:advocates/widgets/show_snackbar.dart';
+
 import '/enums/enums.dart';
 import '/screens/set/widgets/update_ad_media.dart';
 import 'package:enum_to_string/enum_to_string.dart';
@@ -12,6 +15,7 @@ import '/screens/set/cubit/set_cubit.dart';
 import '/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'add_subset.dart';
 import 'widgets/ad_media.dart';
 
 class UpDateSetArgs {
@@ -49,6 +53,12 @@ class _UpdateSetScreenState extends State<UpdateSetScreen> {
     if (_formKey.currentState!.validate()) {
       //context.read<SetCubit>().uploadSet();
     }
+  }
+
+  @override
+  void initState() {
+    context.read<SetCubit>().loadSetValues(setModel: widget.setModel);
+    super.initState();
   }
 
   @override
@@ -169,19 +179,50 @@ class _UpdateSetScreenState extends State<UpdateSetScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        for (int i = 0; i < 6; i++)
-                          subSets.length > i
-                              ? UpdateAdMedia(
-                                  onTap: () {},
-                                  mediaFormat: MediaFormat.images,
-                                  imageUrl: subSets[i]?.imageUrl,
-                                )
-                              : AdMedia(
-                                  onTap: () {},
-                                  fileType: MediaFormat.images,
-                                  //state.fileType,
-                                  imageFile: null,
-                                )
+                        for (int i = 0; i < subSets.length; i++)
+                          UpdateAdMedia(
+                            onTap: () {},
+                            mediaFormat: MediaFormat.images,
+                            imageUrl: subSets[i]?.imageUrl,
+                          ),
+                        for (int i = 0; i < (6 - subSets.length); i++)
+                          AdMedia(
+                            onTap: () async {
+                              print('Cause ${state.cause}');
+                              print('Title ${state.name}');
+                              print('Format ${state.format}');
+
+                              if (state.name != null) {
+                                final subSet =
+                                    await Navigator.of(context).pushNamed(
+                                  AddSubset.routeName,
+                                  arguments: AddSubSetArgs(
+                                    setModel: SetModel(
+                                      setId: widget.setModel?.setId,
+                                      cause: state.cause,
+                                      mediaFormat: state.mediaFormat,
+                                      name: state.name,
+                                      author: widget.setModel?.author,
+                                    ),
+                                  ),
+                                ) as SubSet?;
+                                print('Subset - $subSet');
+
+                                if (subSet != null) {
+                                  context.read<SetCubit>().addSubSet(subSet);
+                                }
+                              } else {
+                                ShowSnackBar.showSnackBar(context,
+                                    title:
+                                        'Complete the set fields to continue');
+                              }
+                            },
+                            fileType: MediaFormat.images,
+                            //state.fileType,
+                            imageFile: state.subSets.length > i
+                                ? state.subSets[i]?.imageFile
+                                : null,
+                          )
 
                         // for (int i = 0; i < 6; i++)
                         //   AdMedia(

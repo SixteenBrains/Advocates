@@ -1,5 +1,4 @@
-import 'package:advocates/screens/set/set_manager.dart';
-
+import '/screens/set/set_manager.dart';
 import '/screens/set/cubit/set_cubit.dart';
 import '/widgets/loading_indicator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,7 +1,6 @@
-import 'package:advocates/blocs/auth/auth_bloc.dart';
-import 'package:advocates/screens/set/widgets/preview_media.dart';
-import 'package:file_picker/file_picker.dart';
-
+import '/blocs/auth/auth_bloc.dart';
+import '/enums/enums.dart';
+import '/screens/set/widgets/preview_media.dart';
 import '/widgets/loading_indicator.dart';
 import '/models/set_model.dart';
 import '/widgets/custom_textfield.dart';
@@ -67,6 +66,7 @@ class _AddSubsetState extends State<AddSubset> {
 
   @override
   Widget build(BuildContext context) {
+    print('Set model received - ${widget.setModel}');
     return Scaffold(
       backgroundColor: const Color(0xffF7F7F7),
       appBar: AppBar(
@@ -96,12 +96,11 @@ class _AddSubsetState extends State<AddSubset> {
         listener: (context, state) {
           if (state.status == SetStatus.succuss) {
             final subSet = SubSet(
-              title: state.subSetTitle,
+              setModel: widget.setModel,
               destination: state.subSetDestination,
               description: state.subSetdescription,
               imageFile: state.pickedFile,
-              cause: widget.setModel?.cause,
-              format: widget.setModel?.format,
+              mediaFormat: widget.setModel?.mediaFormat,
             );
 
             Navigator.of(context).pop(subSet);
@@ -111,7 +110,8 @@ class _AddSubsetState extends State<AddSubset> {
           if (state.status == SetStatus.loading) {
             return const LoadingIndicator();
           }
-          print('File formate ${widget.setModel?.format}');
+          print('File formate ${widget.setModel?.mediaFormat}');
+          print('Picked file 2 ${state.pickedFile}');
           return Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 20.0,
@@ -134,13 +134,13 @@ class _AddSubsetState extends State<AddSubset> {
                         child: GestureDetector(
                           onTap: () =>
                               context.read<SetCubit>().pickedFileChanged(
-                                    fileType: widget.setModel?.format ??
-                                        FileType.image,
+                                    mediaFormat: widget.setModel?.mediaFormat ??
+                                        MediaFormat.images,
                                   ),
                           child: state.pickedFile != null
                               ? PreviewMedia(
                                   pickedFile: state.pickedFile,
-                                  fileType: widget.setModel?.format,
+                                  mediaFormat: widget.setModel?.mediaFormat,
                                 )
                               : Image.asset(
                                   'assets/images/menu_upload.png',

@@ -1,38 +1,42 @@
-import 'package:advocates/config/paths.dart';
-import 'package:advocates/models/app_user.dart';
+import '/enums/enums.dart';
+import '/config/paths.dart';
+import '/models/app_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:equatable/equatable.dart';
 
 import '/models/sub_set.dart';
-import 'package:file_picker/file_picker.dart';
 
 class SetModel extends Equatable {
+  final String? setId;
   final String? name;
   final String? cause;
-  final FileType? format;
+  final MediaFormat? mediaFormat;
   final List<SubSet?> subsets;
   final AppUser? author;
 
   const SetModel({
+    required this.setId,
     this.name,
     this.cause,
-    this.format,
+    this.mediaFormat,
     this.subsets = const [],
     this.author,
   });
 
   SetModel copyWith({
+    String? setId,
     String? name,
     String? cause,
-    FileType? format,
+    MediaFormat? mediaFormat,
     List<SubSet?>? subsets,
     AppUser? author,
   }) {
     return SetModel(
+      setId: setId ?? this.setId,
       name: name ?? this.name,
       cause: cause ?? this.cause,
-      format: format ?? this.format,
+      mediaFormat: mediaFormat ?? this.mediaFormat,
       subsets: subsets ?? this.subsets,
       author: author ?? this.author,
     );
@@ -61,7 +65,7 @@ class SetModel extends Equatable {
     return {
       'name': name,
       'cause': cause,
-      'format': EnumToString.convertToString(format),
+      'mediaFormat': EnumToString.convertToString(mediaFormat),
       // 'subsets': subsets.map((x) => x?.toMap()).toList(),
       // 'subsets': subsets.map((subset) => subset?.subSetId).toList(),
       'subsets': [subSetId],
@@ -80,6 +84,8 @@ class SetModel extends Equatable {
       return null;
     }
 
+    print('Set model data $data');
+
     final authorRef = data['author'] as DocumentReference?;
     final authorSnap = await authorRef?.get();
 
@@ -97,10 +103,13 @@ class SetModel extends Equatable {
     }
 
     return SetModel(
+      //setId: ,
+      setId: snap.id,
       author: AppUser.fromDocument(authorSnap),
       name: data['name'],
       cause: data['cause'],
-      format: EnumToString.fromString(FileType.values, data['format']),
+      mediaFormat:
+          EnumToString.fromString(MediaFormat.values, data['mediaFormat']),
       subsets: subSets,
     );
   }
@@ -123,9 +132,10 @@ class SetModel extends Equatable {
 
   @override
   String toString() {
-    return 'Set(name: $name, cause: $cause, format: $format, subsets: $subsets)';
+    return 'Set(setId: $setId, name: $name, cause: $cause, format: $mediaFormat, subsets: $subsets, setId,)';
   }
 
   @override
-  List<Object?> get props => [name, cause, format, subsets];
+  List<Object?> get props => [setId, name, cause, mediaFormat, subsets];
 }
+//d8489aa0-d60a-4a92-8721-01eaca8f6a9d

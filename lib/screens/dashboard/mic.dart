@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:highlight_text/highlight_text.dart';
-import 'package:speech_to_text/speech_to_text.dart' as speechToText;
+import 'package:speech_to_text/speech_to_text.dart' as speech_to_text;
 
 class Mic extends StatefulWidget {
+  const Mic({Key? key}) : super(key: key);
+
   @override
   _MicState createState() => _MicState();
 }
 
 class _MicState extends State<Mic> {
-  late speechToText.SpeechToText speech;
-  String textString = "Press The Button";
+  late speech_to_text.SpeechToText speech;
+  String textString = 'Press The Button';
   bool isListen = false;
   double confidence = 1.0;
   final Map<String, HighlightedWord> highlightWords = {
     'flutter': HighlightedWord(
-        textStyle:
-            TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+        textStyle: const TextStyle(
+            color: Colors.redAccent, fontWeight: FontWeight.bold),
         onTap: () {}),
-    "developer": HighlightedWord(
-        textStyle:
-            TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+    'developer': HighlightedWord(
+        textStyle: const TextStyle(
+            color: Colors.redAccent, fontWeight: FontWeight.bold),
         onTap: () {}),
   };
 
@@ -51,33 +53,29 @@ class _MicState extends State<Mic> {
   @override
   void initState() {
     super.initState();
-    speech = speechToText.SpeechToText();
+    speech = speech_to_text.SpeechToText();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Speech To Text'),
+        title: const Text('Speech To Text'),
       ),
       body: Column(
         children: [
           const SizedBox(height: 10.0),
-          Container(
-            child: Text(
-              "Confidence: ${(confidence * 100.0).toStringAsFixed(1)}%",
-              style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red),
-            ),
+          Text(
+            'Confidence: ${(confidence * 100.0).toStringAsFixed(1)}%',
+            style: const TextStyle(
+                fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.red),
           ),
           Container(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: TextHighlight(
               text: textString,
               words: highlightWords,
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                   fontSize: 25.0,
                   color: Colors.black,
                   fontWeight: FontWeight.bold),
@@ -89,8 +87,8 @@ class _MicState extends State<Mic> {
         animate: isListen,
         glowColor: Colors.red,
         endRadius: 65.0,
-        duration: Duration(milliseconds: 2000),
-        repeatPauseDuration: Duration(milliseconds: 100),
+        duration: const Duration(milliseconds: 2000),
+        repeatPauseDuration: const Duration(milliseconds: 100),
         repeat: true,
         child: FloatingActionButton(
           child: Icon(isListen ? Icons.mic : Icons.mic_none),

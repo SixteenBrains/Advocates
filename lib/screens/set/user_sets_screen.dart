@@ -59,16 +59,18 @@ class UserSetsScreen extends StatelessWidget {
             const SizedBox(height: 20.0),
             Expanded(
               child: BlocConsumer<SetCubit, SetState>(
-                listener: (context, state) {},
-                builder: (context, state) {
-                  if (state.status == SetStatus.loading) {
-                    return const LoadingIndicator();
-                  }
+                listener: (context, state) {
                   if (state.status == SetStatus.succuss) {
                     if (state.sets.isEmpty) {
                       Navigator.of(context).pushNamed(SetManager.routeName);
                     }
                   }
+                },
+                builder: (context, state) {
+                  if (state.status == SetStatus.loading) {
+                    return const LoadingIndicator();
+                  }
+
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 15.0,

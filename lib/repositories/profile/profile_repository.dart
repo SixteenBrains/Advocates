@@ -46,7 +46,7 @@ class ProfileRepository extends BaseProfileRepository {
 
   Future<void> addMediaFormat({
     required String? userId,
-    required MediaType mediaType,
+    required MediaFormat mediaType,
   }) async {
     try {
       if (userId == null) {

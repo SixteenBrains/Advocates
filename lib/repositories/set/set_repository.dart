@@ -21,7 +21,7 @@ class SetRepository extends BaseSetRepo {
       final subSetRef =
           await _firestore.collection(Paths.subsets).add(subSet.toMap());
 
-      final setRef = _firestore.collection(Paths.sets).doc(setModel.name);
+      final setRef = _firestore.collection(Paths.sets).doc(setModel.setId);
       final setSnap = await setRef.get();
       if (setSnap.exists) {
         // update the set

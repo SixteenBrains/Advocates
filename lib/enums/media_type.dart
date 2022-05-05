@@ -1,4 +1,4 @@
-enum MediaType {
+enum MediaFormat {
   gifs,
   images,
   videos,

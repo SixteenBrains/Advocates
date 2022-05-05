@@ -66,7 +66,7 @@ class AccountCubit extends Cubit<AccountState> {
 
   // format
 
-  void addMediaFormat(MediaType format) async {
+  void addMediaFormat(MediaFormat format) async {
     try {
       emit(state.copyWith(status: AccountStatus.loading));
 
@@ -86,7 +86,7 @@ class AccountCubit extends Cubit<AccountState> {
       emit(state.copyWith(
           status: AccountStatus.succuss,
           format:
-              EnumToString.fromString(MediaType.values, format ?? 'IMAGES')));
+              EnumToString.fromString(MediaFormat.values, format ?? 'IMAGES')));
     } on Failure catch (failure) {
       emit(state.copyWith(status: AccountStatus.error, failure: failure));
     }

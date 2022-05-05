@@ -1,6 +1,5 @@
-import 'package:advocates/models/set_model.dart';
-import 'package:file_picker/file_picker.dart';
-
+import '/enums/enums.dart';
+import '/models/set_model.dart';
 import '/widgets/custom_video_player.dart';
 import '/widgets/display_image.dart';
 import 'package:flutter/material.dart';
@@ -15,14 +14,13 @@ class ShowSetMedia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('File type ${setModel?.format == FileType.image} ');
-    switch (setModel?.format) {
-      case FileType.image:
+    switch (setModel?.mediaFormat) {
+      case MediaFormat.images:
         return ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
           child: DisplayImage(imageUrl: setModel?.subsets[0]?.imageUrl),
         );
-      case FileType.video:
+      case MediaFormat.videos:
         if (setModel?.subsets[0]?.imageUrl != null) {
           return ClipRRect(
             borderRadius: const BorderRadius.only(

@@ -1,22 +1,25 @@
 import 'dart:io';
 
-import 'package:advocates/widgets/video_thumbnail.dart';
-import 'package:file_picker/file_picker.dart';
+import '/enums/enums.dart';
+import '/widgets/video_thumbnail.dart';
 import 'package:flutter/material.dart';
 
 class PreviewMedia extends StatelessWidget {
   final File? pickedFile;
-  final FileType? fileType;
+  final MediaFormat? mediaFormat;
   const PreviewMedia({
     Key? key,
     required this.pickedFile,
-    required this.fileType,
+    required this.mediaFormat,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (fileType != null && pickedFile != null) {
-      if (fileType == FileType.image) {
+    print('picked file widget $pickedFile');
+    print('MEdia format $mediaFormat');
+    if (mediaFormat != null && pickedFile != null) {
+      if (mediaFormat == MediaFormat.images ||
+          mediaFormat == MediaFormat.gifs) {
         return ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
           child: Image.file(
@@ -24,7 +27,7 @@ class PreviewMedia extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         );
-      } else if (fileType == FileType.video) {
+      } else if (mediaFormat == MediaFormat.videos) {
         return MediaVideoThumbnail(videoFile: pickedFile!);
       }
     }

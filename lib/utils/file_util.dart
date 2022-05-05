@@ -1,32 +1,48 @@
 import 'dart:io';
 
+import 'package:advocates/enums/enums.dart';
 import 'package:advocates/models/failure.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
 
 class FileUtil {
-  static Future<File?> pickedFile(FileType fileType) async {
+  static Future<File?> pickedFile(MediaFormat mediaFormat) async {
     try {
       //  add custom file picker ofot gfg
 
-//       FilePickerResult? result = await FilePicker.platform.pickFiles(
-//   type: FileType.custom,
-//   allowedExtensions: ['jpg', 'pdf', 'doc'],
-// );
+      // FilePickerResult? result = await FilePicker.platform.pickFiles(
+      //   type: FileType.custom,
+      //   // allowedExtensions: ['jpg', 'pdf', 'doc'],
+      //   allowedExtensions: ['gif'],
+      // );
+
+      FileType fileType;
+
+      switch (mediaFormat) {
+        case MediaFormat.videos:
+          fileType = FileType.video;
+          break;
+
+        default:
+          fileType = FileType.media;
+          break;
+      }
 
       File? pickedFile;
       FilePickerResult? result = await FilePicker.platform.pickFiles(
-          // allowedExtensions: [
-          //   //'mp4',
-          // ],
-          type: fileType);
+        // allowedExtensions: [
+        //   //'mp4',
+        // ],
+        type: fileType,
+      );
 
       if (result != null) {
         pickedFile = File(result.files.single.path!);
       } else {
         // User canceled the picker
       }
+      print('Picked file ---- $pickedFile');
       return pickedFile;
     } catch (error) {
       print('Error in picking file ${error.toString()}');

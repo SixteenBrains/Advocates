@@ -1,15 +1,12 @@
-import 'package:uuid/uuid.dart';
-
+import '/enums/enums.dart';
+import '/screens/set/widgets/update_ad_media.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/repositories/set/set_repository.dart';
-import '/widgets/show_snackbar.dart';
 import '/models/set_model.dart';
 import '/widgets/custom_textfield.dart';
-import '/enums/nav_item.dart';
-import '/models/sub_set.dart';
 import '/screens/nav/bloc/nav_bloc.dart';
 import '/constants/constants.dart';
-import '/screens/set/add_subset.dart';
 import '/widgets/custom_dropdown.dart';
 import '/screens/set/cubit/set_cubit.dart';
 import '/widgets/loading_indicator.dart';
@@ -17,11 +14,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/ad_media.dart';
 
-class SetManager extends StatefulWidget {
-  static const String routeName = '/setManager';
-  const SetManager({Key? key}) : super(key: key);
+class UpDateSetArgs {
+  final SetModel? setModel;
 
-  static Route route() {
+  const UpDateSetArgs({required this.setModel});
+}
+
+class UpdateSetScreen extends StatefulWidget {
+  static const String routeName = '/updateSet';
+  final SetModel? setModel;
+  const UpdateSetScreen({Key? key, required this.setModel}) : super(key: key);
+
+  static Route route({required UpDateSetArgs args}) {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
       builder: (_) => BlocProvider<SetCubit>(
@@ -29,16 +33,16 @@ class SetManager extends StatefulWidget {
           setRepository: context.read<SetRepository>(),
           authBloc: context.read<AuthBloc>(),
         ),
-        child: const SetManager(),
+        child: UpdateSetScreen(setModel: args.setModel),
       ),
     );
   }
 
   @override
-  State<SetManager> createState() => _SetManagerState();
+  State<UpdateSetScreen> createState() => _UpdateSetScreenState();
 }
 
-class _SetManagerState extends State<SetManager> {
+class _UpdateSetScreenState extends State<UpdateSetScreen> {
   final _formKey = GlobalKey<FormState>();
 
   void submit() {
@@ -47,11 +51,8 @@ class _SetManagerState extends State<SetManager> {
     }
   }
 
-  final setId = const Uuid().v4();
-//d6672029-884a-48f9-b1a4-73da7a07e975
   @override
   Widget build(BuildContext context) {
-    print('SET ID $setId');
     return Scaffold(
       backgroundColor: const Color(0xffF7F7F7),
       appBar: AppBar(
@@ -74,11 +75,24 @@ class _SetManagerState extends State<SetManager> {
                 .read<NavBloc>()
                 .add(const UpdateNavItem(item: NavItem.dashboard));
           }
+          if (widget.setModel?.subsets != null) {
+            final subSets = widget.setModel?.subsets ?? [];
+            for (var item in subSets) {
+              if (item != null) {
+                print('Subset $item');
+                context.read<SetCubit>().addSubSet(item);
+              }
+            }
+          }
         },
         builder: (context, state) {
           if (state.status == SetStatus.loading) {
             return const LoadingIndicator();
           }
+          final subSets = widget.setModel?.subsets ?? [];
+          print('Set from navigation ${widget.setModel}');
+          print(
+              'Formate from navigation ${EnumToString.convertToString(widget.setModel?.mediaFormat).toUpperCase()}');
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -116,7 +130,7 @@ class _SetManagerState extends State<SetManager> {
                     // const SizedBox(height: 25.0),
                     const SizedBox(height: 25.0),
                     CustomTextField(
-                      initialValue: '',
+                      initialValue: widget.setModel?.name,
                       hintText: 'NONE',
                       labelText: 'NAME',
                       onChanged: (value) =>
@@ -135,7 +149,7 @@ class _SetManagerState extends State<SetManager> {
                       dropDownOptions: causes,
                       onChanged: (value) =>
                           context.read<SetCubit>().causeChanged(value),
-                      selectedValue: state.cause,
+                      selectedValue: widget.setModel?.cause ?? state.cause,
                     ),
                     // const SizedBox(height: 25.0),
                     CustomDropDown(
@@ -143,54 +157,72 @@ class _SetManagerState extends State<SetManager> {
                       dropDownOptions: formate,
                       onChanged: (value) =>
                           context.read<SetCubit>().changeFormat(value),
-                      selectedValue: state.format.toString().toUpperCase(),
+                      selectedValue: widget.setModel?.mediaFormat != null
+                          ? EnumToString.convertToString(
+                                  widget.setModel?.mediaFormat)
+                              .toUpperCase()
+                          : state.format.toString().toUpperCase(),
                     ),
 
                     const SizedBox(height: 20.0),
 
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          for (int i = 0; i < 6; i++)
-                            AdMedia(
-                              imageFile: state.subSets.length > i
-                                  ? state.subSets[i]?.imageFile
-                                  : null,
-                              fileType: state.mediaFormat,
-                              //  imageFile: null,
-                              onTap: () async {
-                                print('Cause ${state.cause}');
-                                print('Title ${state.name}');
-                                print('Format ${state.format}');
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        for (int i = 0; i < 6; i++)
+                          subSets.length > i
+                              ? UpdateAdMedia(
+                                  onTap: () {},
+                                  mediaFormat: MediaFormat.images,
+                                  imageUrl: subSets[i]?.imageUrl,
+                                )
+                              : AdMedia(
+                                  onTap: () {},
+                                  fileType: MediaFormat.images,
+                                  //state.fileType,
+                                  imageFile: null,
+                                )
 
-                                if (state.name != null) {
-                                  final subSet =
-                                      await Navigator.of(context).pushNamed(
-                                    AddSubset.routeName,
-                                    arguments: AddSubSetArgs(
-                                      setModel: SetModel(
-                                        setId: setId,
-                                        cause: state.cause,
-                                        mediaFormat: state.mediaFormat,
-                                        name: state.name,
-                                        author:
-                                            context.read<AuthBloc>().state.user,
-                                      ),
-                                    ),
-                                  ) as SubSet?;
-                                  print('Subset - $subSet');
+                        // for (int i = 0; i < 6; i++)
+                        //   AdMedia(
+                        //     imageFile: state.subSets.length > i
+                        //         ? state.subSets[i]?.imageFile
+                        //         : null,
+                        //     fileType: state.fileType,
+                        //     //  imageFile: null,
+                        //     onTap: () async {
+                        //       print('Cause ${state.cause}');
+                        //       print('Title ${state.name}');
+                        //       print('Format ${state.format}');
 
-                                  if (subSet != null) {
-                                    context.read<SetCubit>().addSubSet(subSet);
-                                  }
-                                } else {
-                                  ShowSnackBar.showSnackBar(context,
-                                      title:
-                                          'Complete the set fields to continue');
-                                }
-                              },
-                            )
-                        ]),
+                        //       if (state.name != null) {
+                        //         final subSet =
+                        //             await Navigator.of(context).pushNamed(
+                        //           AddSubset.routeName,
+                        //           arguments: AddSubSetArgs(
+                        //             setModel: SetModel(
+                        //               cause: state.cause,
+                        //               format: state.fileType,
+                        //               name: state.name,
+                        //               author:
+                        //                   context.read<AuthBloc>().state.user,
+                        //             ),
+                        //           ),
+                        //         ) as SubSet?;
+                        //         print('Subset - $subSet');
+
+                        //         if (subSet != null) {
+                        //           context.read<SetCubit>().addSubSet(subSet);
+                        //         }
+                        //       } else {
+                        //         ShowSnackBar.showSnackBar(context,
+                        //             title:
+                        //                 'Complete the set fields to continue');
+                        //       }
+                        //     },
+                        //   )
+                      ],
+                    ),
                     const SizedBox(height: 5.0),
                     Text(
                       'Your SET NAME must be less than 16 characters and\nyou need at least 1 SUBSET before a SET can be created.',

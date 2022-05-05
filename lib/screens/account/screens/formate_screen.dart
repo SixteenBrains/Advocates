@@ -93,21 +93,21 @@ class FormateScreen extends StatelessWidget {
                 const SizedBox(height: 30.0),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: MediaType.values.length,
+                    itemCount: MediaFormat.values.length,
                     //   formateAvailable.length,
                     itemBuilder: (context, index) {
-                      final format =
-                          EnumToString.convertToString(MediaType.values[index])
-                              .toUpperCase();
+                      final format = EnumToString.convertToString(
+                              MediaFormat.values[index])
+                          .toUpperCase();
                       // formateAvailable[index];
 
                       final isSelected =
-                          state.format == MediaType.values[index];
+                          state.format == MediaFormat.values[index];
 
                       print('Is selected $isSelected');
                       final enumValue =
-                          EnumToString.fromString(MediaType.values, format) ??
-                              MediaType.images;
+                          EnumToString.fromString(MediaFormat.values, format) ??
+                              MediaFormat.images;
                       return ChooseMediaFormate(
                         isSelected: isSelected,
                         label: format.toString(),
@@ -146,7 +146,7 @@ class FormateScreen extends StatelessWidget {
                 // ),
                 const SizedBox(height: 10.0),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).pop(),
                   child: Text(
                     'SKIP',
                     style: TextStyle(

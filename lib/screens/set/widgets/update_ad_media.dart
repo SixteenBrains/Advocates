@@ -1,24 +1,23 @@
-import 'dart:io';
+import '/enums/enums.dart';
 
-import 'package:advocates/widgets/video_thumbnail.dart';
-import 'package:file_picker/file_picker.dart';
+import '/widgets/display_image.dart';
 import 'package:flutter/material.dart';
 
-class AddMedia extends StatelessWidget {
+class UpdateAdMedia extends StatelessWidget {
   final VoidCallback onTap;
-  final File? imageFile;
-  final FileType fileType;
+  final String? imageUrl;
+  final MediaFormat mediaFormat;
 
-  const AddMedia({
+  const UpdateAdMedia({
     Key? key,
     required this.onTap,
-    required this.fileType,
-    this.imageFile,
+    required this.mediaFormat,
+    this.imageUrl,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print('Image file $imageFile');
+    print('Image file $imageUrl');
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -28,16 +27,19 @@ class AddMedia extends StatelessWidget {
         ),
         height: 70.0,
         width: 50.0,
-        child: imageFile != null
-            ? fileType == FileType.image
+        child: imageUrl != null
+            ? mediaFormat == MediaFormat.images
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
-                    child: Image.file(
-                      imageFile!,
+                    child: DisplayImage(
+                      imageUrl: imageUrl,
                       fit: BoxFit.cover,
-                    ),
+                    ))
+                : const Icon(
+                    Icons.add,
+                    size: 25.0,
                   )
-                : MediaVideoThumbnail(videoFile: imageFile!)
+            // : MediaVideoThumbnail(videoFile: imageFile!)
             : const Icon(
                 Icons.add,
                 size: 25.0,

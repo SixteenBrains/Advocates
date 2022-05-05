@@ -9,7 +9,7 @@ class SetState extends Equatable {
   final SetStatus status;
   final String? name;
   final String? cause;
-  final FileType fileType;
+  final MediaFormat mediaFormat;
   final String? format;
   final File? pickedFile;
   final String? subSetTitle;
@@ -24,7 +24,7 @@ class SetState extends Equatable {
     this.name,
     this.cause,
     this.format,
-    this.fileType = FileType.image,
+    this.mediaFormat = MediaFormat.images,
     this.pickedFile,
     this.subSetdescription,
     this.subSetDestination,
@@ -39,7 +39,7 @@ class SetState extends Equatable {
         failure: Failure(),
         status: SetStatus.initial,
         format: 'IMAGES',
-        fileType: FileType.image,
+        mediaFormat: MediaFormat.images,
         pickedFile: null,
         subSetdescription: null,
         subSetDestination: null,
@@ -59,7 +59,7 @@ class SetState extends Equatable {
         subSetdescription,
         subSetDestination,
         subSetTitle,
-        fileType,
+        mediaFormat,
         sets,
       ];
 
@@ -74,7 +74,7 @@ class SetState extends Equatable {
     String? subSetTitle,
     String? subSetDestination,
     String? subSetdescription,
-    FileType? fileType,
+    MediaFormat? mediaFormat,
     List<SetModel?>? sets,
   }) {
     return SetState(
@@ -83,7 +83,7 @@ class SetState extends Equatable {
       status: status ?? this.status,
       name: name ?? this.name,
       cause: cause ?? this.cause,
-      fileType: fileType ?? this.fileType,
+      mediaFormat: mediaFormat ?? this.mediaFormat,
       format: format ?? this.format,
       pickedFile: pickedFile ?? this.pickedFile,
       subSetTitle: subSetTitle ?? this.subSetTitle,
@@ -95,6 +95,6 @@ class SetState extends Equatable {
 
   @override
   String toString() {
-    return 'SetState(subSets: $subSets, failure: $failure, status: $status, name: $name, causes: $cause, format: $format, pickedFile: $pickedFile, subSetName: $subSetTitle, subSetDestination: $subSetDestination, subSetdescription: $subSetdescription, fileType: $fileType, sets: $sets)';
+    return 'SetState(subSets: $subSets, failure: $failure, status: $status, name: $name, causes: $cause, format: $format, pickedFile: $pickedFile, subSetName: $subSetTitle, subSetDestination: $subSetDestination, subSetdescription: $subSetdescription, mediaFormat: $mediaFormat, sets: $sets)';
   }
 }

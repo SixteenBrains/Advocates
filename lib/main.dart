@@ -10,7 +10,6 @@ import '/blocs/auth/auth_bloc.dart';
 import 'blocs/simple_bloc_observer.dart';
 import 'repositories/auth/auth_repository.dart';
 import 'repositories/profile/profile_repository.dart';
-import 'screens/dashboard/mic.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -94,11 +93,11 @@ class MyApp extends StatelessWidget {
 
           // home: const SignUpScreen(),
 
-          home: Mic(),
+          // home: Mic(),
 
-          // onGenerateRoute: CustomRouter.onGenerateRoute,
-          // // initialRoute: SplashScreen.routeName,
-          // initialRoute: AuthWrapper.routeName,
+          onGenerateRoute: CustomRouter.onGenerateRoute,
+          //initialRoute: SplashScreen.routeName,
+          initialRoute: AuthWrapper.routeName,
         ),
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:advocates/screens/set/update_set_screen.dart';
+
 import '/screens/set/set_manager.dart';
 import '/models/set_model.dart';
 import '/screens/dashboard/dashboard.dart';
@@ -11,11 +13,14 @@ class SetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('formate -- ${setModel?.format}');
+    print('formate -- ${setModel?.mediaFormat}');
     final List<double> stops =
-        setModel?.format == FileType.image ? [0.2, 0.7] : [0.2, 0.5];
+        setModel?.mediaFormat == FileType.image ? [0.2, 0.7] : [0.2, 0.5];
     return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed(SetManager.routeName),
+      onTap: () => Navigator.of(context).pushNamed(
+        UpdateSetScreen.routeName,
+        arguments: UpDateSetArgs(setModel: setModel),
+      ),
       child: Container(
         height: 500.0,
         width: double.infinity,
@@ -32,7 +37,7 @@ class SetCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: Stack(
-          fit: setModel?.format == FileType.image
+          fit: setModel?.mediaFormat == FileType.image
               ? StackFit.expand
               : StackFit.loose,
           children: [

@@ -1,70 +1,68 @@
 import 'dart:io';
 
+import '/models/set_model.dart';
+
+import '/enums/enums.dart';
 import '/config/paths.dart';
 import '/models/app_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:equatable/equatable.dart';
-import 'package:file_picker/file_picker.dart';
 
 class SubSet extends Equatable {
   final String? subSetId;
-  final String? title;
+  final MediaFormat? mediaFormat;
   final String? destination;
   final String? description;
   final String? imageUrl;
   final File? imageFile;
-  final String? cause;
-  final FileType? format;
   final AppUser? author;
+  final SetModel? setModel;
 
   const SubSet({
+    this.mediaFormat,
     this.subSetId,
-    this.title,
     this.destination,
     this.description,
     this.imageUrl,
     this.imageFile,
-    required this.cause,
-    required this.format,
+    this.setModel,
     this.author,
   });
 
   SubSet copyWith({
     String? subSetId,
-    String? title,
     String? destination,
     String? description,
     String? imageUrl,
     File? imageFile,
     String? cause,
-    FileType? format,
+    MediaFormat? mediaFormat,
     AppUser? author,
+    SetModel? setModel,
   }) {
     return SubSet(
       subSetId: subSetId ?? this.subSetId,
-      title: title ?? this.title,
+      setModel: setModel ?? this.setModel,
       destination: destination ?? this.destination,
       description: description ?? this.description,
       imageUrl: imageUrl ?? this.imageUrl,
       imageFile: imageFile ?? this.imageFile,
-      cause: cause ?? this.cause,
-      format: format ?? this.format,
+      mediaFormat: mediaFormat ?? this.mediaFormat,
       author: author ?? this.author,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'subSetId': subSetId,
-      'title': title,
       'destination': destination,
       'description': description,
       'imageUrl': imageUrl,
-      'cause': cause,
-      'format': EnumToString.convertToString(format),
+      'mediaFormat': EnumToString.convertToString(mediaFormat),
       'author':
-          FirebaseFirestore.instance.collection(Paths.users).doc(author?.uid)
+          FirebaseFirestore.instance.collection(Paths.users).doc(author?.uid),
+      'setModel':
+          FirebaseFirestore.instance.collection(Paths.sets).doc(setModel?.setId)
     };
   }
 
@@ -81,34 +79,37 @@ class SubSet extends Equatable {
     final authorRef = data['author'] as DocumentReference?;
     final authorSnap = await authorRef?.get();
 
+    final setRef = data['setModel'] as DocumentReference?;
+    final setSnap = await setRef?.get();
+    print('Set snap $setSnap');
+    print('Sub set data ${setSnap?.data()}');
+
+    print('sub set data 2 $data');
     return SubSet(
       author: AppUser.fromDocument(authorSnap),
-      cause: data['cause'],
       subSetId: snap.id,
-      title: data['title'],
       destination: data['destination'],
       description: data['description'],
       imageUrl: data['imageUrl'],
-      format: data['format'] != null
-          ? EnumToString.fromString(FileType.values, data['format'])
+      mediaFormat: data['mediaFormat'] != null
+          ? EnumToString.fromString(MediaFormat.values, data['mediaFormat'])
           : null,
+      //setModel: await SetModel.fromDocument(setSnap),
     );
   }
 
   @override
   String toString() {
-    return 'SubSet(subSetId: $subSetId title: $title, destination: $destination, description: $description, imageUrl: $imageUrl, imageFile: $imageFile, cause: $cause, format: $format)';
+    return 'SubSet(subSetId: $subSetId, destination: $destination, description: $description, imageUrl: $imageUrl, imageFile: $imageFile,)';
   }
 
   @override
   List<Object?> get props => [
         subSetId,
-        title,
+        setModel,
         destination,
         description,
         imageUrl,
         imageFile,
-        cause,
-        format
       ];
 }

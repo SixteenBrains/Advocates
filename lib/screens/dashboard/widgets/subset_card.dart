@@ -1,4 +1,4 @@
-import 'package:file_picker/file_picker.dart';
+import 'package:advocates/enums/enums.dart';
 
 import '/screens/dashboard/widgets/show_media.dart';
 import '/models/sub_set.dart';
@@ -13,9 +13,8 @@ class SubSetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('formate -- ${subSet?.format}');
     final List<double> stops =
-        subSet?.format == FileType.image ? [0.2, 0.7] : [0.2, 0.5];
+        subSet?.mediaFormat == MediaFormat.images ? [0.2, 0.7] : [0.2, 0.5];
     return Container(
       height: 500.0,
       width: double.infinity,
@@ -32,8 +31,9 @@ class SubSetCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Stack(
-        fit:
-            subSet?.format == FileType.image ? StackFit.expand : StackFit.loose,
+        fit: subSet?.mediaFormat == MediaFormat.images
+            ? StackFit.expand
+            : StackFit.loose,
         children: [
           ShowMedia(subSet: subSet),
           Align(
@@ -80,7 +80,7 @@ class SubSetCard extends StatelessWidget {
                     Chip(
                       backgroundColor: Colors.green,
                       label: Text(
-                        subSet?.cause ?? '',
+                        subSet?.setModel?.cause ?? '',
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,

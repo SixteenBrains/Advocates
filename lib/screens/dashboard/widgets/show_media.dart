@@ -1,5 +1,4 @@
-import 'package:file_picker/file_picker.dart';
-
+import '/enums/enums.dart';
 import '/models/sub_set.dart';
 import '/widgets/custom_video_player.dart';
 import '/widgets/display_image.dart';
@@ -14,14 +13,13 @@ class ShowMedia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('File type ${subSet?.format == FileType.image} ');
-    switch (subSet?.format) {
-      case FileType.image:
+    switch (subSet?.mediaFormat) {
+      case MediaFormat.images:
         return ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
           child: DisplayImage(imageUrl: subSet?.imageUrl),
         );
-      case FileType.video:
+      case MediaFormat.videos:
         if (subSet?.imageUrl != null) {
           return ClipRRect(
             borderRadius: const BorderRadius.only(

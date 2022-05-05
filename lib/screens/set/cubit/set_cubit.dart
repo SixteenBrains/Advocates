@@ -1,9 +1,9 @@
 import 'dart:io';
+import '/enums/enums.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/models/set_model.dart';
 import '/models/sub_set.dart';
 import '/repositories/set/set_repository.dart';
-import 'package:file_picker/file_picker.dart';
 import '/models/failure.dart';
 import '/utils/file_util.dart';
 import 'package:bloc/bloc.dart';
@@ -42,19 +42,27 @@ class SetCubit extends Cubit<SetState> {
   // }
 
   void changeFormat(String? format) {
-    FileType? type;
+    print('change format - $format');
+    MediaFormat? mediaFormat;
+
+    // if (format == 'VIDEOS') {
+    //   mediaFormat = MediaFormat.videos;
+    // } else {}
     //'GIFs', 'IMAGES', 'VIDEOS
     if (format == 'IMAGES') {
-      type = FileType.image;
+      mediaFormat = MediaFormat.images;
     } else if (format == 'VIDEOS') {
-      type = FileType.video;
+      mediaFormat = MediaFormat.videos;
+    } else if (format == 'GIFS') {
+      mediaFormat = MediaFormat.gifs;
     }
     emit(state.copyWith(
-        format: format, fileType: type, status: SetStatus.initial));
+        format: format, mediaFormat: mediaFormat, status: SetStatus.initial));
   }
 
-  void pickedFileChanged({required FileType fileType}) async {
-    final pickedFile = await FileUtil.pickedFile(fileType);
+  void pickedFileChanged({required MediaFormat mediaFormat}) async {
+    final pickedFile = await FileUtil.pickedFile(mediaFormat);
+    print('cubit picked file $pickedFile');
     emit(state.copyWith(pickedFile: pickedFile, status: SetStatus.initial));
   }
 
@@ -92,9 +100,8 @@ class SetCubit extends Cubit<SetState> {
           : null;
 
       final subSet = SubSet(
-        cause: setModel?.cause,
-        format: setModel?.format,
-        title: state.subSetTitle,
+        setModel: setModel,
+        mediaFormat: setModel?.mediaFormat,
         imageUrl: imageUrl,
         description: state.subSetdescription,
         destination: state.subSetDestination,
@@ -116,6 +123,7 @@ class SetCubit extends Cubit<SetState> {
       final sets =
           await _setRepository.getUserSets(userId: _authBloc.state.user?.uid);
 
+      print('Sets ------- $sets');
       emit(state.copyWith(sets: sets, status: SetStatus.succuss));
     } on Failure catch (failure) {
       emit(state.copyWith(failure: failure, status: SetStatus.error));

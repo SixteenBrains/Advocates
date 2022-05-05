@@ -5,7 +5,7 @@ enum AccountStatus { initial, loading, succuss, submitted, error }
 class AccountState extends Equatable {
   final FileType? fileType;
   //final String? format;
-  final MediaType? format;
+  final MediaFormat? format;
   final List<String?> causes;
   final AccountStatus status;
   final Failure failure;
@@ -24,7 +24,7 @@ class AccountState extends Equatable {
   AccountState copyWith({
     FileType? fileType,
     List<String?>? causes,
-    MediaType? format,
+    MediaFormat? format,
     Failure? failure,
     AccountStatus? status,
   }) {
@@ -41,7 +41,7 @@ class AccountState extends Equatable {
         causes: [],
         fileType: FileType.image,
         // format: 'IMAGES',
-        format: MediaType.images,
+        format: MediaFormat.images,
         failure: Failure(),
         status: AccountStatus.initial,
       );

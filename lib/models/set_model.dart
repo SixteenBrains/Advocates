@@ -74,50 +74,9 @@ class SetModel extends Equatable {
     };
   }
 
-  // static Future<SetModel?> fromMap(Map<String, dynamic> map)async{
-
-  //     final authorRef = map['author'] as DocumentReference?;
-  //     final authorSnap = await authorRef?.get();
-
-  //     List<SubSet?> subSets = [];
-
-  //     final subSetsList =
-  //         map['subsets'] != null ? List.from(data['subsets']) : [];
-
-  //     print('Subsets list $subSetsList');
-
-  //     for (var item in subSetsList) {
-  //       final subSetSnap = await FirebaseFirestore.instance
-  //           .collection(Paths.subsets)
-  //           .doc(item)
-  //           .get();
-
-  //       print('item sin -- ${subSetSnap.data()}');
-
-  //       print('aaaa ak $subSetSnap');
-
-  //       // final subSet = await SubSet.fromDocument(subSetSnap);
-  //       // print('alkalala $subSet');
-  //       //subSets.add(await SubSet.fromDocument(subSetSnap));
-  //     }
-
-  //     return SetModel(
-  //       //setId: ,
-  //       setId: snap.id,
-  //       author: AppUser.fromDocument(authorSnap),
-  //       name: data['name'],
-  //       cause: data['cause'],
-  //       mediaFormat:
-  //           EnumToString.fromString(MediaFormat.values, data['mediaFormat']),
-  //       subsets: subSets,
-  //     );
-
-  //   }
-
-  // }
-
   factory SetModel.fromMap(Map<String, dynamic> map) {
     return SetModel(
+      name: map['name'],
       cause: map['cause'],
       mediaFormat:
           EnumToString.fromString(MediaFormat.values, map['mediaFormat']),

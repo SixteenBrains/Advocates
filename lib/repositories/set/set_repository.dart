@@ -1,3 +1,5 @@
+import 'package:advocates/models/app_user.dart';
+
 import '/models/sub_set.dart';
 import '/config/paths.dart';
 import '/models/failure.dart';
@@ -54,20 +56,38 @@ class SetRepository extends BaseSetRepo {
     }
   }
 
-  Future<List<Future<SubSet?>>> getSubSets() async {
+  Future<List<SubSet?>> getSubSets({required String? userId}) async {
+    // these subsets are displaying on dashboard
     try {
-      // List<SubSet?> subSets = [];
-      final subSetsSnaps = await _firestore.collection(Paths.subsets).get();
+      if (userId == null) {
+        return [];
+      }
+      List<SubSet?> subSets = [];
+
+      final userSnap =
+          await _firestore.collection(Paths.users).doc(userId).get();
+      final user = AppUser.fromDocument(userSnap);
+
+      print('formataaa -- ${user?.format}');
+
+      final subSetsSnaps = await _firestore
+          .collection(Paths.subsets)
+          .where('mediaFormat', isEqualTo: user?.format?.toLowerCase())
+          // isEqualTo: user?.format)
+          .get();
 
       print('sub serts -- $subSetsSnaps');
 
-      return subSetsSnaps.docs.map((doc) => SubSet.fromDocument(doc)).toList();
+      // return subSetsSnaps.docs.map((doc) => SubSet.fromDocument(doc)).toList();
 
-      // for (var item in subSetsSnaps.docs) {
-      //   subSets.add(await SubSet.fromDocument(item));
-      // }
-
-      //return subSets;
+      for (var item in subSetsSnaps.docs) {
+        final subSet = await SubSet.fromDocument(item);
+        final userCauses = user?.causes ?? [];
+        if (userCauses.contains(subSet?.setModel?.cause)) {
+          subSets.add(await SubSet.fromDocument(item));
+        }
+      }
+      return subSets;
     } catch (error) {
       print('Error getting sets ${error.toString()}');
       throw const Failure(message: 'Error getting sets');

@@ -24,13 +24,16 @@ class DashboardBloc extends Bloc<DashboardEvent, DashBoardState> {
       try {
         emit(state.copyWith(status: DashBoardStatus.loading));
 
-        final subSets = await _setRepository.getSubSets();
+        final subSets =
+            await _setRepository.getSubSets(userId: _authBloc.state.user?.uid);
         print('Sub sets --- $subSets');
-        print('Sets qq ${await Future.wait(subSets)}');
+
+        ///print('Sets qq ${await Future.wait(subSets)}');
 
         emit(state.copyWith(
-            status: DashBoardStatus.succuss,
-            subSets: await Future.wait(subSets)));
+          status: DashBoardStatus.succuss,
+          subSets: subSets,
+        ));
       } on Failure catch (failure) {
         emit(state.copyWith(status: DashBoardStatus.error, failure: failure));
       }

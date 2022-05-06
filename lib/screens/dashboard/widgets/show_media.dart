@@ -19,6 +19,20 @@ class ShowMedia extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0),
           child: DisplayImage(imageUrl: subSet?.imageUrl),
         );
+      case MediaFormat.gifs:
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: Image.network(
+            subSet?.imageUrl ?? '',
+            fit: BoxFit.cover,
+          ),
+
+          //  DisplayImage(
+          //   imageUrl: subSet?.imageUrl,
+          //   fit: BoxFit.fitHeight,
+
+          // ),
+        );
       case MediaFormat.videos:
         if (subSet?.imageUrl != null) {
           return ClipRRect(

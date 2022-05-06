@@ -67,9 +67,9 @@ class SubSetCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.0),
           ),
           child: Stack(
-            fit: subSet?.mediaFormat == MediaFormat.images
-                ? StackFit.expand
-                : StackFit.loose,
+            fit: subSet?.mediaFormat == MediaFormat.videos
+                ? StackFit.loose
+                : StackFit.expand,
             children: [
               ShowMedia(subSet: subSet),
               Align(

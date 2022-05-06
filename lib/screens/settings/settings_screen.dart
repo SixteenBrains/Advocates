@@ -1,3 +1,7 @@
+import 'package:advocates/constants/constants.dart';
+
+import '/blocs/auth/auth_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '/widgets/options_button.dart';
 
 import '/screens/settings/screens/legal_settings.dart';
@@ -12,6 +16,88 @@ class SettingsScreen extends StatelessWidget {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
       builder: (_) => const SettingsScreen(),
+    );
+  }
+
+  Future<void> _showMyDialog(
+    BuildContext context, {
+    required String label,
+    required VoidCallback onConfirm,
+  }) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/images/modal_warning.png',
+                height: 64.0,
+                width: 64.0,
+              ),
+              const SizedBox(height: 10.0),
+              Text(
+                label,
+                style: const TextStyle(fontWeight: FontWeight.w600),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 10.0),
+              const Text(
+                'This action cannot be reversed, are you sure you want to do this?',
+                style: TextStyle(fontWeight: FontWeight.w500),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20.0),
+              SizedBox(
+                height: 45.0,
+                width: 200.0,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: colorBrighest,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32.0),
+                    ),
+                  ),
+                  onPressed: () {
+                    onConfirm();
+                    // context.read<AuthBloc>().add(DeleteAccount());
+                    Navigator.of(context).pop();
+                    // context
+                    //     .read<NavBloc>()
+                    //     .add(const UpdateNavItem(item: NavItem.account));
+                    // Navigator.of(context).pushNamedAndRemoveUntil(
+                    //     NavScreen.routeName, (route) => false);
+                  },
+                  child: const Text(
+                    'CONFIRM',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  'CANCEL',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -74,7 +160,7 @@ class SettingsScreen extends StatelessWidget {
                   'Configure how you use Setment and decide\nwhat types of notifications you\'d like to receive.',
                   style: TextStyle(
                     fontSize: 15.0,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -84,7 +170,6 @@ class SettingsScreen extends StatelessWidget {
                   onTap: () =>
                       Navigator.of(context).pushNamed(LegalSettings.routeName),
                 ),
-                const SizedBox(height: 10.0),
                 OptionButtons(
                   label: 'NOTIFICATIONS',
                   onTap: () => Navigator.of(context)
@@ -95,7 +180,12 @@ class SettingsScreen extends StatelessWidget {
                   style: TextButton.styleFrom(
                     primary: Colors.grey.shade600,
                   ),
-                  onPressed: () {},
+                  onPressed: () => _showMyDialog(
+                    context,
+                    onConfirm: () =>
+                        context.read<AuthBloc>().add(AuthLogoutRequested()),
+                    label: 'Do you want to logout ?',
+                  ),
                   child: const Text(
                     'LOGOUT',
                     style: TextStyle(
@@ -117,7 +207,12 @@ class SettingsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () => _showMyDialog(
+                      context,
+                      onConfirm: () =>
+                          context.read<AuthBloc>().add(DeleteAccount()),
+                      label: 'Do you want to delete your account ?',
+                    ),
                     child: const Text('CLOSE'),
                   ),
                 ),

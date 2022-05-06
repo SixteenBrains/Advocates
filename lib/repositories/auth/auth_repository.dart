@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:advocates/config/paths.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '/models/app_user.dart';
 import '/models/failure.dart';
 
@@ -188,6 +191,22 @@ class AuthRepository extends BaseAuthRepository {
       throw Failure(code: error.code, message: error.message!);
     } catch (error) {
       throw const Failure(message: 'Something went wrong.Try again');
+    }
+  }
+
+  Future<void> deleteAccount({required String? userId}) async {
+    try {
+      if (userId == null) {
+        return;
+      }
+      await FirebaseFirestore.instance
+          .collection(Paths.users)
+          .doc(userId)
+          .delete();
+      await _firebaseAuth.currentUser?.delete();
+    } catch (error) {
+      print('Error in deleting account ${error.toString()}');
+      throw const Failure(message: 'Error in deleting account');
     }
   }
 

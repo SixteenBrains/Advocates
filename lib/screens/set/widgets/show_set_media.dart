@@ -18,7 +18,9 @@ class ShowSetMedia extends StatelessWidget {
       case MediaFormat.images:
         return ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
-          child: DisplayImage(imageUrl: setModel?.subsets[0]?.imageUrl),
+          child: DisplayImage(
+            imageUrl: setModel?.subsets[0]?.imageUrl,
+          ),
         );
       case MediaFormat.videos:
         if (setModel?.subsets[0]?.imageUrl != null) {
@@ -35,6 +37,12 @@ class ShowSetMedia extends StatelessWidget {
           );
         }
         return const SizedBox();
+
+      case MediaFormat.gifs:
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: DisplayImage(imageUrl: setModel?.subsets[0]?.imageUrl),
+        );
 
       default:
         return const SizedBox();

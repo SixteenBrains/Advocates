@@ -18,16 +18,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         super(AuthState.unknown()) {
     _userSubscription = _authRepository.onAuthChanges
         .listen((user) => add(AuthUserChanged(user: user)));
-    on<AuthEvent>((event, emit) async {
-      if (event is AuthUserChanged) {
-        emit(
-          event.user != null
-              ? AuthState.authenticated(user: event.user)
-              : AuthState.unAuthenticated(),
-        );
-      } else if (event is AuthLogoutRequested) {
-        await _authRepository.signOut();
-      }
+
+    on<AuthUserChanged>((event, emit) async {
+      emit(
+        event.user != null
+            ? AuthState.authenticated(user: event.user)
+            : AuthState.unAuthenticated(),
+      );
+    });
+
+    on<AuthLogoutRequested>((event, emit) async {
+      await _authRepository.signOut();
+    });
+
+    on<DeleteAccount>((event, emit) async {
+      await _authRepository.deleteAccount(userId: state.user?.uid);
     });
   }
 

@@ -1,3 +1,5 @@
+import 'package:string_validator/string_validator.dart';
+
 import '/blocs/auth/auth_bloc.dart';
 import '/enums/enums.dart';
 import '/screens/set/widgets/preview_media.dart';
@@ -194,6 +196,8 @@ class _AddSubsetState extends State<AddSubset> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Destination can\'t be empty';
+                        } else if (!isURL(value)) {
+                          return 'Invalid target link';
                         }
                         return null;
                       },

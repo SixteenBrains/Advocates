@@ -65,6 +65,7 @@ dependencies:
   sms_autofill: ^2.2.0
   social_share: ^2.2.1
   speech_to_text: ^5.4.3
+  string_validator: ^0.3.0
   timeago: ^3.2.2
   universal_platform: ^1.0.0+1
   url_launcher: ^6.0.20

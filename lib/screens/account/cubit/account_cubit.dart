@@ -72,7 +72,7 @@ class AccountCubit extends Cubit<AccountState> {
 
       await _profileRepository.addMediaFormat(
           userId: _authBloc.state.user?.uid, mediaType: format);
-      emit(state.copyWith(status: AccountStatus.succuss, format: format));
+      emit(state.copyWith(status: AccountStatus.submitted, format: format));
     } on Failure catch (failure) {
       emit(state.copyWith(status: AccountStatus.error, failure: failure));
     }

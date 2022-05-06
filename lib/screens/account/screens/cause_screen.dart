@@ -100,7 +100,7 @@ class CauseScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 40.0),
                 SizedBox(
-                  height: _canvas.height * 0.35,
+                  height: _canvas.height * 0.4,
                   child: ListView.builder(
                     itemCount: causes.length,
                     itemBuilder: (context, index) {

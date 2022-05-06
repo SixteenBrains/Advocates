@@ -1,3 +1,5 @@
+import 'package:advocates/screens/nav/nav_screen.dart';
+
 import '/enums/enums.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import '/widgets/loading_indicator.dart';
@@ -52,7 +54,12 @@ class FormateScreen extends StatelessWidget {
         ),
       ),
       body: BlocConsumer<AccountCubit, AccountState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state.status == AccountStatus.submitted) {
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil(NavScreen.routeName, (route) => false);
+          }
+        },
         builder: (context, state) {
           if (state.status == AccountStatus.loading) {
             return const LoadingIndicator();
@@ -111,9 +118,11 @@ class FormateScreen extends StatelessWidget {
                       return ChooseMediaFormate(
                         isSelected: isSelected,
                         label: format.toString(),
-                        onTap: () => context
-                            .read<AccountCubit>()
-                            .addMediaFormat(enumValue),
+                        onTap: () {
+                          context
+                              .read<AccountCubit>()
+                              .addMediaFormat(enumValue);
+                        },
                       );
                     },
                   ),
@@ -146,7 +155,12 @@ class FormateScreen extends StatelessWidget {
                 // ),
                 const SizedBox(height: 10.0),
                 TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () {
+                    context
+                        .read<AccountCubit>()
+                        .addMediaFormat(MediaFormat.images);
+                    // Navigator.of(context).pop();
+                  },
                   child: Text(
                     'SKIP',
                     style: TextStyle(

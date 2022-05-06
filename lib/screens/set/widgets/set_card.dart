@@ -1,3 +1,4 @@
+import '/enums/enums.dart';
 import '/constants/constants.dart';
 import '/screens/set/update_set_screen.dart';
 import '/screens/set/set_manager.dart';
@@ -138,9 +139,9 @@ class SetCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: Stack(
-          fit: setModel?.mediaFormat == FileType.image
-              ? StackFit.expand
-              : StackFit.loose,
+          fit: setModel?.mediaFormat == MediaFormat.videos
+              ? StackFit.loose
+              : StackFit.expand,
           children: [
             // ShowMedia(subSet: setModel),
             ShowSetMedia(setModel: setModel),

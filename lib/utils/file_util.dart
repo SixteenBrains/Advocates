@@ -20,8 +20,15 @@ class FileUtil {
       FileType fileType;
 
       switch (mediaFormat) {
+        case MediaFormat.images:
+          fileType = FileType.image;
+          break;
         case MediaFormat.videos:
           fileType = FileType.video;
+          break;
+
+        case MediaFormat.gifs:
+          fileType = FileType.media;
           break;
 
         default:

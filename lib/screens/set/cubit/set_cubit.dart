@@ -8,7 +8,6 @@ import '/models/failure.dart';
 import '/utils/file_util.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
 part 'set_state.dart';
 
 class SetCubit extends Cubit<SetState> {

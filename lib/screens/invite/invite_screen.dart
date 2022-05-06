@@ -1,3 +1,7 @@
+import 'package:advocates/blocs/auth/auth_bloc.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '/enums/enums.dart';
 import '/enums/share_platform.dart';
 import '/services/social_share_service.dart';
@@ -14,11 +18,34 @@ class InviteScreen extends StatelessWidget {
     required String? inviteUrl,
     required String txt,
     required share.FileType mediaType,
-  }) {
+    required BuildContext context,
+  }) async {
+    final authorId = context.read<AuthBloc>().state.user?.uid;
+
+    final link = 'https://sixteebrains.com';
+
+    final dynamicLinkParams = DynamicLinkParameters(
+        link: Uri.parse(link),
+        uriPrefix: 'https://advocates.page.link',
+        androidParameters:
+            // not providing proper package name so that url will open on web
+            const AndroidParameters(packageName: 'com.sixteenbrains.none'),
+        iosParameters:
+            //Change according to ios
+            const IOSParameters(bundleId: 'com.sixteenbrains.none'),
+        navigationInfoParameters:
+            const NavigationInfoParameters(forcedRedirectEnabled: true));
+    final dynamicLink =
+        await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
+
+    print('generated short link $dynamicLink');
+
     SocialShareService.socialShare(
       platform,
-      inviteUrl: inviteUrl,
-      text: txt,
+      //  inviteUrl: inviteUrl,
+      inviteUrl: dynamicLink.shortUrl.toString(),
+      //text: txt,
+      text: dynamicLink.shortUrl.toString(),
       mediaType: mediaType,
     );
     // SocialShareService.socialShare(platform,
@@ -97,6 +124,7 @@ class InviteScreen extends StatelessWidget {
                 OptionButtons(
                   label: 'MESSENGER',
                   onTap: () => invite(
+                    context: context,
                     platform: SharePlatform.messenger,
                     inviteUrl: 'https://example.com',
                     txt: 'Install the app from my code https://example.com',
@@ -107,6 +135,7 @@ class InviteScreen extends StatelessWidget {
                 OptionButtons(
                   label: 'WHATSAPP',
                   onTap: () => invite(
+                    context: context,
                     platform: SharePlatform.whatsapp,
                     inviteUrl: 'https://example.com',
                     txt: 'Install the app from my code https://example.com',

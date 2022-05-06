@@ -1,3 +1,5 @@
+import 'package:speech_to_text/speech_to_text.dart';
+
 import '/utils/frequency_counter.dart';
 import '/models/sub_set.dart';
 import '/blocs/auth/auth_bloc.dart';
@@ -13,6 +15,7 @@ part 'dashboard_state.dart';
 class DashboardBloc extends Bloc<DashboardEvent, DashBoardState> {
   final AuthBloc _authBloc;
   final SetRepository _setRepository;
+  late SpeechToText speech;
 
   DashboardBloc({
     required AuthBloc authBloc,
@@ -29,84 +32,141 @@ class DashboardBloc extends Bloc<DashboardEvent, DashBoardState> {
             await _setRepository.getSubSets(userId: _authBloc.state.user?.uid);
         print('Sub sets --- $subSets');
 
-        List<SubSet?> reqSubSets = [];
+        if (state.searchKeyword != null) {
+          List<SubSet?> reqSubSets = [];
 
-        Map<SubSet, int> subSetFrequency = {};
+          Map<SubSet, int> subSetFrequency = {};
 
-        for (var element in subSets) {
-          if (element != null) {
-            final description = element.description?.toLowerCase();
-            final destination = element.destination?.toLowerCase();
-            final title = element.setModel?.name?.toLowerCase();
-            int frequency = 0;
-            if (description?.contains('ram') ?? false) {
-              frequency += FrequencyCounter.frequencyCounter(description ?? '',
-                  keyword: 'ram');
+          for (var element in subSets) {
+            if (element != null) {
+              final description = element.description?.toLowerCase();
+              final destination = element.destination?.toLowerCase();
+              final title = element.setModel?.name?.toLowerCase();
+              int frequency = 0;
+
+              final keyword = state.searchKeyword!.toLowerCase();
+
+              if (description?.contains(keyword) ?? false) {
+                frequency += FrequencyCounter.frequencyCounter(
+                    description ?? '',
+                    keyword: keyword);
+              }
+
+              if (destination?.contains(keyword) ?? false) {
+                // frequency++;//
+                final count = FrequencyCounter.frequencyCounter(
+                    destination ?? '',
+                    keyword: keyword);
+                print('Destination count $count');
+                frequency += count;
+              }
+
+              if (title?.contains(keyword) ?? false) {
+                //frequency++;
+                frequency += FrequencyCounter.frequencyCounter(title ?? '',
+                    keyword: keyword);
+              }
+              print('Frequency - $frequency');
+
+              if (frequency > 0) {
+                // this means the word occured somewhere
+                // reqSubSets.add(element);
+                subSetFrequency[element] = frequency;
+              }
+
+              // var sortedKeys = subSetFrequency.keys.toList(growable: false)
+              //   ..sort((k1, k2) =>
+              //       subSetFrequency[k1]!.compareTo(subSetFrequency[k2]!));
+
+              reqSubSets = subSetFrequency.keys.toList(growable: false)
+                ..sort((k1, k2) =>
+                    subSetFrequency[k1]!.compareTo(subSetFrequency[k2]!));
+
+              // print('sorted keys --- $sortedKeys');
+
+              // LinkedHashMap sortedMap = LinkedHashMap.fromIterable(sortedKeys,
+              //     key: (k) => k, value: (k) => subSetFrequency[k]);
+              // print('Sorted map -- $sortedMap');
+
+              // sortedMap.forEach(
+              //   (subSet, count) {
+              //     reqSubSets.add(subSet);
+              //   },
+              // );
+
+              print('Subset map $subSetFrequency');
+              print('Sub set list $reqSubSets');
+
+              // final reqList = subSets.where(
+              //   (element) {
+              //     return element?.description?.contains('Ram') ?? false;
+              //   },
+              // ).toList();
+
+              ///print('Sets qq ${await Future.wait(subSets)}');
+              ///
+              print('Search keyword ${state.searchKeyword}');
+
+              emit(
+                state.copyWith(
+                  status: DashBoardStatus.succuss,
+                  searchStatus: SearchStatus.initial,
+
+                  // subSets: subSets,
+                  subSets: state.searchKeyword != null ? reqSubSets : subSets,
+                ),
+              );
             }
-
-            if (destination?.contains('ram') ?? false) {
-              // frequency++;//
-              final count = FrequencyCounter.frequencyCounter(destination ?? '',
-                  keyword: 'ram');
-              print('Destination count $count');
-              frequency += count;
-            }
-
-            if (title?.contains('ram') ?? false) {
-              //frequency++;
-              frequency += FrequencyCounter.frequencyCounter(title ?? '',
-                  keyword: 'ram');
-            }
-            print('Frequency - $frequency');
-
-            if (frequency > 0) {
-              // this means the word occured somewhere
-              // reqSubSets.add(element);
-              subSetFrequency[element] = frequency;
-            }
-
-            // var sortedKeys = subSetFrequency.keys.toList(growable: false)
-            //   ..sort((k1, k2) =>
-            //       subSetFrequency[k1]!.compareTo(subSetFrequency[k2]!));
-
-            reqSubSets = subSetFrequency.keys.toList(growable: false)
-              ..sort((k1, k2) =>
-                  subSetFrequency[k1]!.compareTo(subSetFrequency[k2]!));
-
-            // print('sorted keys --- $sortedKeys');
-
-            // LinkedHashMap sortedMap = LinkedHashMap.fromIterable(sortedKeys,
-            //     key: (k) => k, value: (k) => subSetFrequency[k]);
-            // print('Sorted map -- $sortedMap');
-
-            // sortedMap.forEach(
-            //   (subSet, count) {
-            //     reqSubSets.add(subSet);
-            //   },
-            // );
-
-            print('Subset map $subSetFrequency');
-            print('Sub set list $reqSubSets');
           }
+        } else {
+          emit(
+            state.copyWith(
+              subSets: subSets,
+              status: DashBoardStatus.succuss,
+              searchStatus: SearchStatus.initial,
+            ),
+          );
         }
-
-        // final reqList = subSets.where(
-        //   (element) {
-        //     return element?.description?.contains('Ram') ?? false;
-        //   },
-        // ).toList();
-
-        ///print('Sets qq ${await Future.wait(subSets)}');
-
-        emit(
-          state.copyWith(
-            status: DashBoardStatus.succuss,
-            // subSets: subSets,
-            subSets: reqSubSets,
-          ),
-        );
       } on Failure catch (failure) {
         emit(state.copyWith(status: DashBoardStatus.error, failure: failure));
+      }
+    });
+
+    on<SearchKeyWordChanged>((event, emit) {
+      emit(state.copyWith(
+        searchKeyword: event.keyWord,
+        searchStatus: SearchStatus.speaking,
+      ));
+      // add(LoadSubSets());
+    });
+
+    on<InitSpeachToText>((event, emit) async {
+      speech = SpeechToText();
+    });
+
+    on<ListenToSpeech>((event, emit) async {
+      print('this runs ');
+      bool avail = await speech.initialize();
+      print('available $avail');
+      if (avail) {
+        await speech.listen(onResult: (value) {
+          print('words -- ${value.recognizedWords}');
+          add(SearchKeyWordChanged(keyWord: value.recognizedWords));
+          // emit(state.copyWith(
+          //     searchKeyword: value.recognizedWords,
+          //     searchStatus: SearchStatus.speaking));
+          //textString = value.recognizedWords;
+        });
+      }
+    });
+
+    on<StopListening>((event, emit) async {
+      speech.stop();
+    });
+
+    on<SearchWithKeyWord>((event, emit) async {
+      if (state.searchKeyword != null) {
+        add(LoadSubSets());
       }
     });
   }

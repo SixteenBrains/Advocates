@@ -93,7 +93,7 @@ class MyApp extends StatelessWidget {
 
           // home: const SignUpScreen(),
 
-          // home: Mic(),
+          /// home: Mic(),
 
           onGenerateRoute: CustomRouter.onGenerateRoute,
           //initialRoute: SplashScreen.routeName,

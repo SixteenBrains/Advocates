@@ -18,3 +18,11 @@ class UpdateNavItem extends NavEvent {
   @override
   String toString() => 'UpdateNav { nav: $item }';
 }
+
+class UpdateIsListening extends NavEvent {
+  final bool isListening;
+
+  const UpdateIsListening({required this.isListening});
+  @override
+  List<Object> get props => [isListening];
+}

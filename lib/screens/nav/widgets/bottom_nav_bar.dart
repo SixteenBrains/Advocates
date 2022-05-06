@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+
 import '/enums/nav_item.dart';
 
 class BottomNavBar extends StatelessWidget {
   final NavItem? navItem;
   final Function(NavItem)? onitemSelected;
+  final bool isListening;
 
   const BottomNavBar({
     Key? key,
-    @required this.navItem,
-    @required this.onitemSelected,
+    required this.navItem,
+    required this.onitemSelected,
+    required this.isListening,
   }) : super(key: key);
 
   @override
@@ -37,7 +40,11 @@ class BottomNavBar extends StatelessWidget {
         return BottomNavigationBarItem(
           icon: Padding(
             padding: const EdgeInsets.all(6.0),
-            child: _itemIcon(item),
+            child: ItemIcon(
+              item: item,
+              isListening: isListening,
+            ),
+            // _itemIcon(item),
           ),
           label: '',
         );
@@ -46,32 +53,80 @@ class BottomNavBar extends StatelessWidget {
   }
 }
 
-Widget _itemIcon(NavItem item) {
-  switch (item) {
-    case NavItem.account:
-      return Image.asset('assets/images/menu_account.png',
-          height: 35.0, width: 35.0);
+class ItemIcon extends StatelessWidget {
+  final NavItem item;
+  final bool isListening;
+  const ItemIcon({
+    Key? key,
+    required this.item,
+    required this.isListening,
+  }) : super(key: key);
 
-    case NavItem.wallet:
-      return Image.asset('assets/images/menu_wallet.png',
-          height: 35.0, width: 35.0);
+  @override
+  Widget build(BuildContext context) {
+    //Widget icon;
 
-    case NavItem.dashboard:
-      return Image.asset('assets/images/bar_speaker.png',
-          height: 35.0, width: 35.0);
+    switch (item) {
+      case NavItem.account:
+        return Image.asset('assets/images/menu_account.png',
+            height: 35.0, width: 35.0);
 
-    case NavItem.sets:
-      return Image.asset('assets/images/menu_sets.png',
-          height: 35.0, width: 35.0);
+      case NavItem.wallet:
+        return Image.asset('assets/images/menu_wallet.png',
+            height: 35.0, width: 35.0);
 
-    case NavItem.invite:
-      return Image.asset('assets/images/menu_invite.png',
-          height: 35.0, width: 35.0);
+      case NavItem.dashboard:
+        return isListening
+            ? Image.asset('assets/images/bar_speaker.png',
+                height: 35.0, width: 35.0)
+            : const Icon(
+                Icons.mic_off,
+                size: 25.0,
+                color: Colors.black,
+              );
 
-    default:
-      return const Icon(Icons.error);
+      case NavItem.sets:
+        return Image.asset('assets/images/menu_sets.png',
+            height: 35.0, width: 35.0);
+
+      case NavItem.invite:
+        return Image.asset('assets/images/menu_invite.png',
+            height: 35.0, width: 35.0);
+
+      default:
+        return const Icon(Icons.error);
+    }
+
+    // return Container();
   }
 }
+
+// Widget _itemIcon(NavItem item) {
+//   switch (item) {
+//     case NavItem.account:
+//       return Image.asset('assets/images/menu_account.png',
+//           height: 35.0, width: 35.0);
+
+//     case NavItem.wallet:
+//       return Image.asset('assets/images/menu_wallet.png',
+//           height: 35.0, width: 35.0);
+
+//     case NavItem.dashboard:
+//       return Image.asset('assets/images/bar_speaker.png',
+//           height: 35.0, width: 35.0);
+
+//     case NavItem.sets:
+//       return Image.asset('assets/images/menu_sets.png',
+//           height: 35.0, width: 35.0);
+
+//     case NavItem.invite:
+//       return Image.asset('assets/images/menu_invite.png',
+//           height: 35.0, width: 35.0);
+
+//     default:
+//       return const Icon(Icons.error);
+//   }
+// }
 
 // String _label(NavItem item) {
 //   if (item == NavItem.dashboard) {

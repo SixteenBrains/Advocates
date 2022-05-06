@@ -93,6 +93,7 @@ class SetCubit extends Cubit<SetState> {
   //
   void uploadSubSet({required SetModel? setModel}) async {
     try {
+      print('Upload sub sets runs');
       emit(state.copyWith(status: SetStatus.loading));
 
       final imageUrl = state.pickedFile != null
@@ -100,6 +101,7 @@ class SetCubit extends Cubit<SetState> {
           : null;
 
       final subSet = SubSet(
+        title: state.subSetTitle,
         setModel: setModel,
         mediaFormat: setModel?.mediaFormat,
         imageUrl: imageUrl,
@@ -151,34 +153,39 @@ class SetCubit extends Cubit<SetState> {
       emit(state.copyWith(failure: failure, status: SetStatus.error));
     }
   }
+
+  // stats section
+
+  void increaseViews({required String? subSetId}) async {
+    try {
+      await _setRepository.increaseSubSetViews(
+        userId: _authBloc.state.user?.uid,
+        subSetId: subSetId,
+      );
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: SetStatus.error));
+    }
+  }
+
+  void increaseVisits({required String? subSetId}) async {
+    try {
+      await _setRepository.increaseSubSetVisits(
+        userId: _authBloc.state.user?.uid,
+        subSetId: subSetId,
+      );
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: SetStatus.error));
+    }
+  }
+
+  void inreaseLikes({required String? subSetId}) async {
+    try {
+      await _setRepository.increaseSubSetLikes(
+        userId: _authBloc.state.user?.uid,
+        subSetId: subSetId,
+      );
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: SetStatus.error));
+    }
+  }
 }
-
-// void uploadSet() async {
-//   try {
-//     emit(state.copyWith(status: SetStatus.loading));
-
-//     List<SubSet?> subSets = [];
-
-//     for (var subSet in state.subSets) {
-//       if (subSet?.imageFile != null) {
-//         final imageUrl =
-//             await FileUtil.uploadImageToStorage('sets', subSet!.imageFile!);
-//         final updatedSubSet = subSet.copyWith(imageUrl: imageUrl);
-//         subSets.add(updatedSubSet);
-//       }
-//     }
-
-//     final set = SetModel(
-//       subsets: subSets,
-//       name: state.name,
-//       cause: state.cause,
-//       format: state.fileType,
-//     );
-//     // final id =
-//     // await _setRepository.uploadSet(set);
-
-//     emit(state.copyWith(status: SetStatus.succuss));
-//   } on Failure catch (failure) {
-//     emit(state.copyWith(failure: failure, status: SetStatus.error));
-//   }
-// }

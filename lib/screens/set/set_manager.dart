@@ -43,7 +43,7 @@ class _SetManagerState extends State<SetManager> {
 
   void submit() {
     if (_formKey.currentState!.validate()) {
-      //context.read<SetCubit>().uploadSet();
+      //  context.read<SetCubit>().uploadSubSet();
     }
   }
 
@@ -157,7 +157,6 @@ class _SetManagerState extends State<SetManager> {
                                   ? state.subSets[i]?.imageFile
                                   : null,
                               fileType: state.mediaFormat,
-                              //  imageFile: null,
                               onTap: () async {
                                 print('Cause ${state.cause}');
                                 print('Title ${state.name}');

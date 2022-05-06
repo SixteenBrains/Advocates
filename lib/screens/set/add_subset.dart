@@ -41,7 +41,7 @@ class AddSubset extends StatefulWidget {
 class _AddSubsetState extends State<AddSubset> {
   final _formKey = GlobalKey<FormState>();
 
-  void submit() {
+  void _submit() {
     if (_formKey.currentState!.validate()) {
       final _setCubit = context.read<SetCubit>();
       if (_setCubit.state.pickedFile != null) {
@@ -225,7 +225,7 @@ class _AddSubsetState extends State<AddSubset> {
                             borderRadius: BorderRadius.circular(28.0),
                           ),
                         ),
-                        onPressed: submit,
+                        onPressed: _submit,
                         child: const Text(
                           'DONE',
                           style: TextStyle(

@@ -11,6 +11,7 @@ import 'package:equatable/equatable.dart';
 
 class SubSet extends Equatable {
   final String? subSetId;
+  final String? title;
   final MediaFormat? mediaFormat;
   final String? destination;
   final String? description;
@@ -18,6 +19,13 @@ class SubSet extends Equatable {
   final File? imageFile;
   final AppUser? author;
   final SetModel? setModel;
+  // final int? views;
+  // final int? likes;
+  // final int? visits;
+
+  final Set<String?> views;
+  final Set<String?> likes;
+  final Set<String?> visits;
 
   const SubSet({
     this.mediaFormat,
@@ -28,9 +36,14 @@ class SubSet extends Equatable {
     this.imageFile,
     this.setModel,
     this.author,
+    this.title,
+    this.likes = const {},
+    this.views = const {},
+    this.visits = const {},
   });
 
   SubSet copyWith({
+    String? title,
     String? subSetId,
     String? destination,
     String? description,
@@ -40,8 +53,12 @@ class SubSet extends Equatable {
     MediaFormat? mediaFormat,
     AppUser? author,
     SetModel? setModel,
+    Set<String?>? views,
+    Set<String?>? likes,
+    Set<String?>? visits,
   }) {
     return SubSet(
+      title: title ?? this.title,
       subSetId: subSetId ?? this.subSetId,
       setModel: setModel ?? this.setModel,
       destination: destination ?? this.destination,
@@ -50,19 +67,27 @@ class SubSet extends Equatable {
       imageFile: imageFile ?? this.imageFile,
       mediaFormat: mediaFormat ?? this.mediaFormat,
       author: author ?? this.author,
+      views: views ?? this.views,
+      likes: likes ?? this.likes,
+      visits: visits ?? this.visits,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
+      'title': title,
       'destination': destination,
       'description': description,
       'imageUrl': imageUrl,
       'mediaFormat': EnumToString.convertToString(mediaFormat),
       'author':
           FirebaseFirestore.instance.collection(Paths.users).doc(author?.uid),
-      'setModel':
-          FirebaseFirestore.instance.collection(Paths.sets).doc(setModel?.setId)
+      'setModel': FirebaseFirestore.instance
+          .collection(Paths.sets)
+          .doc(setModel?.setId),
+      'views': views.toList(),
+      'likes': likes.toList(),
+      'visits': visits.toList(),
     };
   }
 
@@ -94,6 +119,7 @@ class SubSet extends Equatable {
     return SubSet(
       author: AppUser.fromDocument(authorSnap),
       subSetId: snap.id,
+      title: data['title'],
       destination: data['destination'],
       description: data['description'],
       imageUrl: data['imageUrl'],
@@ -101,23 +127,28 @@ class SubSet extends Equatable {
           ? EnumToString.fromString(MediaFormat.values, data['mediaFormat'])
           : null,
       setModel: setModel,
-
-      ///await SetModel.fromDocument(setSnap),
+      views: data['views'] != null ? Set.from(data['views']) : {},
+      likes: data['likes'] != null ? Set.from(data['likes']) : {},
+      visits: data['visits'] != null ? Set.from(data['visits']) : {},
     );
   }
 
   @override
   String toString() {
-    return 'SubSet(subSetId: $subSetId, destination: $destination, description: $description, imageUrl: $imageUrl, imageFile: $imageFile,)';
+    return 'SubSet (title: $title, subSetId: $subSetId, destination: $destination, description: $description, imageUrl: $imageUrl, imageFile: $imageFile, views: $views ,likes: $likes, visits: $visits)';
   }
 
   @override
   List<Object?> get props => [
+        title,
         subSetId,
         setModel,
         destination,
         description,
         imageUrl,
         imageFile,
+        views,
+        likes,
+        visits,
       ];
 }

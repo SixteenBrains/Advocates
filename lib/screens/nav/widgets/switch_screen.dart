@@ -26,13 +26,26 @@ class SwitchScreen extends StatelessWidget {
         return const InviteScreen();
 
       case NavItem.dashboard:
-        return BlocProvider(
-          create: (context) => DashboardBloc(
-            authBloc: context.read<AuthBloc>(),
-            setRepository: context.read<SetRepository>(),
-          )..add(LoadSubSets()),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => DashboardBloc(
+                authBloc: context.read<AuthBloc>(),
+                setRepository: context.read<SetRepository>(),
+              )..add(LoadSubSets()),
+            ),
+            BlocProvider(
+              create: (context) => SetCubit(
+                setRepository: context.read<SetRepository>(),
+                authBloc: context.read<AuthBloc>(),
+              ),
+            ),
+          ],
           child: const DashBoard(),
         );
+
+      //   child: const DashBoard(),
+      // );
 
       case NavItem.sets:
         return BlocProvider<SetCubit>(

@@ -19,6 +19,7 @@ class SetRepository extends BaseSetRepo {
       if (subSet == null || setModel == null) {
         return;
       }
+      print('this runs 2');
       final subSetRef =
           await _firestore.collection(Paths.subsets).add(subSet.toMap());
 
@@ -30,6 +31,7 @@ class SetRepository extends BaseSetRepo {
           'subsets': FieldValue.arrayUnion([subSetRef.id])
         });
       } else {
+        print('this runs 3');
         // create new set
         setRef.set(setModel.toMap(subSetId: subSetRef.id));
       }
@@ -124,6 +126,59 @@ class SetRepository extends BaseSetRepo {
     } catch (error) {
       print('Error in getting user stats ${error.toString()}');
       throw const Failure(message: 'Error getting sets');
+    }
+  }
+
+  // increase subset view count
+
+  Future<void> increaseSubSetViews({
+    required String? userId,
+    required String? subSetId,
+  }) async {
+    try {
+      if (userId == null || subSetId == null) {
+        return;
+      }
+
+      await _firestore.collection(Paths.subsets).doc(subSetId).update({
+        'views': FieldValue.arrayUnion([userId])
+      });
+    } catch (error) {
+      print('Error in increase count ${error.toString()}');
+    }
+  }
+
+  // like subset
+
+  Future<void> increaseSubSetLikes({
+    required String? userId,
+    required String? subSetId,
+  }) async {
+    try {
+      if (userId == null || subSetId == null) {
+        return;
+      }
+      await _firestore.collection(Paths.subsets).doc(subSetId).update({
+        'likes': FieldValue.arrayUnion([userId])
+      });
+    } catch (error) {
+      print('Error in increase count ${error.toString()}');
+    }
+  }
+
+  Future<void> increaseSubSetVisits({
+    required String? userId,
+    required String? subSetId,
+  }) async {
+    try {
+      if (userId == null || subSetId == null) {
+        return;
+      }
+      await _firestore.collection(Paths.subsets).doc(subSetId).update({
+        'visits': FieldValue.arrayUnion([userId])
+      });
+    } catch (error) {
+      print('Error in increase count ${error.toString()}');
     }
   }
 }

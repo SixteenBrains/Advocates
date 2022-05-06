@@ -15,6 +15,7 @@ part 'dashboard_state.dart';
 class DashboardBloc extends Bloc<DashboardEvent, DashBoardState> {
   final AuthBloc _authBloc;
   final SetRepository _setRepository;
+
   late SpeechToText speech;
 
   DashboardBloc({

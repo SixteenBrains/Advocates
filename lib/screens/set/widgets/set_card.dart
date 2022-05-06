@@ -102,7 +102,6 @@ class SetCard extends StatelessWidget {
     final List<double> stops =
         setModel?.mediaFormat == FileType.image ? [0.2, 0.7] : [0.2, 0.5];
     return GestureDetector(
-      onLongPressEnd: (data) {},
       onHorizontalDragUpdate: (data) {
         print('drag ${data.primaryDelta?.ceil()}');
         final offSet = data.primaryDelta?.ceil() ?? 0;
@@ -117,55 +116,6 @@ class SetCard extends StatelessWidget {
           // left swipe
           print('left swipe');
           _showMyDialog(context);
-          // showDialog(
-          //   context: context,
-          //   builder: (context) {
-          //     return Container(
-          //       height: 500.0,
-          //       width: 400.0,
-          //       color: Colors.white,
-          //       child: Column(
-          //         mainAxisSize: MainAxisSize.min,
-          //         children: [
-          //           Image.asset('assets/images/modal_warning.png'),
-          //           const SizedBox(height: 10.0),
-          //           const Text(
-          //               'This action cannot be reversed, are you sure you want to do this?'),
-          //           const SizedBox(height: 10.0),
-          //           SizedBox(
-          //             height: 40.0,
-          //             width: 200.0,
-          //             child: ElevatedButton(
-          //               style: ElevatedButton.styleFrom(
-          //                 primary: colorBrighest,
-          //               ),
-          //               onPressed: () {},
-          //               child: const Text(
-          //                 'CONFIRM',
-          //                 style: TextStyle(
-          //                   color: Colors.white,
-          //                   fontSize: 18.0,
-          //                   fontWeight: FontWeight.w600,
-          //                 ),
-          //               ),
-          //             ),
-          //           ),
-          //           TextButton(
-          //             onPressed: () {},
-          //             child: const Text(
-          //               'CANCEL',
-          //               style: TextStyle(
-          //                 color: Colors.grey,
-          //                 fontSize: 18.0,
-          //                 fontWeight: FontWeight.w600,
-          //               ),
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     );
-          //   },
-          // );
         }
       },
       onTap: () => Navigator.of(context).pushNamed(

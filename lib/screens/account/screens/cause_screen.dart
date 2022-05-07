@@ -1,6 +1,6 @@
+import '/repositories/account/account_repository.dart';
 import '/widgets/options_button.dart';
 import '/blocs/auth/auth_bloc.dart';
-import '/repositories/profile/profile_repository.dart';
 import '/constants/constants.dart';
 import '/screens/account/cubit/account_cubit.dart';
 import '/widgets/loading_indicator.dart';
@@ -21,7 +21,7 @@ class CauseScreen extends StatelessWidget {
       builder: (_) => BlocProvider(
         create: (context) => AccountCubit(
           authBloc: context.read<AuthBloc>(),
-          profileRepository: context.read<ProfileRepository>(),
+          accountRepository: context.read<AccountRepository>(),
         )..loadSelectedCauses(),
         child: const CauseScreen(),
       ),

@@ -1,7 +1,7 @@
+import '/repositories/account/account_repository.dart';
 import '/widgets/show_snackbar.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/widgets/loading_indicator.dart';
-import '/repositories/profile/profile_repository.dart';
 import '/screens/update-account/cubit/update_account_cubit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -30,7 +30,7 @@ class UpdateAccount extends StatefulWidget {
       settings: const RouteSettings(name: routeName),
       builder: (_) => BlocProvider(
         create: (context) => UpdateAccountCubit(
-          profileRepository: context.read<ProfileRepository>(),
+          profileRepository: context.read<AccountRepository>(),
           authBloc: context.read<AuthBloc>(),
         )..loadAccountDetails(),
         child: const UpdateAccount(),

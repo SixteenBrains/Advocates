@@ -18,7 +18,7 @@ const List<String> causes = [
   'INEQUALITY',
   'INJUSTICE',
   'LITERACY',
-  'PPLLUTION',
+  'POPULATION',
   'POVERTY',
   'RACISM',
   'RIGHTS',

@@ -10,8 +10,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '/blocs/auth/auth_bloc.dart';
 import 'blocs/simple_bloc_observer.dart';
+import 'repositories/account/account_repository.dart';
 import 'repositories/auth/auth_repository.dart';
-import 'repositories/profile/profile_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -68,8 +68,8 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<AuthRepository>(
           create: (_) => AuthRepository(),
         ),
-        RepositoryProvider<ProfileRepository>(
-          create: (_) => ProfileRepository(),
+        RepositoryProvider<AccountRepository>(
+          create: (_) => AccountRepository(),
         ),
         RepositoryProvider<SetRepository>(
           create: (_) => SetRepository(),

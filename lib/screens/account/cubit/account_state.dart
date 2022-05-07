@@ -9,6 +9,7 @@ class AccountState extends Equatable {
   final List<String?> causes;
   final AccountStatus status;
   final Failure failure;
+  final int advocatesCount;
 
   const AccountState({
     this.fileType,
@@ -16,10 +17,12 @@ class AccountState extends Equatable {
     required this.format,
     required this.status,
     required this.failure,
+    this.advocatesCount = 0,
   });
 
   @override
-  List<Object?> get props => [fileType, causes, format, status, failure];
+  List<Object?> get props =>
+      [fileType, causes, format, status, failure, advocatesCount];
 
   AccountState copyWith({
     FileType? fileType,
@@ -27,6 +30,7 @@ class AccountState extends Equatable {
     MediaFormat? format,
     Failure? failure,
     AccountStatus? status,
+    int? advocatesCount,
   }) {
     return AccountState(
       fileType: fileType ?? this.fileType,
@@ -34,6 +38,7 @@ class AccountState extends Equatable {
       format: format ?? this.format,
       status: status ?? this.status,
       failure: failure ?? this.failure,
+      advocatesCount: advocatesCount ?? this.advocatesCount,
     );
   }
 
@@ -44,9 +49,10 @@ class AccountState extends Equatable {
         format: MediaFormat.images,
         failure: Failure(),
         status: AccountStatus.initial,
+        advocatesCount: 0,
       );
 
   @override
   String toString() =>
-      'AccountState(fileType: $fileType, causes: $causes, format: $format, status: $status, failure: $failure )';
+      'AccountState(fileType: $fileType, causes: $causes, format: $format, status: $status, failure: $failure, advocatesCount $advocatesCount )';
 }

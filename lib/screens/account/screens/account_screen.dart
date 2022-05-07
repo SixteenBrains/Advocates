@@ -1,3 +1,5 @@
+import '/repositories/account/account_repository.dart';
+import '/screens/account/cubit/account_cubit.dart';
 import '/screens/account/widgets/invite_advocates.dart';
 import '/screens/settings/settings_screen.dart';
 import '/screens/update-account/update_account_screen.dart';
@@ -16,7 +18,13 @@ class AccountScreen extends StatelessWidget {
   static Route route() {
     return MaterialPageRoute(
       settings: const RouteSettings(name: routeName),
-      builder: (_) => const AccountScreen(),
+      builder: (_) => BlocProvider(
+        create: (context) => AccountCubit(
+          accountRepository: context.read<AccountRepository>(),
+          authBloc: context.read<AuthBloc>(),
+        ),
+        child: const AccountScreen(),
+      ),
     );
   }
 
@@ -165,7 +173,12 @@ class AccountScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20.0),
-              const InviteAdvocates(),
+              BlocProvider(
+                create: (context) => AccountCubit(
+                    accountRepository: context.read<AccountRepository>(),
+                    authBloc: context.read<AuthBloc>()),
+                child: const InviteAdvocates(),
+              ),
               const SizedBox(height: 20.0),
               // Padding(
               //   padding: const EdgeInsets.symmetric(horizontal: 15.0),

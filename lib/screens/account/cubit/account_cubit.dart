@@ -1,8 +1,9 @@
+import '/repositories/account/account_repository.dart';
 import '/enums/enums.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import '/blocs/auth/auth_bloc.dart';
 import '/models/failure.dart';
-import '/repositories/profile/profile_repository.dart';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
@@ -10,13 +11,13 @@ import 'package:file_picker/file_picker.dart';
 part 'account_state.dart';
 
 class AccountCubit extends Cubit<AccountState> {
-  final ProfileRepository _profileRepository;
+  final AccountRepository _profileRepository;
   final AuthBloc _authBloc;
 
   AccountCubit({
-    required ProfileRepository profileRepository,
+    required AccountRepository accountRepository,
     required AuthBloc authBloc,
-  })  : _profileRepository = profileRepository,
+  })  : _profileRepository = accountRepository,
         _authBloc = authBloc,
         super(AccountState.initial());
 
@@ -89,6 +90,19 @@ class AccountCubit extends Cubit<AccountState> {
               EnumToString.fromString(MediaFormat.values, format ?? 'IMAGES')));
     } on Failure catch (failure) {
       emit(state.copyWith(status: AccountStatus.error, failure: failure));
+    }
+  }
+
+  void getAdvocatesCount() async {
+    try {
+      emit(state.copyWith(status: AccountStatus.loading));
+
+      final count = await _profileRepository.getAdvocatesCount(
+          userId: _authBloc.state.user?.uid);
+      emit(
+          state.copyWith(advocatesCount: count, status: AccountStatus.succuss));
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: AccountStatus.error));
     }
   }
 }

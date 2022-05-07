@@ -1,6 +1,6 @@
-import 'package:advocates/blocs/auth/auth_bloc.dart';
-import 'package:advocates/config/paths.dart';
-import 'package:advocates/widgets/show_snackbar.dart';
+import '/blocs/auth/auth_bloc.dart';
+import '/config/paths.dart';
+import '/widgets/show_snackbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
@@ -63,14 +63,39 @@ class _NavScreenState extends State<NavScreen> {
         final currentUserId = context.read<AuthBloc>().state.user?.uid;
         final _firestore = FirebaseFirestore.instance;
 
-        await _firestore.collection(Paths.users).doc(promoterId).update({
-          'promotedTo': FieldValue.arrayUnion([currentUserId])
-        });
+        // TODO: we will add only this data when
+        //the user is new or just created his account
+
+        // adding ref of current user to the promoter
+        // await _firestore.collection(Paths.users).doc(promoterId).update({
+        //   'promotedTo': FieldValue.arrayUnion(
+        //       [_firestore.collection(Paths.users).doc(currentUserId)])
+        // });
+
+        await _firestore
+            .collection(Paths.users)
+            .doc(promoterId)
+            .collection(Paths.promotedTo)
+            .doc(currentUserId)
+            .set({});
+
+        // adding ref of the promoted user to the current
+        // await _firestore.collection(Paths.users).doc(currentUserId).update({
+        //   'promotedBy': FieldValue.arrayUnion(
+        //       [_firestore.collection(Paths.users).doc(promoterId)])
+        // });
 
         await _firestore
             .collection(Paths.users)
             .doc(currentUserId)
-            .update({'promotionUrl': link.toString()});
+            .collection(Paths.promotedBy)
+            .doc(promoterId)
+            .set({});
+
+        // await _firestore
+        //     .collection(Paths.users)
+        //     .doc(currentUserId)
+        //     .update({'promotionUrl': link.toString()});
 
         //Navigator.pushNamed(context, dynamicLinkData.link.path);
       }).onError((error) {

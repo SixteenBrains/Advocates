@@ -1,9 +1,10 @@
+import '/repositories/account/account_repository.dart';
+
 import '/blocs/auth/auth_bloc.dart';
 import '/models/education.dart';
 import '/models/location.dart';
 import '/models/personal.dart';
 import '/models/professsion.dart';
-import '/repositories/profile/profile_repository.dart';
 import '/models/failure.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -11,10 +12,10 @@ import 'package:equatable/equatable.dart';
 part 'update_account_state.dart';
 
 class UpdateAccountCubit extends Cubit<UpdateAccountState> {
-  final ProfileRepository _profileRepository;
+  final AccountRepository _profileRepository;
   final AuthBloc _authBloc;
   UpdateAccountCubit({
-    required ProfileRepository profileRepository,
+    required AccountRepository profileRepository,
     required AuthBloc authBloc,
   })  : _profileRepository = profileRepository,
         _authBloc = authBloc,

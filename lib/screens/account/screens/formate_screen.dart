@@ -1,3 +1,4 @@
+import '/repositories/account/account_repository.dart';
 import '/screens/nav/nav_screen.dart';
 import '/widgets/options_button.dart';
 
@@ -5,7 +6,6 @@ import '/enums/enums.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import '/widgets/loading_indicator.dart';
 import '/blocs/auth/auth_bloc.dart';
-import '/repositories/profile/profile_repository.dart';
 import '/screens/account/cubit/account_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +19,7 @@ class FormateScreen extends StatelessWidget {
       settings: const RouteSettings(name: routeName),
       builder: (_) => BlocProvider(
         create: (context) => AccountCubit(
-          profileRepository: context.read<ProfileRepository>(),
+          accountRepository: context.read<AccountRepository>(),
           authBloc: context.read<AuthBloc>(),
         )..getSelectedMedia(),
         child: const FormateScreen(),

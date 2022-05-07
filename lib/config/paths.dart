@@ -8,4 +8,7 @@ class Paths {
 
   // sub collection
 
+  static const String promotedTo = 'promotedTo';
+
+  static const String promotedBy = 'promotedBy';
 }

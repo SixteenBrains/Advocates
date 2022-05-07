@@ -1,4 +1,4 @@
-import 'package:advocates/screens/set/cubit/set_cubit.dart';
+import '/screens/set/cubit/set_cubit.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:inview_notifier_list/inview_notifier_list.dart';
 import '/screens/account/screens/cause_screen.dart';
@@ -127,8 +127,17 @@ class _DashBoardState extends State<DashBoard> {
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: GestureDetector(
-                          onTap: () {
+                          onLongPress: () {
                             context.read<DashboardBloc>().add(ListenToSpeech());
+                            print('User have started the tap');
+                          },
+                          onLongPressEnd: (details) {
+                            print('User have compled the tap');
+                            context.read<DashboardBloc>().add(LoadSubSets());
+                          },
+                          onTap: () {
+                            // context.read<DashboardBloc>().add(LoadSubSets());
+                            //  context.read<DashboardBloc>().add(ListenToSpeech());
                           },
                           child: AvatarGlow(
                             shape: BoxShape.circle,

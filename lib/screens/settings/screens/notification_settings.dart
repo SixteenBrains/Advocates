@@ -1,4 +1,4 @@
-import 'package:advocates/widgets/options_button.dart';
+import '/widgets/options_button.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsSettings extends StatelessWidget {
@@ -76,12 +76,12 @@ class NotificationsSettings extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 30.0),
-                OptionButtons(
+                OptionsButton(
                   label: 'PUSH NOTIFICATIONS',
                   onTap: () {},
                 ),
                 const SizedBox(height: 10.0),
-                OptionButtons(
+                OptionsButton(
                   label: 'EMAIL NOTIFICATIONS',
                   onTap: () {},
                 ),

@@ -1,4 +1,15 @@
+
+Only 3 lines in subset discription and remove show more
+1 set full screen
+Press and the hold the blinking button to search
+on the formate screen if the item is selected will change border item will be green
+
+
+
+
 // TODO: delete photo also when deleting set
+
+
 
 
 

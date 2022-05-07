@@ -1,4 +1,5 @@
-import 'package:advocates/screens/nav/nav_screen.dart';
+import '/screens/nav/nav_screen.dart';
+import '/widgets/options_button.dart';
 
 import '/enums/enums.dart';
 import 'package:enum_to_string/enum_to_string.dart';
@@ -56,8 +57,9 @@ class FormateScreen extends StatelessWidget {
       body: BlocConsumer<AccountCubit, AccountState>(
         listener: (context, state) {
           if (state.status == AccountStatus.submitted) {
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil(NavScreen.routeName, (route) => false);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                NavScreen.routeName, (route) => false,
+                arguments: const NavScreenArgs(initialLink: null));
           }
         },
         builder: (context, state) {
@@ -115,7 +117,7 @@ class FormateScreen extends StatelessWidget {
                       final enumValue =
                           EnumToString.fromString(MediaFormat.values, format) ??
                               MediaFormat.images;
-                      return ChooseMediaFormate(
+                      return OptionsButton(
                         isSelected: isSelected,
                         label: format.toString(),
                         onTap: () {
@@ -173,47 +175,6 @@ class FormateScreen extends StatelessWidget {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class ChooseMediaFormate extends StatelessWidget {
-  final String label;
-  final VoidCallback onTap;
-  final bool isSelected;
-
-  const ChooseMediaFormate({
-    Key? key,
-    required this.label,
-    required this.onTap,
-    this.isSelected = false,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 7.0),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          height: 70.0,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: isSelected ? Colors.green : Colors.white,
-            border: Border.all(color: Colors.grey.shade300),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Center(
-            child: Text(
-              label,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: isSelected ? Colors.white : Colors.black,
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }

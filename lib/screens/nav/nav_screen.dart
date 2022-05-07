@@ -1,22 +1,34 @@
+import 'package:advocates/blocs/auth/auth_bloc.dart';
+import 'package:advocates/config/paths.dart';
+import 'package:advocates/widgets/show_snackbar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/nav_bloc.dart';
 import 'widgets/bottom_nav_bar.dart';
 import 'widgets/switch_screen.dart';
 
+class NavScreenArgs {
+  final PendingDynamicLinkData? initialLink;
+
+  const NavScreenArgs({required this.initialLink});
+}
+
 class NavScreen extends StatefulWidget {
+  final PendingDynamicLinkData? initialLink;
   static const String routeName = '/nav';
 
-  static Route route() {
+  const NavScreen({Key? key, required this.initialLink}) : super(key: key);
+
+  static Route route({required NavScreenArgs args}) {
     return MaterialPageRoute(
       builder: (_) => BlocProvider<NavBloc>(
         create: (context) => NavBloc(),
-        child: const NavScreen(),
+        child: NavScreen(initialLink: args.initialLink),
       ),
     );
   }
-
-  const NavScreen({Key? key}) : super(key: key);
 
   @override
   State<NavScreen> createState() => _NavScreenState();
@@ -24,7 +36,54 @@ class NavScreen extends StatefulWidget {
 
 class _NavScreenState extends State<NavScreen> {
   @override
+  void initState() {
+    super.initState();
+    getInitialLink();
+    addPromotedBy();
+  }
+
+  void addPromotedBy() async {
+    try {
+      if (widget.initialLink != null) {
+        ShowSnackBar.showSnackBar(context,
+            title: 'Initial Link received ${widget.initialLink?.link}');
+      }
+    } catch (error) {
+      print('Error in adding promoted by ${error.toString()}');
+      ShowSnackBar.showSnackBar(context,
+          title: 'Error in adding promoted by ${error.toString()}');
+    }
+  }
+
+  void getInitialLink() async {
+    try {
+      FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) async {
+        final link = dynamicLinkData.link;
+        final promoterId = link.queryParameters['id'];
+        final currentUserId = context.read<AuthBloc>().state.user?.uid;
+        final _firestore = FirebaseFirestore.instance;
+
+        await _firestore.collection(Paths.users).doc(promoterId).update({
+          'promotedTo': FieldValue.arrayUnion([currentUserId])
+        });
+
+        await _firestore
+            .collection(Paths.users)
+            .doc(currentUserId)
+            .update({'promotionUrl': link.toString()});
+
+        //Navigator.pushNamed(context, dynamicLinkData.link.path);
+      }).onError((error) {
+        // Handle errors
+      });
+    } catch (error) {
+      print('Error in getting initial link ${error.toString()}');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('Initial link received in nav screen ${widget.initialLink}');
     return WillPopScope(
       onWillPop: () async => false,
       child: BlocBuilder<NavBloc, NavState>(

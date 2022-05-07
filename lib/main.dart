@@ -1,3 +1,5 @@
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+
 import '/config/config.dart';
 import '/repositories/set/set_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -13,10 +15,7 @@ import 'repositories/profile/profile_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Stripe.publishableKey = stripePublishableKey;
-  // Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
-  // Stripe.urlScheme = 'flutterstripe';
-  // await Stripe.instance.applySettings();
+
   if (kIsWeb) {
     // await Firebase.initializeApp(
     //   options: const FirebaseOptions(
@@ -31,16 +30,25 @@ Future<void> main() async {
     await Firebase.initializeApp();
   }
 
+  // Get any  initial links
+  final PendingDynamicLinkData? initialLink =
+      await FirebaseDynamicLinks.instance.getInitialLink();
+
+  print('Firebase dynamic initial link $initialLink');
   //await SharedPrefs().init();
   EquatableConfig.stringify = kDebugMode;
   // Bloc.observer = SimpleBlocObserver();
   BlocOverrides.runZoned(() {}, blocObserver: SimpleBlocObserver());
 
-  runApp(const MyApp());
+  runApp(MyApp(
+    initialLink: initialLink,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final PendingDynamicLinkData? initialLink;
+
+  const MyApp({Key? key, required this.initialLink}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,15 +97,17 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: Colors.white,
           ),
           debugShowCheckedModeBanner: false,
-          //home: const SplashScreen(),
-
-          // home: const SignUpScreen(),
-
-          /// home: Mic(),
-
           onGenerateRoute: CustomRouter.onGenerateRoute,
-          //initialRoute: SplashScreen.routeName,
           initialRoute: AuthWrapper.routeName,
+          onGenerateInitialRoutes: (_) {
+            return [
+              AuthWrapper.route(args: AuthWrapperArgs(initialLink: initialLink))
+
+              // SplashScreen.route(args: SplashScreenArgs(data: data))
+              // MaterialPageRoute(
+              //   builder: (_) => Sp())
+            ];
+          },
         ),
       ),
     );

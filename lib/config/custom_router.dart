@@ -1,6 +1,5 @@
-import 'package:advocates/screens/set/set_manager.dart';
-import 'package:advocates/screens/set/update_set_screen.dart';
-
+import '/screens/set/set_manager.dart';
+import '/screens/set/update_set_screen.dart';
 import '/screens/update-account/update_account_screen.dart';
 import '/screens/set/add_subset.dart';
 import '/screens/account/screens/account_screen.dart';
@@ -25,7 +24,7 @@ class CustomRouter {
             builder: (_) => const Scaffold());
 
       case AuthWrapper.routeName:
-        return AuthWrapper.route();
+        return AuthWrapper.route(args: settings.arguments as AuthWrapperArgs);
 
       case SplashScreen.routeName:
         return SplashScreen.route();
@@ -37,7 +36,7 @@ class CustomRouter {
         return AccountScreen.route();
 
       case NavScreen.routeName:
-        return NavScreen.route();
+        return NavScreen.route(args: settings.arguments as NavScreenArgs);
 
       case UpdateAccount.routeName:
         return UpdateAccount.route();

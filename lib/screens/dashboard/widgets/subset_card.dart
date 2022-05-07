@@ -1,5 +1,5 @@
-import 'package:advocates/screens/set/cubit/set_cubit.dart';
-import 'package:advocates/widgets/show_snackbar.dart';
+import '/screens/set/cubit/set_cubit.dart';
+import '/widgets/show_snackbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '/enums/enums.dart';
@@ -8,7 +8,6 @@ import '/models/sub_set.dart';
 import '/widgets/display_image.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'discription_text.dart';
 
 class SubSetCard extends StatelessWidget {
   final SubSet? subSet;
@@ -52,7 +51,7 @@ class SubSetCard extends StatelessWidget {
           }
         },
         child: Container(
-          height: 500.0,
+          height: 620.0,
           width: double.infinity,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
@@ -75,7 +74,7 @@ class SubSetCard extends StatelessWidget {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: 400.0,
+                  // height: 450.0,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     //color: Colors.black12,
@@ -85,7 +84,7 @@ class SubSetCard extends StatelessWidget {
                       end: Alignment.bottomCenter,
                       stops: stops,
                       colors: const [
-                        Colors.transparent,
+                        Colors.black12,
                         Colors.black87,
                       ],
                     ),
@@ -103,17 +102,17 @@ class SubSetCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10.0),
-                        DescriptionTextWidget(
-                            text: subSet?.description ?? 'N/A'),
-                        // Text(
-                        //   subSet?.description ?? 'N/A',
-                        //   style: const TextStyle(
-                        //     color: Colors.white,
-                        //     fontWeight: FontWeight.w600,
-                        //     fontSize: 16.0,
-                        //   ),
-                        // ),
-                        //   const SizedBox(height: 10.0),
+                        // DescriptionTextWidget(
+                        //     text: subSet?.description ?? 'N/A'),
+                        Text(
+                          subSet?.description?.substring(0, 180) ?? 'N/A',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        const SizedBox(height: 7.0),
                         Chip(
                           backgroundColor: Colors.green,
                           label: Text(
@@ -126,13 +125,13 @@ class SubSetCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 5.0),
-                        Text(
-                          ' ${subSet?.destination ?? ' '}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(height: 10.0),
+                        // Text(
+                        //   ' ${subSet?.destination ?? ' '}',
+                        //   style: const TextStyle(
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
+                        const SizedBox(height: 70.0),
                       ],
                     ),
                   ),

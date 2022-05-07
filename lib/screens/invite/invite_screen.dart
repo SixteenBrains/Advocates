@@ -1,7 +1,7 @@
-import 'package:advocates/blocs/auth/auth_bloc.dart';
+import '/blocs/auth/auth_bloc.dart';
+import '/widgets/options_button.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '/enums/enums.dart';
 import '/enums/share_platform.dart';
 import '/services/social_share_service.dart';
@@ -22,30 +22,33 @@ class InviteScreen extends StatelessWidget {
   }) async {
     final authorId = context.read<AuthBloc>().state.user?.uid;
 
-    final link = 'https://sixteebrains.com';
+    String link = 'https://sixteebrains.com?id=$authorId';
 
     final dynamicLinkParams = DynamicLinkParameters(
         link: Uri.parse(link),
         uriPrefix: 'https://advocates.page.link',
         androidParameters:
             // not providing proper package name so that url will open on web
-            const AndroidParameters(packageName: 'com.sixteenbrains.none'),
+            const AndroidParameters(packageName: 'com.sixteenbrains.advocates'),
         iosParameters:
             //Change according to ios
             const IOSParameters(bundleId: 'com.sixteenbrains.none'),
         navigationInfoParameters:
             const NavigationInfoParameters(forcedRedirectEnabled: true));
     final dynamicLink =
-        await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
+        await FirebaseDynamicLinks.instance.buildLink(dynamicLinkParams);
+    //buildShortLink(dynamicLinkParams);
 
     print('generated short link $dynamicLink');
 
     SocialShareService.socialShare(
       platform,
       //  inviteUrl: inviteUrl,
-      inviteUrl: dynamicLink.shortUrl.toString(),
+      inviteUrl: dynamicLink.toString(),
+      //.shortUrl.toString(),
       //text: txt,
-      text: dynamicLink.shortUrl.toString(),
+      text: dynamicLink.toString(),
+      //.shortUrl.toString(),
       mediaType: mediaType,
     );
     // SocialShareService.socialShare(platform,
@@ -121,7 +124,7 @@ class InviteScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30.0),
-                OptionButtons(
+                OptionsButton(
                   label: 'MESSENGER',
                   onTap: () => invite(
                     context: context,
@@ -132,7 +135,7 @@ class InviteScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10.0),
-                OptionButtons(
+                OptionsButton(
                   label: 'WHATSAPP',
                   onTap: () => invite(
                     context: context,
@@ -202,37 +205,37 @@ class InviteScreen extends StatelessWidget {
   }
 }
 
-class OptionButtons extends StatelessWidget {
-  final String label;
-  final VoidCallback onTap;
+// class OptionButtons extends StatelessWidget {
+//   final String label;
+//   final VoidCallback onTap;
 
-  const OptionButtons({
-    Key? key,
-    required this.label,
-    required this.onTap,
-  }) : super(key: key);
+//   const OptionButtons({
+//     Key? key,
+//     required this.label,
+//     required this.onTap,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 70.0,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.grey.shade300),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: onTap,
+//       child: Container(
+//         height: 70.0,
+//         width: double.infinity,
+//         decoration: BoxDecoration(
+//           color: Colors.white,
+//           border: Border.all(color: Colors.grey.shade300),
+//           borderRadius: BorderRadius.circular(8.0),
+//         ),
+//         child: Center(
+//           child: Text(
+//             label,
+//             style: const TextStyle(
+//               fontWeight: FontWeight.w600,
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

@@ -100,14 +100,14 @@ class CauseScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 40.0),
                 SizedBox(
-                  height: _canvas.height * 0.4,
+                  height: _canvas.height * 0.38,
                   child: ListView.builder(
                     itemCount: causes.length,
                     itemBuilder: (context, index) {
                       final cause = causes[index];
                       final isSelected = state.causes.contains(cause);
 
-                      return OptionButtons(
+                      return OptionsButton(
                         label: cause,
                         isSelected: isSelected,
                         onTap: () {

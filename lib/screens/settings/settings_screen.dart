@@ -165,12 +165,12 @@ class SettingsScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 30.0),
-                OptionButtons(
+                OptionsButton(
                   label: 'LEGAL',
                   onTap: () =>
                       Navigator.of(context).pushNamed(LegalSettings.routeName),
                 ),
-                OptionButtons(
+                OptionsButton(
                   label: 'NOTIFICATIONS',
                   onTap: () => Navigator.of(context)
                       .pushNamed(NotificationsSettings.routeName),

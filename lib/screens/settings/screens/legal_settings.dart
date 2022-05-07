@@ -76,12 +76,12 @@ class LegalSettings extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 30.0),
-                OptionButtons(
+                OptionsButton(
                   label: 'TERMS',
                   onTap: () {},
                 ),
                 const SizedBox(height: 10.0),
-                OptionButtons(
+                OptionsButton(
                   label: 'PRIVACY',
                   onTap: () {},
                 ),

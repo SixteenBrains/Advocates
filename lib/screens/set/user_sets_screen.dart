@@ -73,7 +73,7 @@ class UserSetsScreen extends StatelessWidget {
 
                   return Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0,
+                      horizontal: 14.0,
                     ),
                     child: RefreshIndicator(
                       onRefresh: () async =>

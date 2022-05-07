@@ -140,6 +140,7 @@ class SetRepository extends BaseSetRepo {
         return;
       }
 
+      print('Ina kaa $userId ka  $subSetId');
       await _firestore.collection(Paths.subsets).doc(subSetId).update({
         'views': FieldValue.arrayUnion([userId])
       });

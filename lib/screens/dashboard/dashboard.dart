@@ -34,7 +34,7 @@ class _DashBoardState extends State<DashBoard> {
               color: Colors.white,
               width: double.infinity,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                padding: const EdgeInsets.symmetric(horizontal: 14.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -77,35 +77,32 @@ class _DashBoardState extends State<DashBoard> {
                   return Stack(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 14.0),
                         child: RefreshIndicator(
                           onRefresh: () async =>
                               context.read<DashboardBloc>().add(LoadSubSets()),
                           child: state.subSets.isEmpty
                               ? const Center(
-                                  child: Text('No sets found, try again'),
-                                )
+                                  child: Text('No sets found, try again'))
                               : InViewNotifierList(
+                                  initialInViewIds: const ['0'],
+
+                                  //                         inViewPortCondition:
+                                  //     (double deltaTop, double deltaBottom, double vpHeight) {
+                                  //   return (deltaTop < (0.5 * vpHeight) + 100.0 &&
+                                  //       deltaBottom > (0.5 * vpHeight) - 100.0);
+                                  // },
                                   itemCount: state.subSets.length,
                                   isInViewPortCondition: (double deltaTop,
-                                      double deltaBottom,
-                                      double viewPortDimension) {
-                                    print('deltatop $deltaTop');
-                                    print('deltabottom $deltaBottom');
-                                    print(
-                                        'viewPortDimension $viewPortDimension');
-                                    return deltaTop <
-                                            (0.5 * viewPortDimension) &&
-                                        deltaBottom > (0.5 * viewPortDimension);
+                                      double deltaBottom, double vpHeight) {
+                                    return (deltaTop <
+                                            (0.5 * vpHeight) + 100.0 &&
+                                        deltaBottom > (0.5 * vpHeight) - 100.0);
                                   },
-                                  // isInViewPortCondition: (double deltaTop,
-                                  //     double deltaBottom, double vpHeight) {
-                                  //   return deltaTop < (1.0 * vpHeight) &&
-                                  //       deltaBottom > (0.0 * vpHeight);
-                                  // },
-                                  //condition,
+
                                   builder: (context, index) {
                                     final subSet = state.subSets[index];
+
                                     return InViewNotifierWidget(
                                       id: '$index',
                                       builder: (context, inView, _) {

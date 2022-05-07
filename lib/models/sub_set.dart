@@ -19,9 +19,6 @@ class SubSet extends Equatable {
   final File? imageFile;
   final AppUser? author;
   final SetModel? setModel;
-  // final int? views;
-  // final int? likes;
-  // final int? visits;
 
   final Set<String?> views;
   final Set<String?> likes;

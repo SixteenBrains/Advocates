@@ -1,7 +1,6 @@
 import '/screens/set/cubit/set_cubit.dart';
 import '/widgets/show_snackbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '/enums/enums.dart';
 import '/screens/dashboard/widgets/show_media.dart';
 import '/models/sub_set.dart';
@@ -27,6 +26,12 @@ class SubSetCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('cause -- ${subSet?.setModel?.cause}');
+    final _canvas = MediaQuery.of(context).size;
+    final description = subSet?.description != null
+        ? subSet!.description!.length >= 175
+            ? subSet?.description!.substring(0, 170)
+            : subSet?.description
+        : 'N/A';
     final List<double> stops =
         subSet?.mediaFormat == MediaFormat.images ? [0.2, 0.7] : [0.2, 0.5];
     return Padding(
@@ -51,7 +56,7 @@ class SubSetCard extends StatelessWidget {
           }
         },
         child: Container(
-          height: 620.0,
+          height: _canvas.height * 0.77,
           width: double.infinity,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
@@ -105,7 +110,8 @@ class SubSetCard extends StatelessWidget {
                         // DescriptionTextWidget(
                         //     text: subSet?.description ?? 'N/A'),
                         Text(
-                          subSet?.description?.substring(0, 180) ?? 'N/A',
+                          description ?? 'N/A',
+                          // subSet?.description?.substring(0, 180) ?? 'N/A',
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,

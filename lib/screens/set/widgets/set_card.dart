@@ -100,6 +100,7 @@ class SetCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('formate -- ${setModel?.mediaFormat}');
+    final _canvas = MediaQuery.of(context).size;
     final List<double> stops =
         setModel?.mediaFormat == FileType.image ? [0.2, 0.7] : [0.2, 0.5];
     return GestureDetector(
@@ -124,7 +125,7 @@ class SetCard extends StatelessWidget {
         arguments: UpDateSetArgs(setModel: setModel),
       ),
       child: Container(
-        height: 500.0,
+        height: _canvas.height * 0.77,
         width: double.infinity,
         decoration: BoxDecoration(
           gradient: const LinearGradient(

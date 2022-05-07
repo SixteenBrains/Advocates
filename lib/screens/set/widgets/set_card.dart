@@ -1,19 +1,28 @@
+import '/screens/dashboard/widgets/stats_widget.dart';
 import '/enums/enums.dart';
 import '/constants/constants.dart';
 import '/screens/set/update_set_screen.dart';
 import '/screens/set/set_manager.dart';
 import '/models/set_model.dart';
-import '/screens/dashboard/dashboard.dart';
+
 import '/screens/set/widgets/show_set_media.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
-class SetCard extends StatelessWidget {
+class SetCard extends StatefulWidget {
   final SetModel? setModel;
   final VoidCallback onDelete;
   const SetCard({Key? key, required this.setModel, required this.onDelete})
       : super(key: key);
 
+  @override
+  State<SetCard> createState() => _SetCardState();
+}
+
+class _SetCardState extends State<SetCard> {
+  int likes = 0;
+  int views = 0;
+  int visits = 0;
   Future<void> _showMyDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
@@ -46,7 +55,7 @@ class SetCard extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    onDelete();
+                    widget.onDelete();
                     Navigator.of(context).pop();
                   },
                   child: const Text(
@@ -99,10 +108,19 @@ class SetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('formate -- ${setModel?.mediaFormat}');
+    final subSets = widget.setModel?.subsets ?? [];
+
+    for (var item in subSets) {
+      visits = item?.visits.length ?? 0;
+      views = item?.views.length ?? 0;
+      likes = item?.likes.length ?? 0;
+    }
+
+    print('formate -- ${widget.setModel?.mediaFormat}');
     final _canvas = MediaQuery.of(context).size;
-    final List<double> stops =
-        setModel?.mediaFormat == FileType.image ? [0.2, 0.7] : [0.2, 0.5];
+    final List<double> stops = widget.setModel?.mediaFormat == FileType.image
+        ? [0.2, 0.7]
+        : [0.2, 0.5];
     return GestureDetector(
       onHorizontalDragUpdate: (data) {
         print('drag ${data.primaryDelta?.ceil()}');
@@ -112,7 +130,7 @@ class SetCard extends StatelessWidget {
           print('Right swipe');
           Navigator.of(context).pushNamed(
             UpdateSetScreen.routeName,
-            arguments: UpDateSetArgs(setModel: setModel),
+            arguments: UpDateSetArgs(setModel: widget.setModel),
           );
         } else {
           // left swipe
@@ -122,7 +140,7 @@ class SetCard extends StatelessWidget {
       },
       onTap: () => Navigator.of(context).pushNamed(
         UpdateSetScreen.routeName,
-        arguments: UpDateSetArgs(setModel: setModel),
+        arguments: UpDateSetArgs(setModel: widget.setModel),
       ),
       child: Container(
         height: _canvas.height * 0.77,
@@ -140,12 +158,12 @@ class SetCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: Stack(
-          fit: setModel?.mediaFormat == MediaFormat.videos
+          fit: widget.setModel?.mediaFormat == MediaFormat.videos
               ? StackFit.loose
               : StackFit.expand,
           children: [
             // ShowMedia(subSet: setModel),
-            ShowSetMedia(setModel: setModel),
+            ShowSetMedia(setModel: widget.setModel),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -171,7 +189,7 @@ class SetCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        setModel?.name ?? '',
+                        widget.setModel?.name ?? '',
                         style: const TextStyle(
                           fontSize: 17.0,
                           fontWeight: FontWeight.w600,
@@ -181,25 +199,28 @@ class SetCard extends StatelessWidget {
                       Chip(
                         backgroundColor: const Color(0xff2ED573),
                         label: Text(
-                          setModel?.cause ?? 'N/A',
+                          widget.setModel?.cause ?? 'N/A',
                           style: const TextStyle(color: Colors.white),
                         ),
                       ),
                       const SizedBox(height: 5.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: const [
+                        children: [
                           StatsWidget(
                             iconUrl: 'assets/images/set_views.png',
                             label: 'VIEWS',
+                            count: views,
                           ),
                           StatsWidget(
                             iconUrl: 'assets/images/set_likes.png',
                             label: 'LIKES',
+                            count: likes,
                           ),
                           StatsWidget(
                             iconUrl: 'assets/images/set_visits.png',
                             label: 'VISITS',
+                            count: visits,
                           ),
                         ],
                       ),

@@ -1,3 +1,26 @@
+TODO: add like button or animation
+and swipping card
+
+swipe left to increase visit and visit the destination url
+
+Autocomplete the  textfield in account page
+
+TODO - add sentance search
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Only 3 lines in subset discription and remove show more
 1 set full screen

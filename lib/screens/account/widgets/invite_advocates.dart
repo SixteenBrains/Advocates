@@ -66,20 +66,20 @@ class _InviteAdvocatesState extends State<InviteAdvocates> {
                 ),
                 PageViewModel(
                   // title: '',
-                  titleWidget: InviteCard(
+                  titleWidget: const InviteCard(
                     btnText: 'BOOST',
                     label: 'boost your score',
-                    inviteCount: state.advocatesCount,
+                    inviteCount: null,
                   ),
                   body: '',
                   decoration: pageDecoration,
                 ),
                 PageViewModel(
                   // title: '',
-                  titleWidget: InviteCard(
+                  titleWidget: const InviteCard(
                     btnText: 'EARN',
                     label: 'earn more income',
-                    inviteCount: state.advocatesCount,
+                    inviteCount: null,
                   ),
                   body: '',
                   decoration: pageDecoration,

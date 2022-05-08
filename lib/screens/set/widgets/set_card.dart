@@ -142,7 +142,7 @@ class _SetCardState extends State<SetCard> {
         arguments: UpDateSetArgs(setModel: widget.setModel),
       ),
       child: Container(
-        height: _canvas.height * 0.77,
+        height: _canvas.height * 0.78,
         width: double.infinity,
         decoration: BoxDecoration(
           gradient: const LinearGradient(

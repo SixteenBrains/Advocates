@@ -134,11 +134,11 @@ class _AddSubsetState extends State<AddSubset> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: GestureDetector(
-                          onTap: () =>
-                              context.read<SetCubit>().pickedFileChanged(
-                                    mediaFormat: widget.setModel?.mediaFormat ??
-                                        MediaFormat.images,
-                                  ),
+                          onTap: () => context
+                              .read<SetCubit>()
+                              .pickedFileChanged(
+                                  mediaFormat: widget.setModel?.mediaFormat ??
+                                      MediaFormat.images),
                           child: state.pickedFile != null
                               ? PreviewMedia(
                                   pickedFile: state.pickedFile,
@@ -203,7 +203,9 @@ class _AddSubsetState extends State<AddSubset> {
                       },
                     ),
                     const SizedBox(height: 10.0),
+                    // TODO: addd 170 words limits
                     CustomTextField(
+                      maxLenght: 170,
                       initialValue: '',
                       minLines: 3,
                       labelText: 'DESCRIPTION',

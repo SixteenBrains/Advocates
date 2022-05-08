@@ -56,7 +56,7 @@ class UserSetsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             Expanded(
               child: BlocConsumer<SetCubit, SetState>(
                 listener: (context, state) {

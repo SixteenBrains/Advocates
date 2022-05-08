@@ -47,13 +47,20 @@ class DashboardBloc extends Bloc<DashboardEvent, DashBoardState> {
 
               final keyword = state.searchKeyword!.toLowerCase();
 
+              print('Search keyword - $keyword');
+
               if (description?.contains(keyword) ?? false) {
-                frequency += FrequencyCounter.frequencyCounter(
+                print('Search keyword 1 - $keyword');
+
+                final count = FrequencyCounter.frequencyCounter(
                     description ?? '',
                     keyword: keyword);
+                print('Description count $count');
+                frequency += count;
               }
 
               if (destination?.contains(keyword) ?? false) {
+                print('Search keyword  2 - $keyword');
                 // frequency++;//
                 final count = FrequencyCounter.frequencyCounter(
                     destination ?? '',
@@ -63,6 +70,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashBoardState> {
               }
 
               if (title?.contains(keyword) ?? false) {
+                print('Search keyword 3 - $keyword');
                 //frequency++;
                 frequency += FrequencyCounter.frequencyCounter(title ?? '',
                     keyword: keyword);

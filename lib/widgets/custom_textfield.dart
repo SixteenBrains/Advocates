@@ -7,6 +7,7 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final int? minLines;
   final String? initialValue;
+  final int? maxLenght;
 
   const CustomTextField({
     Key? key,
@@ -16,6 +17,7 @@ class CustomTextField extends StatelessWidget {
     this.minLines,
     required this.validator,
     required this.initialValue,
+    this.maxLenght,
   }) : super(key: key);
 
   @override
@@ -37,18 +39,26 @@ class CustomTextField extends StatelessWidget {
               child: Center(
                 child: TextFormField(
                   initialValue: initialValue,
-                  // minLines: minLines ?? 1,
-                  // maxLines: 4,
+                  // minLines: 3 ?? 1,
+                  //  maxLines: 4,
                   //   minLines != null ? 4 : null,
                   validator: validator,
                   onChanged: onChanged,
                   textAlign: TextAlign.center,
+                  // maxLength: maxLenght,
 
                   style: const TextStyle(fontWeight: FontWeight.w600),
                   decoration: const InputDecoration.collapsed(
                     hintText: 'NONE',
                     hintTextDirection: TextDirection.ltr,
-                  ),
+                  )..copyWith(
+                      contentPadding: const EdgeInsets.only(
+                        right: 40.0,
+                        left: 40.0,
+                        bottom: 20.0,
+                        top: 20.0,
+                      ),
+                    ),
                 ),
               ),
             ),

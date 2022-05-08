@@ -65,7 +65,7 @@ class _DashBoardState extends State<DashBoard> {
                 ),
               ),
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             Expanded(
               child: BlocConsumer<DashboardBloc, DashBoardState>(
                 listener: (context, state) {},
@@ -73,6 +73,12 @@ class _DashBoardState extends State<DashBoard> {
                   if (state.status == DashBoardStatus.loading) {
                     return const LoadingIndicator();
                   }
+
+                  // final searchKeyword = state.searchKeyword != null
+                  //     ? state.searchKeyword!.length > 16
+                  //         ? state.searchKeyword?.substring(0, 15)
+                  //         : state.searchKeyword
+                  //     : 'Hold and speak';
 
                   return Stack(
                     children: [
@@ -135,10 +141,10 @@ class _DashBoardState extends State<DashBoard> {
                             print('User have compled the tap');
                             context.read<DashboardBloc>().add(LoadSubSets());
                           },
-                          onTap: () {
-                            // context.read<DashboardBloc>().add(LoadSubSets());
-                            //  context.read<DashboardBloc>().add(ListenToSpeech());
-                          },
+                          // onTap: () {
+                          //   // context.read<DashboardBloc>().add(LoadSubSets());
+                          //   //  context.read<DashboardBloc>().add(ListenToSpeech());
+                          // },
                           child: AvatarGlow(
                             shape: BoxShape.circle,
                             // animate: isListen,
@@ -152,36 +158,37 @@ class _DashBoardState extends State<DashBoard> {
                             repeat: true,
                             child: Text(
                               // textString,
-                              state.searchKeyword ?? 'Tap and speak',
+                              state.searchKeyword ?? 'Hold and speak',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
                               ),
                               textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ),
                       ),
-                      if (state.searchKeyword != null)
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 25.0, vertical: 10.0),
-                            child: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              child: IconButton(
-                                onPressed: () {
-                                  context
-                                      .read<DashboardBloc>()
-                                      .add(LoadSubSets());
-                                },
-                                icon: const Icon(Icons.search,
-                                    color: Colors.green),
-                              ),
-                            ),
-                          ),
-                        )
+                      // if (state.searchKeyword != null)
+                      //   Align(
+                      //     alignment: Alignment.bottomRight,
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.symmetric(
+                      //           horizontal: 25.0, vertical: 10.0),
+                      //       child: CircleAvatar(
+                      //         backgroundColor: Colors.white,
+                      //         child: IconButton(
+                      //           onPressed: () {
+                      //             context
+                      //                 .read<DashboardBloc>()
+                      //                 .add(LoadSubSets());
+                      //           },
+                      //           icon: const Icon(Icons.search,
+                      //               color: Colors.green),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   )
                     ],
                   );
                 },

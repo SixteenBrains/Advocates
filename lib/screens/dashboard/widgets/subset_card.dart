@@ -16,8 +16,9 @@ class SubSetCard extends StatelessWidget {
   }) : super(key: key);
 
   void _launchUrl(String url) async {
-    if (await canLaunch(url)) {
-      launch(url);
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      launchUrl(uri);
     } else {
       print('Error in lauching url ');
     }

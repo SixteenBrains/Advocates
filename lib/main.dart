@@ -1,5 +1,4 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-
 import '/config/config.dart';
 import '/repositories/set/set_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -97,15 +96,12 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: Colors.white,
           ),
           debugShowCheckedModeBanner: false,
+          //   home: Swipping(title: 'Title'),
           onGenerateRoute: CustomRouter.onGenerateRoute,
           initialRoute: AuthWrapper.routeName,
           onGenerateInitialRoutes: (_) {
             return [
               AuthWrapper.route(args: AuthWrapperArgs(initialLink: initialLink))
-
-              // SplashScreen.route(args: SplashScreenArgs(data: data))
-              // MaterialPageRoute(
-              //   builder: (_) => Sp())
             ];
           },
         ),

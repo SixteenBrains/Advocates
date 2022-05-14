@@ -203,7 +203,7 @@ class _AddSubsetState extends State<AddSubset> {
                       },
                     ),
                     const SizedBox(height: 10.0),
-                    // TODO: addd 170 words limits
+                    // Todo: addd 170 words limits
                     CustomTextField(
                       maxLenght: 170,
                       initialValue: '',

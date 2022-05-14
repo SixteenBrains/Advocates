@@ -1,13 +1,12 @@
-import '/screens/set/cubit/set_cubit.dart';
 import 'package:avatar_glow/avatar_glow.dart';
-import 'package:inview_notifier_list/inview_notifier_list.dart';
 import '/screens/account/screens/cause_screen.dart';
 import '/screens/account/screens/formate_screen.dart';
 import '/screens/dashboard/bloc/dashboard_bloc.dart';
 import '/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'widgets/subset_card.dart';
+
+import 'widgets/swiping_subset.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -85,50 +84,62 @@ class _DashBoardState extends State<DashBoard> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 14.0),
                         child: RefreshIndicator(
-                          onRefresh: () async =>
-                              context.read<DashboardBloc>().add(LoadSubSets()),
-                          child: state.subSets.isEmpty
-                              ? const Center(
-                                  child: Text('No sets found, try again'))
-                              : InViewNotifierList(
-                                  initialInViewIds: const ['0'],
+                            onRefresh: () async => context
+                                .read<DashboardBloc>()
+                                .add(LoadSubSets()),
+                            child: state.subSets.isEmpty
+                                ? const Center(
+                                    child: Text('No sets found, try again'))
+                                : SwippingSubSet(subSets: state.subSets)
 
-                                  //                         inViewPortCondition:
-                                  //     (double deltaTop, double deltaBottom, double vpHeight) {
-                                  //   return (deltaTop < (0.5 * vpHeight) + 100.0 &&
-                                  //       deltaBottom > (0.5 * vpHeight) - 100.0);
-                                  // },
-                                  itemCount: state.subSets.length,
-                                  isInViewPortCondition: (double deltaTop,
-                                      double deltaBottom, double vpHeight) {
-                                    return (deltaTop <
-                                            (0.5 * vpHeight) + 100.0 &&
-                                        deltaBottom > (0.5 * vpHeight) - 100.0);
-                                  },
+//                                   : SwipeCards(
+//             matchEngine: <MatchEngine>,
+//             itemBuilder: (BuildContext context, int index) {},
+//             onStackFinished: () {},
+//             itemChanged: (SwipeItem item, int index) {},
+//             upSwipeAllowed: <bool>,
+//             fillSpace: <bool>,
+// )
 
-                                  builder: (context, index) {
-                                    final subSet = state.subSets[index];
+                            // : InViewNotifierList(
+                            //     initialInViewIds: const ['0'],
 
-                                    return InViewNotifierWidget(
-                                      id: '$index',
-                                      builder: (context, inView, _) {
-                                        print('Inview $inView $index');
+                            //     //                         inViewPortCondition:
+                            //     //     (double deltaTop, double deltaBottom, double vpHeight) {
+                            //     //   return (deltaTop < (0.5 * vpHeight) + 100.0 &&
+                            //     //       deltaBottom > (0.5 * vpHeight) - 100.0);
+                            //     // },
+                            //     itemCount: state.subSets.length,
+                            //     isInViewPortCondition: (double deltaTop,
+                            //         double deltaBottom, double vpHeight) {
+                            //       return (deltaTop <
+                            //               (0.5 * vpHeight) + 100.0 &&
+                            //           deltaBottom > (0.5 * vpHeight) - 100.0);
+                            //     },
 
-                                        if (inView) {
-                                          print('print this taa');
+                            //     builder: (context, index) {
+                            //       final subSet = state.subSets[index];
 
-                                          context
-                                              .read<SetCubit>()
-                                              .increaseViews(
-                                                  subSetId: subSet?.subSetId);
-                                        }
+                            //       return InViewNotifierWidget(
+                            //         id: '$index',
+                            //         builder: (context, inView, _) {
+                            //           print('Inview $inView $index');
 
-                                        return SubSetCard(subSet: subSet);
-                                      },
-                                    );
-                                  },
-                                ),
-                        ),
+                            //           if (inView) {
+                            //             print('print this taa');
+
+                            //             context
+                            //                 .read<SetCubit>()
+                            //                 .increaseViews(
+                            //                     subSetId: subSet?.subSetId);
+                            //           }
+
+                            //           return SubSetCard(subSet: subSet);
+                            //         },
+                            //       );
+                            //     },
+                            //   ),
+                            ),
                       ),
                       Align(
                         alignment: Alignment.bottomCenter,

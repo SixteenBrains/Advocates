@@ -6,8 +6,15 @@ import '/blocs/auth/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LocationInfo extends StatelessWidget {
+class LocationInfo extends StatefulWidget {
   const LocationInfo({Key? key}) : super(key: key);
+
+  @override
+  State<LocationInfo> createState() => _LocationInfoState();
+}
+
+class _LocationInfoState extends State<LocationInfo> {
+  //final _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +59,43 @@ class LocationInfo extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20.0),
+
+                // TextFormField(
+                //   controller: _textController,
+                //   decoration: InputDecoration(),
+                //   onChanged: (value) {
+                //     if (value.contains('r')) {
+                //       _textController.text = 'Ram';
+                //       _textController.selection = TextSelection.fromPosition(
+                //           TextPosition(offset: _textController.text.length));
+                //     }
+                //   },
+                //   // autofillHints: ['Ram', 'Shayam'],
+                // ),
+
+                CustomTextField(
+                  initialValue: state.region,
+                  hintText: 'NONE',
+                  labelText: 'REGION',
+                  onChanged: (value) {
+                    _accountCubit.regionChanged(value);
+                    // if (value.contains('r')) {
+                    //   _accountCubit.regionChanged('Ram');
+                    // } else {
+                    //   _accountCubit.regionChanged(value);
+                    // }
+                  },
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      _accountCubit.addErrorMessage('Region cant\'t be empty');
+                      return 'Region cant\'t be empty';
+                    }
+                    return null;
+                  },
+                ),
+
+                const SizedBox(height: 10.0),
+
                 CustomTextField(
                   initialValue: state.region,
                   hintText: 'NONE',

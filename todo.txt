@@ -7,6 +7,11 @@ Autocomplete the  textfield in account page
 
 TODO - add sentance search
 
+speech to text
+
+1. https://www.youtube.com/watch?v=jwlgHLHFIjc
+2. https://www.youtube.com/watch?v=-rQ_OmPj300
+
 
 
 

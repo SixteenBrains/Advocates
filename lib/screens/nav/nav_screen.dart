@@ -63,15 +63,8 @@ class _NavScreenState extends State<NavScreen> {
         final currentUserId = context.read<AuthBloc>().state.user?.uid;
         final _firestore = FirebaseFirestore.instance;
 
-        // TODO: we will add only this data when
+        // Todo: we will add only this data when
         //the user is new or just created his account
-
-        // adding ref of current user to the promoter
-        // await _firestore.collection(Paths.users).doc(promoterId).update({
-        //   'promotedTo': FieldValue.arrayUnion(
-        //       [_firestore.collection(Paths.users).doc(currentUserId)])
-        // });
-
         await _firestore
             .collection(Paths.users)
             .doc(promoterId)
@@ -79,25 +72,12 @@ class _NavScreenState extends State<NavScreen> {
             .doc(currentUserId)
             .set({});
 
-        // adding ref of the promoted user to the current
-        // await _firestore.collection(Paths.users).doc(currentUserId).update({
-        //   'promotedBy': FieldValue.arrayUnion(
-        //       [_firestore.collection(Paths.users).doc(promoterId)])
-        // });
-
         await _firestore
             .collection(Paths.users)
             .doc(currentUserId)
             .collection(Paths.promotedBy)
             .doc(promoterId)
             .set({});
-
-        // await _firestore
-        //     .collection(Paths.users)
-        //     .doc(currentUserId)
-        //     .update({'promotionUrl': link.toString()});
-
-        //Navigator.pushNamed(context, dynamicLinkData.link.path);
       }).onError((error) {
         // Handle errors
       });

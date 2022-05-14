@@ -6,8 +6,27 @@ import '/blocs/auth/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProfessionalInfo extends StatelessWidget {
+class ProfessionalInfo extends StatefulWidget {
   const ProfessionalInfo({Key? key}) : super(key: key);
+
+  @override
+  State<ProfessionalInfo> createState() => _ProfessionalInfoState();
+}
+
+class _ProfessionalInfoState extends State<ProfessionalInfo> {
+  final _ageController = TextEditingController();
+  final _genderController = TextEditingController();
+  final _languageController = TextEditingController();
+  final _relationshipController = TextEditingController();
+
+  @override
+  void dispose() {
+    _ageController.dispose();
+    _genderController.dispose();
+    _languageController.dispose();
+    _relationshipController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

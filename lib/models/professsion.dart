@@ -7,12 +7,14 @@ class Profession extends Equatable {
   final String? title;
   final String? industry;
   final String? skill;
+  final String? sector;
 
   const Profession({
     this.role,
     this.title,
     this.industry,
     this.skill,
+    this.sector,
   });
 
   Profession copyWith({
@@ -20,12 +22,14 @@ class Profession extends Equatable {
     String? title,
     String? industry,
     String? skill,
+    String? sector,
   }) {
     return Profession(
       role: role ?? this.role,
       title: title ?? this.title,
       industry: industry ?? this.industry,
       skill: skill ?? this.skill,
+      sector: sector?? this.sector,
     );
   }
 
@@ -35,6 +39,7 @@ class Profession extends Equatable {
       'title': title,
       'industry': industry,
       'skill': skill,
+      'sector': sector,
     };
   }
 
@@ -44,6 +49,7 @@ class Profession extends Equatable {
       title: map['title'],
       industry: map['industry'],
       skill: map['skill'],
+      sector: map['sector'],
     );
   }
 
@@ -54,9 +60,9 @@ class Profession extends Equatable {
 
   @override
   String toString() {
-    return 'Profession(role: $role, title: $title, industry: $industry, skill: $skill)';
+    return 'Profession(role: $role, title: $title, industry: $industry, skill: $skill, sector $sector)';
   }
 
   @override
-  List<Object?> get props => [role, title, industry, skill];
+  List<Object?> get props => [role, title, industry, skill, sector];
 }

@@ -19,6 +19,7 @@ class UpdateAccountState extends Equatable {
   final String? award;
   final String? graduation;
   final String? duration;
+  final String? sector;
   final UpdateAccountStatus status;
   final Failure failure;
 
@@ -39,13 +40,15 @@ class UpdateAccountState extends Equatable {
       this.lavel,
       this.award,
       this.graduation,
+        this.sector,
       this.duration,
       required this.status,
       required this.failure,
+
       this.errorMsg = 'Something went wrong'});
 
   factory UpdateAccountState.initial() => const UpdateAccountState(
-      status: UpdateAccountStatus.initial, failure: Failure());
+      status: UpdateAccountStatus.initial, failure: Failure(), );
 
   UpdateAccountState copyWith({
     String? age,
@@ -67,6 +70,7 @@ class UpdateAccountState extends Equatable {
     UpdateAccountStatus? status,
     Failure? failure,
     String? errorMsg,
+    String? sector,
   }) {
     return UpdateAccountState(
       age: age ?? this.age,
@@ -88,12 +92,13 @@ class UpdateAccountState extends Equatable {
       status: status ?? this.status,
       failure: failure ?? this.failure,
       errorMsg: errorMsg ?? this.errorMsg,
+      sector: sector?? this.sector,
     );
   }
 
   @override
   String toString() {
-    return 'UpdateAccountState(age: $age, gender: $gender, language: $language, relationship: $relationship, role: $role, title: $title, industry: $industry, skill: $skill, region: $region, country: $country, state: $state, city: $city, lavel: $lavel, award: $award, graduation: $graduation, duration: $duration, status: $status, failure: $failure, errorMsg $errorMsg)';
+    return 'UpdateAccountState(age: $age, gender: $gender, language: $language, relationship: $relationship, role: $role, title: $title, industry: $industry, skill: $skill, region: $region, country: $country, state: $state, city: $city, lavel: $lavel, award: $award, graduation: $graduation, duration: $duration, status: $status, failure: $failure, errorMsg $errorMsg, sector: $sector,)';
   }
 
   @override
@@ -118,6 +123,7 @@ class UpdateAccountState extends Equatable {
       status,
       failure,
       errorMsg,
+      sector,
     ];
   }
 }

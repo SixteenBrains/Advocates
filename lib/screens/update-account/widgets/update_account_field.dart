@@ -9,6 +9,7 @@ class UpdateAccountField extends StatelessWidget {
   final int? minLines;
   final String? initialValue;
   final int? maxLenght;
+  final TextInputType inputType;
 
   const UpdateAccountField({
     Key? key,
@@ -19,6 +20,7 @@ class UpdateAccountField extends StatelessWidget {
     required this.validator,
     this.initialValue,
     required this.controller,
+    this.inputType = TextInputType.name,
     this.maxLenght,
   }) : super(key: key);
 
@@ -41,27 +43,50 @@ class UpdateAccountField extends StatelessWidget {
               child: Center(
                 child: TextFormField(
                   controller: controller,
-                  //initialValue: initialValue,
-                  // minLines: 3 ?? 1,
-                  //  maxLines: 4,
-                  //   minLines != null ? 4 : null,
                   validator: validator,
                   onChanged: onChanged,
                   textAlign: TextAlign.center,
-                  // maxLength: maxLenght,
-
+                  keyboardType: inputType,
                   style: const TextStyle(fontWeight: FontWeight.w600),
-                  decoration: const InputDecoration.collapsed(
-                    hintText: 'NONE',
-                    hintTextDirection: TextDirection.ltr,
-                  )..copyWith(
-                      contentPadding: const EdgeInsets.only(
-                        right: 40.0,
-                        left: 40.0,
-                        bottom: 20.0,
-                        top: 20.0,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      prefix: const IconButton(
+                        icon: Icon(
+                          Icons.abc,
+                          color: Colors.white,
+                        ),
+                        onPressed: null,
                       ),
-                    ),
+                      suffix: IconButton(
+                        icon: const Icon(
+                          Icons.clear,
+                          color: Colors.grey,
+                          size: 18.0,
+                        ),
+                        onPressed: () {
+                          controller.clear();
+                        },
+                      )),
+                  // decoration: const InputDecoration.collapsed(
+                  //   hintText: 'NONE',
+                  //   hintTextDirection: TextDirection.ltr,
+                  // )..copyWith(
+                  //     contentPadding: const EdgeInsets.only(
+                  //       right: 40.0,
+                  //       left: 40.0,
+                  //       bottom: 20.0,
+                  //       top: 20.0,
+                  //     ),
+                  //     suffixIcon: IconButton(
+                  //       onPressed: () {
+                  //         controller.clear();
+                  //       },
+                  //       icon: const Icon(
+                  //         Icons.clear,
+                  //         color: Colors.grey,
+                  //       ),
+                  //     ),
+                  //   ),
                 ),
               ),
             ),

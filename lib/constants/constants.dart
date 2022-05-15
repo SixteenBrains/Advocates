@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+export 'city_constant.dart';
+export 'nationality_contstants.dart';
+export 'state_const.dart';
+export 'account_constants.dart';
 
-const List<String> gender = ['MALE', 'FEMALE', 'OTHER'];
-
-const List<String> languages = ['ENGLISH', 'HINDI', 'TAMIL', 'TELGU'];
-
-const List<String> relationShipStatus = ['SINGLE', 'MARRIED'];
 
 const List<String> causes = [
   'ABUSE',

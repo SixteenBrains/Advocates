@@ -1,3 +1,6 @@
+import '/constants/account_constants.dart';
+import '/screens/update-account/widgets/update_account_field.dart';
+
 import '/screens/update-account/cubit/update_account_cubit.dart';
 import '/widgets/loading_indicator.dart';
 import '/widgets/custom_textfield.dart';
@@ -7,26 +10,46 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfessionalInfo extends StatefulWidget {
-  const ProfessionalInfo({Key? key}) : super(key: key);
+  final String? role;
+  final String? title;
+  final String? industry;
+  final String? skill;
+  final String? sector;
+
+  const ProfessionalInfo({Key? key,required  this.role,required  this.title,required this.industry,required  this.skill, required this.sector,}) : super(key: key);
 
   @override
   State<ProfessionalInfo> createState() => _ProfessionalInfoState();
 }
 
 class _ProfessionalInfoState extends State<ProfessionalInfo> {
-  final _ageController = TextEditingController();
-  final _genderController = TextEditingController();
-  final _languageController = TextEditingController();
-  final _relationshipController = TextEditingController();
+  final _roleController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _industryController = TextEditingController();
+  final _skillController = TextEditingController();
+  final _sectorController =TextEditingController();
 
   @override
   void dispose() {
-    _ageController.dispose();
-    _genderController.dispose();
-    _languageController.dispose();
-    _relationshipController.dispose();
+    _roleController.dispose();
+    _titleController.dispose();
+    _industryController.dispose();
+    _skillController.dispose();
     super.dispose();
   }
+
+    @override
+  void initState() {
+    _roleController.text = widget.role ?? '';
+    _titleController.text = widget.title ?? '';
+    _industryController.text = widget.industry ?? '';
+    _skillController.text = widget.skill ?? '';
+    _sectorController.text = widget.sector ?? '';
+
+    super.initState();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,11 +94,31 @@ class _ProfessionalInfoState extends State<ProfessionalInfo> {
                   ),
                 ),
                 const SizedBox(height: 20.0),
-                CustomTextField(
-                  initialValue: state.role,
+                UpdateAccountField(
+                  controller: _roleController,
+                 // initialValue: state.role,
                   hintText: 'NONE',
                   labelText: 'ROLE',
-                  onChanged: (value) => _accountCubit.roleChanged(value),
+                  onChanged: (value) {
+                    final roleFound = industry.firstWhere(
+                            (element) =>
+                            element.contains(value),
+                        // element.startsWith(value.toUpperCase()),
+                        orElse: () => '').toUpperCase();
+
+                    // final roleFound = role.firstWhere(
+                    //         (element) => element.startsWith(value.toUpperCase()),
+                    //     orElse: () => '');
+
+                    if (roleFound.isNotEmpty) {
+                      _roleController.text = roleFound;
+                      _roleController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: _roleController.text.length));
+                    }
+                    print('Gender found $roleFound');
+                  },
+
+                  //=> _accountCubit.roleChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
                       _accountCubit.addErrorMessage('Age cant\'t be empty');
@@ -84,48 +127,76 @@ class _ProfessionalInfoState extends State<ProfessionalInfo> {
                     return null;
                   },
                 ),
-                // const SizedBox(height: 25.0),
-                CustomTextField(
-                  initialValue: state.title,
-                  hintText: 'NONE',
-                  labelText: 'TITLE',
-                  onChanged: (value) => _accountCubit.titleChanged(value),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      _accountCubit.addErrorMessage('Title cant\'t be empty');
-                      return 'Title cant\'t be empty';
-                    }
-                    return null;
-                  },
-                ),
-                //  const SizedBox(height: 25.0),
-                CustomTextField(
-                  initialValue: state.industry,
+
+                UpdateAccountField(
+                  controller: _industryController,
+                  // initialValue: state.role,
                   hintText: 'NONE',
                   labelText: 'INDUSTRY',
-                  onChanged: (value) => _accountCubit.industryChanged(value),
+                  onChanged: (value) {
+                    final industryFound = industry.firstWhere(
+                            (element) =>
+                                element.contains(value),
+                                // element.startsWith(value.toUpperCase()),
+                        orElse: () => '').toUpperCase();
+
+                    if (industryFound.isNotEmpty) {
+                      _industryController.text = industryFound;
+                      _accountCubit.industryChanged(industryFound);
+                      _industryController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: _industryController.text.length));
+                    }
+                    print('Industry found $industryFound');
+                  },
+
+                  //=> _accountCubit.roleChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      _accountCubit
-                          .addErrorMessage('Industry cant\'t be empty');
+                      _accountCubit.addErrorMessage('Industry cant\'t be empty');
                       return 'Industry cant\'t be empty';
                     }
                     return null;
                   },
                 ),
-                CustomTextField(
-                  initialValue: state.skill,
+
+
+                UpdateAccountField(
+                  controller: _sectorController,
+                  // initialValue: state.role,
                   hintText: 'NONE',
-                  labelText: 'SKILL',
-                  onChanged: (value) => _accountCubit.skillChanged(value),
+                  labelText: 'SECTOR',
+                  onChanged: (value) {
+                    final sectorFound = sector.firstWhere(
+                            (element) =>
+                            element.contains(value.toUpperCase()),
+
+
+                               // element.startsWith (value.toUpperCase()),
+                        orElse: () => '');
+
+                    if (sectorFound.isNotEmpty) {
+                      _sectorController.text = sectorFound;
+                      _accountCubit.sectorChanged(sectorFound);
+                      _sectorController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: _sectorController.text.length));
+                    }
+                    print('Industry found $sectorFound');
+                  },
+
+                  //=> _accountCubit.roleChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      _accountCubit.addErrorMessage('Skill cant\'t be empty');
-                      return 'Skill cant\'t be empty';
+                      _accountCubit.addErrorMessage('Sector cant\'t be empty');
+                      return 'Sector cant\'t be empty';
                     }
                     return null;
                   },
                 ),
+
+
+
+                // const SizedBox(height: 25.0),
+
               ],
             ),
           ),

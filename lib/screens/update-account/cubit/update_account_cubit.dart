@@ -53,6 +53,10 @@ class UpdateAccountCubit extends Cubit<UpdateAccountState> {
     emit(state.copyWith(industry: value, status: UpdateAccountStatus.initial));
   }
 
+  void sectorChanged(String value){
+    emit(state.copyWith(sector: value,status: UpdateAccountStatus.initial));
+  }
+
   void skillChanged(String? value) {
     emit(state.copyWith(skill: value, status: UpdateAccountStatus.initial));
   }
@@ -121,6 +125,7 @@ class UpdateAccountCubit extends Cubit<UpdateAccountState> {
         award: user?.education?.award,
         graduation: user?.education?.graduation,
         duration: user?.education?.duration,
+        sector: user?.profession?.sector,
       ));
     } on Failure catch (failure) {
       emit(state.copyWith(failure: failure, status: UpdateAccountStatus.error));
@@ -142,7 +147,7 @@ class UpdateAccountCubit extends Cubit<UpdateAccountState> {
         lavel: state.lavel,
         award: state.award,
         graduation: state.graduation,
-        duration: state.graduation,
+        duration: state.duration,
       );
 
       final location = Location(
@@ -157,6 +162,7 @@ class UpdateAccountCubit extends Cubit<UpdateAccountState> {
         title: state.title,
         industry: state.industry,
         skill: state.skill,
+        sector: state.sector,
       );
 
       final user = _authBloc.state.user?.copyWith(

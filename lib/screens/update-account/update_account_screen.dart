@@ -101,65 +101,84 @@ class _UpdateAccountState extends State<UpdateAccount> {
           if (state.status == UpdateAccountStatus.loading) {
             return const LoadingIndicator();
           }
-          return SingleChildScrollView(
-            child: SizedBox(
-              height: _canvas.height,
-              child: Form(
-                key: _formKey,
-                child: IntroductionScreen(
-                  key: introKey,
-                  globalBackgroundColor: Colors.white,
-                  pages: [
-                    PageViewModel(
-                      // title: '',
-                      titleWidget: const PersonalInfo(),
-                      body: '',
-                      decoration: pageDecoration,
+          return SizedBox(
+            height: _canvas.height,
+            child: Form(
+              key: _formKey,
+              child: IntroductionScreen(
+                key: introKey,
+                globalBackgroundColor: Colors.white,
+                pages: [
+                  PageViewModel(
+                    // title: '',
+                    titleWidget: PersonalInfo(
+                      age: state.age,
+                      language: state.language,
+                      relationship: state.relationship,
+                      gender: state.gender,
                     ),
-                    PageViewModel(
-                      titleWidget: const ProfessionalInfo(),
-                      body: '',
-                      decoration: pageDecoration,
-                    ),
-                    PageViewModel(
-                      titleWidget: const LocationInfo(),
-                      body: '',
-                      decoration: pageDecoration,
-                    ),
-                    PageViewModel(
-                      titleWidget: EducationInfo(
-                        onSubmit: () {
-                          _submit(context);
-                        },
-                      ),
-                      body: '',
-                      decoration: pageDecoration,
-                    ),
-                  ],
-                  controlsPosition: const Position(left: 0, right: 0, top: 0),
-                  onDone: () => _onIntroEnd(context),
-                  showSkipButton: false,
-                  skipOrBackFlex: 0,
-                  nextFlex: 0,
-                  showDoneButton: false,
-                  showNextButton: false,
-                  showBackButton: false,
-                  curve: Curves.fastLinearToSlowEaseIn,
-                  controlsMargin: const EdgeInsets.all(16),
-                  controlsPadding: kIsWeb
-                      ? const EdgeInsets.all(12.0)
-                      : EdgeInsets.fromLTRB(
-                          8.0, 4.0, 8.0, _canvas.height * 0.1),
-                  dotsDecorator: DotsDecorator(
-                    color: Colors.grey.shade300,
-                    size: const Size(10, 5),
-                    activeSize: const Size(20, 5),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0)),
-                    activeShape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0)),
-                    activeColor: Colors.black,
+                    body: '',
+                    decoration: pageDecoration,
                   ),
+                  PageViewModel(
+                    titleWidget:  ProfessionalInfo(
+                      role: state.role,industry: state.industry,
+                      sector: state.sector,
+                      skill: state.skill,
+                      title: state.title,
+
+
+                    ),
+                    body: '',
+                    decoration: pageDecoration,
+                  ),
+                  PageViewModel(
+                    titleWidget:  LocationInfo(
+                      region: state.region,
+                      city: state.city,
+                      country: state.country,
+                      state: state.state,
+
+                    ),
+                    body: '',
+                    decoration: pageDecoration,
+                  ),
+                  PageViewModel(
+                    titleWidget: EducationInfo(
+                      level: state.lavel,
+                      award: state.award,
+                      graduation: state.graduation,
+                      duration: state.duration,
+                      onSubmit: () {
+                        _submit(context);
+                      },
+                    ),
+                    body: '',
+                    decoration: pageDecoration,
+                  ),
+                ],
+                controlsPosition: const Position(left: 0, right: 0, top: 0),
+                onDone: () => _onIntroEnd(context),
+                showSkipButton: false,
+                skipOrBackFlex: 0,
+                nextFlex: 0,
+                showDoneButton: false,
+                showNextButton: false,
+                showBackButton: false,
+                curve: Curves.fastLinearToSlowEaseIn,
+                controlsMargin: const EdgeInsets.all(16),
+                controlsPadding: kIsWeb
+                    ? const EdgeInsets.all(12.0)
+                    : EdgeInsets.fromLTRB(8.0, 4.0, 8.0, _canvas.height * 0.1),
+                dotsDecorator: DotsDecorator(
+                  color: Colors.grey.shade300,
+                  size: const Size(10, 5),
+                  activeSize: const Size(20, 5),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0)),
+                  activeShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0)),
+                  activeColor: Colors.black,
                 ),
               ),
             ),

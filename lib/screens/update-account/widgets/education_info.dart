@@ -1,3 +1,6 @@
+import 'package:advocates/constants/constants.dart';
+import 'package:advocates/constants/education_const.dart';
+
 import '/widgets/loading_indicator.dart';
 import '/screens/update-account/cubit/update_account_cubit.dart';
 import '/widgets/custom_textfield.dart';
@@ -5,10 +8,22 @@ import '/blocs/auth/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'update_account_field.dart';
+
 class EducationInfo extends StatefulWidget {
+  final String? level;
+  final String? award;
+  final String? graduation;
+  final String? duration;
+
+
   final VoidCallback onSubmit;
   const EducationInfo({
     Key? key,
+    required this.level,
+    required this.award,
+    required this.graduation,
+    required this.duration,
     required this.onSubmit,
   }) : super(key: key);
 
@@ -17,6 +32,32 @@ class EducationInfo extends StatefulWidget {
 }
 
 class _EducationInfoState extends State<EducationInfo> {
+
+  final _levelController = TextEditingController();
+  final _awardController = TextEditingController();
+  final _graduationController = TextEditingController();
+  final _durationController = TextEditingController();
+
+
+  @override
+  void initState() {
+    _levelController.text = widget.level ?? '';
+    _awardController.text = widget.award ?? '';
+    _graduationController.text = widget.graduation ?? '';
+    _durationController.text = widget.duration ?? '';
+    super.initState();
+  }
+
+
+  @override
+  void dispose() {
+    _levelController.dispose();
+    _awardController.dispose();
+    _graduationController.dispose();
+    _durationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _authBloc = context.read<AuthBloc>();
@@ -60,11 +101,31 @@ class _EducationInfoState extends State<EducationInfo> {
                   ),
                 ),
                 const SizedBox(height: 20.0),
-                CustomTextField(
-                  initialValue: state.lavel,
+
+
+                UpdateAccountField(
+                  controller: _levelController,
+                  // initialValue: state.role,
                   hintText: 'NONE',
                   labelText: 'LEVEL',
-                  onChanged: (value) => _accountCubit.levelChanged(value),
+                  onChanged: (value) {
+                    final levelFound = level.firstWhere(
+                            (element) =>
+                            element.toLowerCase().startsWith(value.toLowerCase()),
+                        // element.startsWith(value.toUpperCase()),
+                        orElse: () => '').toUpperCase();
+                    if (levelFound.isNotEmpty) {
+                      print('Value - $value');
+                      print('Region Found $levelFound');
+                      _levelController.text = levelFound;
+                      _accountCubit.levelChanged(levelFound);
+                      _levelController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: _levelController.text.length));
+                    }
+                    print('Gender found $levelFound');
+                  },
+
+                  //=> _accountCubit.roleChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
                       _accountCubit.addErrorMessage('Level cant\'t be empty');
@@ -73,12 +134,31 @@ class _EducationInfoState extends State<EducationInfo> {
                     return null;
                   },
                 ),
-                // const SizedBox(height: 25.0),
-                CustomTextField(
-                  initialValue: state.award,
+
+
+                UpdateAccountField(
+                  controller: _awardController,
+                  // initialValue: state.role,
                   hintText: 'NONE',
                   labelText: 'AWARD',
-                  onChanged: (value) => _accountCubit.awardChanged(value),
+                  onChanged: (value) {
+                    final awardFound = award.firstWhere(
+                            (element) =>
+                            element.toLowerCase().startsWith(value.toLowerCase()),
+                        // element.startsWith(value.toUpperCase()),
+                        orElse: () => '').toUpperCase();
+                    if (awardFound.isNotEmpty) {
+                      print('Value - $value');
+                      print('Region Found $awardFound');
+                      _awardController.text = awardFound;
+                      _accountCubit.awardChanged(awardFound);
+                      _awardController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: _awardController.text.length));
+                    }
+                    print('Gender found $awardFound');
+                  },
+
+                  //=> _accountCubit.roleChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
                       _accountCubit.addErrorMessage('Award cant\'t be empty');
@@ -87,35 +167,72 @@ class _EducationInfoState extends State<EducationInfo> {
                     return null;
                   },
                 ),
-                //  const SizedBox(height: 25.0),
-                CustomTextField(
-                  initialValue: state.graduation,
+
+                UpdateAccountField(
+                  controller: _graduationController,
+                  // initialValue: state.role,
                   hintText: 'NONE',
                   labelText: 'GRADUATION',
-                  onChanged: (value) => _accountCubit.graduationChanged(value),
+                  onChanged: (value) {
+                    final graduationFound = graduation.firstWhere(
+                            (element) =>
+                            element.toLowerCase().startsWith(value.toLowerCase()),
+                        // element.startsWith(value.toUpperCase()),
+                        orElse: () => '').toUpperCase();
+                    if (graduationFound.isNotEmpty) {
+                      print('Value - $value');
+                      print('Region Found $graduationFound');
+                      _graduationController.text = graduationFound;
+                      _accountCubit.graduationChanged(graduationFound);
+                      _graduationController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: _graduationController.text.length));
+                    }
+                    print('Gender found $graduationFound');
+                  },
+
+                  //=> _accountCubit.roleChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      _accountCubit
-                          .addErrorMessage('Graduation cant\'t be empty');
+                      _accountCubit.addErrorMessage('Graduation cant\'t be empty');
                       return 'Graduation cant\'t be empty';
                     }
                     return null;
                   },
                 ),
-                CustomTextField(
-                  initialValue: state.graduation,
+
+                UpdateAccountField(
+                  controller: _durationController,
+                  // initialValue: state.role,
                   hintText: 'NONE',
                   labelText: 'DURATION',
-                  onChanged: (value) => _accountCubit.durationChanged(value),
+                  onChanged: (value) {
+                    final durationFound = duration.firstWhere(
+                            (element) =>
+                            element.toLowerCase().startsWith(value.toLowerCase()),
+                        // element.startsWith(value.toUpperCase()),
+                        orElse: () => '').toUpperCase();
+                    if (durationFound.isNotEmpty) {
+                      print('Value - $value');
+                      print('Region Found $durationFound');
+                      _durationController.text = durationFound;
+                      _accountCubit.durationChanged(durationFound);
+                      _durationController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: _durationController.text.length));
+                    }
+                    print('Gender found $durationFound');
+                  },
+
+                  //=> _accountCubit.roleChanged(value),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      _accountCubit
-                          .addErrorMessage('Duration cant\'t be empty');
+                      _accountCubit.addErrorMessage('Duration cant\'t be empty');
                       return 'Duration cant\'t be empty';
                     }
                     return null;
                   },
                 ),
+
+
 
                 const SizedBox(height: 20.0),
                 SizedBox(
